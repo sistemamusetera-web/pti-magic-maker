@@ -1,0 +1,34 @@
+{
+  "build_command": "pnpm run build",
+  "capabilities": [],
+  "dev_command": "pnpm run dev",
+  "env_vars": {},
+  "experiments": null,
+  "git_remote": {
+    "repo_url": "https://7f0548f6b28a1758d9bf7be630d36cb4.artifacts.cloudflare.net/git/prod/QTupD43rMpB2RZyGzjtJLa.git",
+    "expiration": "2026-08-22T22:23:57.517Z",
+    "token": "art_v2_x_b55bcd818e820fe8aeecaf80411ea66b269687c4?expires=1787437437",
+    "backend": "GIT_BACKEND_ARTIFACTS"
+  },
+  "name": "pti-magic-maker",
+  "path": "/home/ubuntu/pti-magic-maker",
+  "port": 3000,
+  "secrets": {
+    "BUILT_IN_FORGE_API_KEY": "S2AVuqpwnreNnUh4fbK6eu",
+    "BUILT_IN_FORGE_API_URL": "https://forge.manus.ai",
+    "JWT_SECRET": "gW9kb9pCm7QCwMz2fVVzfm",
+    "OAUTH_SERVER_URL": "https://api.manus.im",
+    "OWNER_NAME": "adminMuseTera",
+    "OWNER_OPEN_ID": "UpmSeTnNmoKxVMmPd5af6d",
+    "VITE_ANALYTICS_ENDPOINT": "https://manus-analytics.com",
+    "VITE_ANALYTICS_WEBSITE_ID": "72ade1f2-d6fa-4758-83da-bf82be9a00ca",
+    "VITE_APP_ID": "QTupD43rMpB2RZyGzjtJLa",
+    "VITE_APP_LOGO": "",
+    "VITE_APP_TITLE": "PTI Magic Maker",
+    "VITE_FRONTEND_FORGE_API_KEY": "7KR94iyDNqTpa6kcpFxppb",
+    "VITE_FRONTEND_FORGE_API_URL": "https://forge.manus.ai",
+    "VITE_OAUTH_PORTAL_URL": "https://manus.im"
+  },
+  "template_id": "web-static",
+  "test_command": "pnpm test"
+}
