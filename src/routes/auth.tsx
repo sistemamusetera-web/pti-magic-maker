@@ -1,7 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+/**
+ * Direção de design: acesso clínico direto, com feedback explícito para login,
+ * criação de conta e indisponibilidades de provedores externos.
+ */
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -41,14 +44,19 @@ function AuthPage() {
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: window.location.origin, data: { full_name: name } },
         });
         if (error) throw error;
-        toast.success("Conta criada! Aguarde a aprovação do administrador para acessar o sistema.");
-        setMode("signin");
+        if (data.session) {
+          toast.success("Conta criada e sessão iniciada.");
+          navigate({ to: "/dashboard", replace: true });
+        } else {
+          toast.success("Conta criada. Entre com seu e-mail e senha.");
+          setMode("signin");
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -59,18 +67,6 @@ function AuthPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const google = async () => {
-    setLoading(true);
-    const res = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
-    if (res.error) {
-      toast.error(res.error.message ?? "Falha no Google");
-      setLoading(false);
-      return;
-    }
-    if (res.redirected) return;
-    navigate({ to: "/dashboard", replace: true });
   };
 
   return (
@@ -99,10 +95,6 @@ function AuthPage() {
               {mode === "signin" ? "Entrar" : "Criar conta"}
             </div>
             <div className="p-5">
-              <Button variant="outline" className="w-full" onClick={google} disabled={loading}>
-                Continuar com Google
-              </Button>
-              <div className="my-4 text-center text-xs text-muted-foreground">ou com e-mail</div>
               <form onSubmit={submit} className="space-y-3">
                 {mode === "signup" && (
                   <div>

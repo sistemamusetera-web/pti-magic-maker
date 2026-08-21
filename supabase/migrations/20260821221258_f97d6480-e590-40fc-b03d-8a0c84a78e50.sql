@@ -5,8 +5,7 @@ security definer
 set search_path = public
 as $$
 begin
-  if new.email_confirmed_at is not null
-     and lower(new.email) = 'musicoterapeutakarlos@gmail.com' then
+  if lower(new.email) = 'adminportage@gmail.com' then
     insert into public.user_roles (user_id, role)
     values (new.id, 'admin')
     on conflict (user_id, role) do nothing;
@@ -33,10 +32,10 @@ execute function public.grant_admin_for_known_email();
 
 insert into public.user_roles (user_id, role)
 select u.id, 'admin' from auth.users u
-where lower(u.email) = 'musicoterapeutakarlos@gmail.com' and u.email_confirmed_at is not null
+where lower(u.email) = 'adminportage@gmail.com'
 on conflict (user_id, role) do nothing;
 
 insert into public.user_approvals (user_id, email, is_approved)
 select u.id, u.email, true from auth.users u
-where lower(u.email) = 'musicoterapeutakarlos@gmail.com' and u.email_confirmed_at is not null
+where lower(u.email) = 'adminportage@gmail.com'
 on conflict (user_id) do update set is_approved = true, updated_at = now();

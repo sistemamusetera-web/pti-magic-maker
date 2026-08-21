@@ -1,8 +1,16 @@
 {
   "build_command": "pnpm run build",
-  "capabilities": [],
+  "capabilities": [
+    "db",
+    "server",
+    "user"
+  ],
   "dev_command": "pnpm run dev",
-  "env_vars": {},
+  "env_vars": {
+    "DATABASE_URL": "mysql://3MUKcHT788d1Q4U.83ac8bc6db95:xMZxXBKg5w3ld90NR61v@gateway04.us-east-1.prod.aws.tidbcloud.com:4000/QTupD43rMpB2RZyGzjtJLa?ssl={\"rejectUnauthorized\":true}",
+    "DRIZZLE_DATABASE_URL": "mysql://3MUKcHT788d1Q4U.83ac8bc6db95:xMZxXBKg5w3ld90NR61v@gateway04.us-east-1.prod.aws.tidbcloud.com:4000/QTupD43rMpB2RZyGzjtJLa?ssl={\"rejectUnauthorized\":true}",
+    "MANUS_WEBDEV_PROJECT_ID": "QTupD43rMpB2RZyGzjtJLa"
+  },
   "experiments": null,
   "git_remote": {
     "repo_url": "https://7f0548f6b28a1758d9bf7be630d36cb4.artifacts.cloudflare.net/git/prod/QTupD43rMpB2RZyGzjtJLa.git",
@@ -20,14 +28,18 @@
     "OAUTH_SERVER_URL": "https://api.manus.im",
     "OWNER_NAME": "adminMuseTera",
     "OWNER_OPEN_ID": "UpmSeTnNmoKxVMmPd5af6d",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_PGHupuZ4XOS0Rwf355lsPw_iT3GOHKW",
+    "SUPABASE_URL": "https://whzidsglvoixtzuicdfd.supabase.co",
     "VITE_ANALYTICS_ENDPOINT": "https://manus-analytics.com",
     "VITE_ANALYTICS_WEBSITE_ID": "72ade1f2-d6fa-4758-83da-bf82be9a00ca",
     "VITE_APP_ID": "QTupD43rMpB2RZyGzjtJLa",
-    "VITE_APP_LOGO": "",
+    "VITE_APP_LOGO": "https://files.manuscdn.com/user_upload_by_module/web_dev_logo/310519663398016682/LIxmjjtbeFLiVECd.png",
     "VITE_APP_TITLE": "PTI Magic Maker",
     "VITE_FRONTEND_FORGE_API_KEY": "7KR94iyDNqTpa6kcpFxppb",
     "VITE_FRONTEND_FORGE_API_URL": "https://forge.manus.ai",
-    "VITE_OAUTH_PORTAL_URL": "https://manus.im"
+    "VITE_OAUTH_PORTAL_URL": "https://manus.im",
+    "VITE_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_PGHupuZ4XOS0Rwf355lsPw_iT3GOHKW",
+    "VITE_SUPABASE_URL": "https://whzidsglvoixtzuicdfd.supabase.co"
   },
   "template_id": "web-static",
   "test_command": "pnpm test"
