@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { OBJECTIVES_TEMPLATES } from "../src/lib/pti-templates";
-import { appendUniqueObjectives, countPopulatedObjectives, OBJECTIVE_CATALOG } from "../src/lib/objective-catalog";
+import { appendUniqueObjectives, countPopulatedObjectives, isObjectiveIncluded, OBJECTIVE_CATALOG } from "../src/lib/objective-catalog";
 
 describe("PTI objectives templates", () => {
   it("groups AVDs and AIVDs as subareas of occupational therapy", () => {
@@ -107,5 +107,12 @@ describe("PTI objectives templates", () => {
     expect(result).toHaveLength(2);
     expect(countPopulatedObjectives(result) - countPopulatedObjectives(initialObjectives)).toBe(2);
     expect(result).toEqual(selected.map(({ objetivo, atividade, material }) => ({ objetivo, atividade, material })));
+  });
+
+  it("identifies objectives already included in the PTI for automatic catalog selection", () => {
+    const selected = OBJECTIVE_CATALOG.find((option) => option.area === "Psicologia")!;
+    const objectives = appendUniqueObjectives([{ objetivo: "", atividade: "", material: "" }], [selected]);
+
+    expect(isObjectiveIncluded(objectives, selected)).toBe(true);
   });
 });

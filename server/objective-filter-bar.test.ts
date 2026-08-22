@@ -9,5 +9,8 @@ describe("Objective catalog filter bar", () => {
     expect(source).not.toContain("setActiveArea");
     expect(source).not.toContain('Todas ({OBJECTIVE_CATALOG.length})');
     expect(source).not.toContain('activeArea === area');
+    expect(source).not.toContain("Adicionar selecionados");
+    expect(source).toContain("Marque um objetivo para incluí-lo automaticamente no PTI");
+    expect(source).toContain("onAdd([option])");
   });
 });

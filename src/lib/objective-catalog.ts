@@ -34,6 +34,16 @@ export function countPopulatedObjectives(objectives: PTIObjective[]) {
   return objectives.filter((objective) => !isBlankObjective(objective)).length;
 }
 
+export function isObjectiveIncluded(
+  existingObjectives: PTIObjective[],
+  candidate: PTIObjective,
+) {
+  const candidateKey = objectiveKey(candidate);
+  return existingObjectives.some(
+    (objective) => !isBlankObjective(objective) && objectiveKey(objective) === candidateKey,
+  );
+}
+
 export function appendUniqueObjectives(
   existingObjectives: PTIObjective[],
   selectedOptions: ObjectiveCatalogOption[],

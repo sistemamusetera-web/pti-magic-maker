@@ -31,7 +31,7 @@ import {
   BEHAVIORS_TEMPLATES,
   CONCLUSION_TEMPLATES,
 } from "@/lib/pti-templates";
-import { appendUniqueObjectives, countPopulatedObjectives, OBJECTIVE_CATALOG, type ObjectiveCatalogOption } from "@/lib/objective-catalog";
+import { appendUniqueObjectives, countPopulatedObjectives, isObjectiveIncluded, OBJECTIVE_CATALOG, type ObjectiveCatalogOption } from "@/lib/objective-catalog";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 export const Route = createFileRoute("/_authenticated/patients/$id")({
@@ -1195,7 +1195,6 @@ function ObjectiveCatalogPicker({
   existingObjectives: PTIObjective[];
   onAdd: (selectedOptions: ObjectiveCatalogOption[]) => boolean;
 }) {
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [search, setSearch] = useState("");
 
   const normalizedSearch = search.trim().toLocaleLowerCase("pt-BR");
@@ -1206,7 +1205,6 @@ function ObjectiveCatalogPicker({
     })),
     [],
   );
-  const selectedOptions = OBJECTIVE_CATALOG.filter((option) => selectedIds.includes(option.id));
   const visibleAreas = optionsByArea
     .map(({ area, options }) => ({
       area,
@@ -1220,13 +1218,10 @@ function ObjectiveCatalogPicker({
     }))
     .filter(({ options }) => options.length > 0);
 
-  const toggleSelection = (id: string) => {
-    setSelectedIds((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
-  };
-
-  const addSelected = () => {
-    if (!selectedOptions.length) return;
-    if (onAdd(selectedOptions)) setSelectedIds([]);
+  const addObjective = (option: ObjectiveCatalogOption) => {
+    if (!isObjectiveIncluded(existingObjectives, option)) {
+      onAdd([option]);
+    }
   };
 
   return (
@@ -1239,22 +1234,8 @@ function ObjectiveCatalogPicker({
               Catálogo de objetivos clínicos
             </div>
             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-              Selecione um ou mais objetivos. Eles são adicionados ao PTI atual sem substituir os objetivos já preenchidos.
+              Marque um objetivo para incluí-lo automaticamente no PTI. Objetivos já incluídos permanecem marcados.
             </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              type="button"
-              variant="outline"
-              onClick={() => setSelectedIds([])}
-              disabled={!selectedIds.length}
-            >
-              Limpar seleção
-            </Button>
-            <Button size="sm" type="button" onClick={addSelected} disabled={!selectedIds.length}>
-              Adicionar selecionados ({selectedIds.length})
-            </Button>
           </div>
         </div>
 
@@ -1273,7 +1254,7 @@ function ObjectiveCatalogPicker({
       {visibleAreas.length ? (
         <Accordion type="multiple" className="border-t bg-paper" defaultValue={[]}>
           {visibleAreas.map(({ area, options }) => {
-            const selectedInArea = options.filter((option) => selectedIds.includes(option.id)).length;
+            const selectedInArea = options.filter((option) => isObjectiveIncluded(existingObjectives, option)).length;
             const templates = Array.from(new Set(options.map((option) => option.templateId))).map((templateId) => ({
               id: templateId,
               label: options.find((option) => option.templateId === templateId)?.templateLabel ?? "",
@@ -1286,20 +1267,20 @@ function ObjectiveCatalogPicker({
                   <span className="flex items-center gap-2 text-left">
                     <span className="text-xs font-extrabold uppercase tracking-widest text-foreground">{area}</span>
                     <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">{options.length} objetivos</span>
-                    {selectedInArea > 0 && <span className="rounded-full bg-sim/15 px-2 py-0.5 text-[10px] font-bold text-foreground">{selectedInArea} selecionado(s)</span>}
+                    {selectedInArea > 0 && <span className="rounded-full bg-sim/15 px-2 py-0.5 text-[10px] font-bold text-foreground">{selectedInArea} incluído(s)</span>}
                   </span>
                 </AccordionTrigger>
                 <AccordionContent className="px-4 pb-4">
                   <Accordion type="multiple" className="space-y-2" defaultValue={[]}>
                     {templates.map((template) => {
-                      const selectedInTemplate = template.options.filter((option) => selectedIds.includes(option.id)).length;
+                      const selectedInTemplate = template.options.filter((option) => isObjectiveIncluded(existingObjectives, option)).length;
                       return (
                         <AccordionItem key={template.id} value={template.id} className="overflow-hidden rounded-sm border bg-muted/20">
                           <AccordionTrigger className="px-3 py-2.5 no-underline hover:bg-primary/5 hover:no-underline">
                             <span className="flex min-w-0 items-center gap-2 text-left">
                               <span className="truncate text-xs font-bold text-foreground">{template.label}</span>
                               <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">{template.options.length}</span>
-                              {selectedInTemplate > 0 && <span className="shrink-0 rounded-full bg-sim/15 px-2 py-0.5 text-[10px] font-bold text-foreground">{selectedInTemplate} selecionado(s)</span>}
+                              {selectedInTemplate > 0 && <span className="shrink-0 rounded-full bg-sim/15 px-2 py-0.5 text-[10px] font-bold text-foreground">{selectedInTemplate} incluído(s)</span>}
                             </span>
                           </AccordionTrigger>
                           <AccordionContent className="pb-0">
@@ -1308,7 +1289,7 @@ function ObjectiveCatalogPicker({
                             </div>
                             <div className="divide-y bg-paper">
                               {template.options.map((option) => {
-                                const checked = selectedIds.includes(option.id);
+                                const checked = isObjectiveIncluded(existingObjectives, option);
                                 return (
                                   <label
                                     key={option.id}
@@ -1322,7 +1303,8 @@ function ObjectiveCatalogPicker({
                                       id={option.id}
                                       type="checkbox"
                                       checked={checked}
-                                      onChange={() => toggleSelection(option.id)}
+                                      onChange={() => addObjective(option)}
+                                      disabled={checked}
                                       className="mt-1 h-4 w-4 shrink-0 accent-primary"
                                     />
                                     <span className="min-w-0">
