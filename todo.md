@@ -56,3 +56,4 @@
 - [x] Ajustar o cabeçalho de marcas no PDF do PTI para refletir o modelo de referência.
 - [x] Corrigir a transparência da faixa Hapvida e NotreDame Intermédica no PDF, removendo o fundo escuro.
 - [x] Preservar e recarregar todos os campos do PTI salvo, incluindo nomes de mãe e pai, ao visualizar ou editar.
+- [x] Remover da navegação os menus de faixas etárias de 0 a 1 até 5 a 6 anos.

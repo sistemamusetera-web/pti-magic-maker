@@ -112,7 +112,6 @@ function ageLabel(age: AgeRange) {
   return age === "0 a 1 anos" ? "0 a 1 ano" : age;
 }
 
-
 type Tab = "PTI" | AgeRange | "CONSOLIDADO" | "PEI" | "EVOLUÇÃO";
 
 function PatientPage() {
@@ -253,7 +252,7 @@ function PatientPage() {
     setAnswers({});
     setSessions({});
     setPti(createEmptyPTI({ diagnosis: patient.diagnosis || "" }));
-    setTab("0 a 1 anos");
+    setTab("PTI");
     toast.success("Nova avaliação iniciada. Preencha e salve.");
   };
 
@@ -428,14 +427,9 @@ function PatientPage() {
         </div>
 
 
-        {/* Tabs de faixa etária + consolidado + PEI */}
+        {/* Navegação principal do prontuário */}
         <div className="sheet mb-3 flex overflow-x-auto rounded-t-md border-b-0">
           <TabButton active={tab === "PTI"} onClick={() => setTab("PTI")}>PTI</TabButton>
-          {AGE_RANGES.map((age) => (
-            <TabButton key={age} active={tab === age} onClick={() => setTab(age)}>
-              {ageLabel(age).replace(" anos", "").replace(" ano", "")}
-            </TabButton>
-          ))}
           <TabButton active={tab === "CONSOLIDADO"} onClick={() => setTab("CONSOLIDADO")}>
             Consolidado
           </TabButton>
