@@ -68,3 +68,10 @@
 - [x] Substituir o template de breve história clínica pelo modelo institucional oficial.
 - [x] Criar preenchimento guiado para nome, unidade, diagnóstico, medicação, relato dos responsáveis, comportamentos e protocolo de avaliação.
 - [x] Manter o texto da breve história clínica editável após a geração automática.
+- [x] Remover da Breve História Clínica os campos já preenchidos em Dados do Paciente.
+- [x] Preencher automaticamente o texto oficial com os dados centrais já registrados no PTI.
+- [x] Atualizar automaticamente a Breve História Clínica quando os dados centrais do paciente forem preenchidos ou alterados.
+- [x] Validar em teste que os dados do paciente sincronizam o texto oficial sem exigir geração manual.
+- [x] Cobrir a atualização automática do estado do PTI e a preservação de texto editado manualmente em teste de comportamento.
+- [x] Executar teste de comportamento React do formulário para atualização automática e preservação de edição manual.
+- [x] Validar no componente clínico usado pelo PTI que dados atualizados sincronizam o texto sem sobrescrever edições manuais.

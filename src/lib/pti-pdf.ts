@@ -28,7 +28,6 @@ export const createEmptyPTI = (overrides: Partial<PTINarrative> = {}): PTINarrat
   revaluation: "Semestral",
   clinical_history: "",
   clinical_unit: "",
-  clinical_diagnosis: "",
   clinical_medication: "",
   clinical_responsible_report: "",
   clinical_development_profile: "",
@@ -73,7 +72,6 @@ export interface PTINarrative {
   revaluation?: string;
   clinical_history?: string;
   clinical_unit?: string;
-  clinical_diagnosis?: string;
   clinical_medication?: string;
   clinical_responsible_report?: string;
   clinical_development_profile?: string;

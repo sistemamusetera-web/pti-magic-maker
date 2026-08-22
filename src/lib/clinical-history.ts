@@ -41,3 +41,39 @@ export function generateOfficialClinicalHistory(fields: OfficialClinicalHistoryF
     `Para esta avaliação, utilizou-se como base o protocolo ${assessmentProtocol}, que oferece uma análise do desenvolvimento e das competências funcionais da criança, auxiliando na definição de metas personalizadas e estratégias de intervenção. A escolha do protocolo foi feita de acordo com o perfil e a faixa etária, podendo ser revista conforme a evolução do processo.`,
   ].join("\n\n");
 }
+
+export function shouldSynchronizeClinicalHistory({
+  currentHistory,
+  previousGeneratedHistory,
+  nextGeneratedHistory,
+}: {
+  currentHistory?: string;
+  previousGeneratedHistory?: string | null;
+  nextGeneratedHistory: string;
+}) {
+  const current = clean(currentHistory);
+  if (!current) return true;
+  if (current === nextGeneratedHistory) return true;
+  return Boolean(previousGeneratedHistory && current === previousGeneratedHistory);
+}
+
+export function synchronizeClinicalHistory<T extends { clinical_history?: string }>({
+  narrative,
+  previousGeneratedHistory,
+  nextGeneratedHistory,
+}: {
+  narrative: T;
+  previousGeneratedHistory?: string | null;
+  nextGeneratedHistory: string;
+}): T | null {
+  if (!shouldSynchronizeClinicalHistory({
+    currentHistory: narrative.clinical_history,
+    previousGeneratedHistory,
+    nextGeneratedHistory,
+  })) {
+    return null;
+  }
+
+  if (narrative.clinical_history === nextGeneratedHistory) return narrative;
+  return { ...narrative, clinical_history: nextGeneratedHistory };
+}
