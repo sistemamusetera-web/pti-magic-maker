@@ -22,15 +22,16 @@ import {
   type Item,
 } from "@/lib/portage";
 import { generatePTIPdf, type PeiSessionSummary, type PTINarrative, type PTIObjective } from "@/lib/pti-pdf";
-import { ArrowLeft, Download, Save, FileSpreadsheet, Plus, Trash2, Sparkles, Shield, History } from "lucide-react";
+import { ArrowLeft, Download, Save, FileSpreadsheet, Plus, Trash2, Sparkles, Shield, History, ListChecks, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
   CLINICAL_HISTORY_TEMPLATES,
-  OBJECTIVES_TEMPLATES,
   BEHAVIORS_TEMPLATES,
   CONCLUSION_TEMPLATES,
 } from "@/lib/pti-templates";
+import { appendUniqueObjectives, OBJECTIVE_CATALOG, type ObjectiveCatalogOption } from "@/lib/objective-catalog";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 export const Route = createFileRoute("/_authenticated/patients/$id")({
@@ -69,7 +70,7 @@ const AJUDA_OPTIONS = ["Independente", "Gestual", "Verbal", "Física"] as const;
 type Ajuda = (typeof AJUDA_OPTIONS)[number];
 
 const PTI_OBJECTIVE_AREAS = Array.from(
-  new Set(OBJECTIVES_TEMPLATES.map((template) => template.area).filter((area): area is string => Boolean(area))),
+  new Set(OBJECTIVE_CATALOG.map((option) => option.area)),
 );
 
 interface PeiSessionRow {
@@ -968,6 +969,17 @@ function PTIForm({
   };
   const addObj = () => set("objectives", [...objectives, { objetivo: "", atividade: "", material: "" }]);
   const rmObj = (i: number) => set("objectives", objectives.filter((_, idx) => idx !== i));
+  const setObjectivesFromCatalog = (selectedOptions: ObjectiveCatalogOption[]) => {
+    const next = appendUniqueObjectives(objectives, selectedOptions);
+    const added = next.length - objectives.length;
+    if (!added) {
+      toast.info("Os objetivos selecionados já constam no PTI.");
+      return false;
+    }
+    set("objectives", next);
+    toast.success(`${added} ${added === 1 ? "objetivo adicionado" : "objetivos adicionados"} ao PTI`);
+    return true;
+  };
 
   const setBeh = (i: number, v: string) => {
     const next = behaviors.slice();
@@ -1066,17 +1078,6 @@ function PTIForm({
           <span className="text-sm font-bold uppercase tracking-widest">Objetivos por Área</span>
           <span className="text-xs font-semibold text-primary-foreground/95">Planejamento terapêutico por especialidade</span>
           <div className="ml-auto flex flex-wrap gap-2">
-            <TemplatePicker
-              label="Template por área"
-              options={OBJECTIVES_TEMPLATES.map((t) => ({ id: t.id, label: t.label, summary: t.summary, area: t.area }))}
-              onPick={(id) => {
-                const t = OBJECTIVES_TEMPLATES.find((x) => x.id === id);
-                if (t) {
-                  set("objectives", t.items.map((o) => ({ ...o })));
-                  toast.success(`${t.items.length} objetivos aplicados`);
-                }
-              }}
-            />
             <Button size="sm" variant="secondary" onClick={fillFromPortage} type="button">
               Da avaliação ({priorities.length})
             </Button>
@@ -1085,21 +1086,7 @@ function PTIForm({
             </Button>
           </div>
         </div>
-        <div className="border-b bg-muted/30 px-4 py-3">
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-foreground">
-            Áreas clínicas disponíveis
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {PTI_OBJECTIVE_AREAS.map((area) => (
-              <span
-                key={area}
-                className="rounded-sm border border-primary/35 bg-primary/10 px-2.5 py-1 text-xs font-extrabold uppercase tracking-wide text-foreground shadow-sm"
-              >
-                {area}
-              </span>
-            ))}
-          </div>
-        </div>
+        <ObjectiveCatalogPicker existingObjectives={objectives} onAdd={setObjectivesFromCatalog} />
         <div className="divide-y">
           {objectives.map((o, i) => (
             <div key={i} className="grid gap-3 p-4 sm:grid-cols-[1fr_1fr_1fr_auto]">
@@ -1219,6 +1206,189 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     <div className="space-y-1">
       <div className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">{label}</div>
       {children}
+    </div>
+  );
+}
+
+function ObjectiveCatalogPicker({
+  existingObjectives,
+  onAdd,
+}: {
+  existingObjectives: PTIObjective[];
+  onAdd: (selectedOptions: ObjectiveCatalogOption[]) => boolean;
+}) {
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [activeArea, setActiveArea] = useState<string>("Todas");
+  const [search, setSearch] = useState("");
+
+  const normalizedSearch = search.trim().toLocaleLowerCase("pt-BR");
+  const optionsByArea = useMemo(
+    () => PTI_OBJECTIVE_AREAS.map((area) => ({
+      area,
+      options: OBJECTIVE_CATALOG.filter((option) => option.area === area),
+    })),
+    [],
+  );
+  const selectedOptions = OBJECTIVE_CATALOG.filter((option) => selectedIds.includes(option.id));
+  const visibleAreas = optionsByArea
+    .filter(({ area }) => activeArea === "Todas" || area === activeArea)
+    .map(({ area, options }) => ({
+      area,
+      options: options.filter((option) => {
+        if (!normalizedSearch) return true;
+        return [option.objetivo, option.atividade, option.material, option.templateLabel, option.templateSummary]
+          .join(" ")
+          .toLocaleLowerCase("pt-BR")
+          .includes(normalizedSearch);
+      }),
+    }))
+    .filter(({ options }) => options.length > 0);
+
+  const toggleSelection = (id: string) => {
+    setSelectedIds((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
+  };
+
+  const addSelected = () => {
+    if (!selectedOptions.length) return;
+    if (onAdd(selectedOptions)) setSelectedIds([]);
+  };
+
+  return (
+    <div className="border-b bg-muted/20">
+      <div className="space-y-3 px-4 py-4">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-sm font-bold text-foreground">
+              <ListChecks className="h-4 w-4 text-primary" />
+              Catálogo de objetivos clínicos
+            </div>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+              Selecione um ou mais objetivos. Eles são adicionados ao PTI atual sem substituir os objetivos já preenchidos.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              type="button"
+              variant="outline"
+              onClick={() => setSelectedIds([])}
+              disabled={!selectedIds.length}
+            >
+              Limpar seleção
+            </Button>
+            <Button size="sm" type="button" onClick={addSelected} disabled={!selectedIds.length}>
+              Adicionar selecionados ({selectedIds.length})
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+          <div className="relative w-full lg:max-w-md">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              className="pl-9"
+              placeholder="Buscar por objetivo, atividade, material ou subtema"
+              aria-label="Buscar objetivos clínicos"
+            />
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            <button
+              type="button"
+              onClick={() => setActiveArea("Todas")}
+              className={cn(
+                "rounded-sm border px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide transition",
+                activeArea === "Todas" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-paper hover:bg-muted",
+              )}
+            >
+              Todas ({OBJECTIVE_CATALOG.length})
+            </button>
+            {optionsByArea.map(({ area, options }) => (
+              <button
+                key={area}
+                type="button"
+                onClick={() => setActiveArea(area)}
+                className={cn(
+                  "rounded-sm border px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide transition",
+                  activeArea === area ? "border-primary bg-primary text-primary-foreground" : "border-primary/30 bg-primary/5 text-foreground hover:bg-primary/10",
+                )}
+              >
+                {area} ({options.length})
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {visibleAreas.length ? (
+        <Accordion type="multiple" className="border-t bg-paper" defaultValue={activeArea === "Todas" ? [] : [activeArea]}>
+          {visibleAreas.map(({ area, options }) => {
+            const selectedInArea = options.filter((option) => selectedIds.includes(option.id)).length;
+            const templates = Array.from(new Set(options.map((option) => option.templateId))).map((templateId) => ({
+              id: templateId,
+              label: options.find((option) => option.templateId === templateId)?.templateLabel ?? "",
+              summary: options.find((option) => option.templateId === templateId)?.templateSummary ?? "",
+              options: options.filter((option) => option.templateId === templateId),
+            }));
+            return (
+              <AccordionItem key={area} value={area} className="border-b-0 border-t first:border-t-0">
+                <AccordionTrigger className="px-4 py-3 no-underline hover:bg-muted/50 hover:no-underline">
+                  <span className="flex items-center gap-2 text-left">
+                    <span className="text-xs font-extrabold uppercase tracking-widest text-foreground">{area}</span>
+                    <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">{options.length} objetivos</span>
+                    {selectedInArea > 0 && <span className="rounded-full bg-sim/15 px-2 py-0.5 text-[10px] font-bold text-foreground">{selectedInArea} selecionado(s)</span>}
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pb-4">
+                  <div className="space-y-4">
+                    {templates.map((template) => (
+                      <div key={template.id} className="overflow-hidden rounded-sm border bg-muted/20">
+                        <div className="border-b bg-muted/50 px-3 py-2">
+                          <p className="text-xs font-bold text-foreground">{template.label}</p>
+                          <p className="mt-0.5 text-[11px] text-muted-foreground">{template.summary}</p>
+                        </div>
+                        <div className="divide-y bg-paper">
+                          {template.options.map((option) => {
+                            const checked = selectedIds.includes(option.id);
+                            return (
+                              <label
+                                key={option.id}
+                                htmlFor={option.id}
+                                className={cn(
+                                  "flex cursor-pointer gap-3 px-3 py-3 transition hover:bg-primary/5",
+                                  checked && "bg-primary/5",
+                                )}
+                              >
+                                <input
+                                  id={option.id}
+                                  type="checkbox"
+                                  checked={checked}
+                                  onChange={() => toggleSelection(option.id)}
+                                  className="mt-1 h-4 w-4 shrink-0 accent-primary"
+                                />
+                                <span className="min-w-0">
+                                  <span className="block text-xs font-semibold leading-relaxed text-foreground">{option.objetivo}</span>
+                                  <span className="mt-1 block text-[11px] leading-relaxed text-muted-foreground"><strong>Atividade:</strong> {option.atividade}</span>
+                                  <span className="mt-0.5 block text-[11px] leading-relaxed text-muted-foreground"><strong>Material:</strong> {option.material}</span>
+                                </span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
+      ) : (
+        <div className="border-t bg-paper px-4 py-8 text-center text-sm text-muted-foreground">
+          Nenhum objetivo encontrado para a busca informada.
+        </div>
+      )}
     </div>
   );
 }
@@ -1439,4 +1609,3 @@ function EvolutionView({
     </div>
   );
 }
-

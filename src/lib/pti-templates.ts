@@ -78,42 +78,62 @@ export const CLINICAL_HISTORY_TEMPLATES: ClinicalHistoryTemplate[] = [
 export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   // MUSICOTERAPIA
   {
-    id: "mt-comunicacao",
+    id: "mt-comunicacao-atencao",
     area: "Musicoterapia",
-    label: "MT - Comunicação e Vocalização",
-    summary: "Estimular vocalização e turnos via música.",
+    label: "MT - Comunicação e Atenção Compartilhada",
+    summary: "Vocalização, escuta, imitação e alternância de turnos em experiências musicais.",
     items: [
       {
-        objetivo: "Ampliar vocalizações funcionais durante experiências musicais.",
-        atividade: "Canto de músicas previsíveis com pausas estratégicas (fill-in).",
-        material: "Violão, teclado, canções de repetição.",
+        objetivo: "Ampliar a atenção compartilhada com o terapeuta durante experiências musicais estruturadas.",
+        atividade: "Alternar foco entre pessoa, instrumento e música em canções de saudação e jogos de pausa.",
+        material: "Violão, teclado, instrumentos de percussão e imagens de apoio.",
       },
       {
-        objetivo: "Desenvolver atenção auditiva e resposta a estímulos sonoros.",
-        atividade: "Discriminação de sons de instrumentos e jogos de 'começou/parou'.",
-        material: "Instrumentos de percussão variados.",
-      }
+        objetivo: "Ampliar vocalizações, gestos ou recursos de comunicação para solicitar continuidade, escolha ou repetição musical.",
+        atividade: "Canto de músicas previsíveis com pausas estratégicas e oferta de escolhas entre instrumentos ou canções.",
+        material: "Canções de repetição, cartões de escolha e recursos de comunicação suplementar quando indicados.",
+      },
+      {
+        objetivo: "Desenvolver discriminação auditiva e resposta funcional a contrastes sonoros simples.",
+        atividade: "Jogos de identificação de instrumentos, intensidade, duração e comandos musicais de começar/parar.",
+        material: "Instrumentos de percussão variados, cartões visuais e aparelho de som.",
+      },
+      {
+        objetivo: "Imitar sequências motoras e sonoras simples dentro de um contexto musical significativo.",
+        atividade: "Modelagem e reprodução de padrões curtos de palmas, batidas e movimentos corporais.",
+        material: "Tambor, chocalhos, claves e músicas com gestos.",
+      },
     ],
   },
   {
-    id: "mt-social",
+    id: "mt-social-regulacao",
     area: "Musicoterapia",
-    label: "MT - Socialização e Vínculo",
-    summary: "Interação e reciprocidade social musical.",
+    label: "MT - Interação Social e Regulação",
+    summary: "Vínculo, participação em pares, transições e autorregulação com recursos musicais.",
     items: [
       {
-        objetivo: "Estabelecer vínculo terapêutico e contato visual sustentado.",
-        atividade: "Canção de saudação personalizada com o nome do beneficiário.",
-        material: "Violão, instrumentos de percussão.",
-      }
+        objetivo: "Iniciar ou responder a trocas sociais em jogos musicais de turnos.",
+        atividade: "Alternância de instrumentos com convite, espera e resposta ao parceiro terapêutico.",
+        material: "Instrumentos de fácil manejo e cartões de vez.",
+      },
+      {
+        objetivo: "Participar de experiências musicais compartilhadas com pares, respeitando turnos e regras simples.",
+        atividade: "Rodas musicais com papéis definidos, imitação recíproca e encerramento coletivo.",
+        material: "Percussão coletiva, marcações visuais de turno e canções sociais.",
+      },
+      {
+        objetivo: "Utilizar pistas musicais previsíveis para apoiar transições e estratégias de autorregulação.",
+        atividade: "Construção de canções curtas para início, pausa, organização e encerramento de atividades.",
+        material: "Playlist terapêutica, cartões de rotina e timer visual.",
+      },
     ],
   },
   // PSICOLOGIA
   {
-    id: "psi-regulacao",
+    id: "psi-regulacao-comunicacao",
     area: "Psicologia",
-    label: "PSI - Regulação Emocional",
-    summary: "Manejo de frustração e autorregulação.",
+    label: "PSI - Regulação Emocional e Comunicação Funcional",
+    summary: "Reconhecimento emocional, estratégias de regulação e respostas alternativas à frustração.",
     items: [
       {
         objetivo: "Identificar e nomear emoções básicas em si e no outro.",
@@ -121,63 +141,103 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
         material: "Cartões de emoções, espelho, fantoches.",
       },
       {
-        objetivo: "Utilizar estratégias de acalmia em momentos de desregulação.",
-        atividade: "Treino de respiração diafragmática e uso de 'cantinho da calma'.",
-        material: "Timer visual, objetos sensoriais.",
-      }
+        objetivo: "Utilizar estratégias previamente combinadas de co-regulação ou autorregulação diante de sinais iniciais de desconforto.",
+        atividade: "Ensino e prática guiada de pausa, respiração, solicitação de apoio e acesso ao espaço de regulação.",
+        material: "Timer visual, cartão de pausa e recursos sensoriais individualizados.",
+      },
+      {
+        objetivo: "Comunicar necessidades, preferências, recusa ou pedido de ajuda de forma socialmente compreensível.",
+        atividade: "Ensaios em brincadeiras e situações simuladas com modelagem de frases, gestos ou recursos visuais.",
+        material: "Cartões de comunicação, pranchas visuais e brinquedos de interesse.",
+      },
+      {
+        objetivo: "Substituir respostas que dificultam a participação por alternativas funcionais em situações de frustração.",
+        atividade: "Análise de antecedente-resposta-consequência e treino de resposta alternativa em cenários graduados.",
+        material: "Histórias sociais, escala visual de emoções e reforçadores definidos em plano terapêutico.",
+      },
     ],
   },
   {
-    id: "psi-social",
+    id: "psi-social-flexibilidade",
     area: "Psicologia",
-    label: "PSI - Habilidades Sociais",
-    summary: "Iniciação social e resolução de conflitos.",
+    label: "PSI - Habilidades Sociais e Flexibilidade",
+    summary: "Espera, transições, iniciação social e resolução mediada de situações cotidianas.",
     items: [
       {
-        objetivo: "Iniciar interação com pares de forma adequada.",
-        atividade: "Treino de roteiros sociais (scripts) e role-playing.",
-        material: "Histórias sociais, scripts visuais.",
-      }
+        objetivo: "Aguardar a vez e tolerar pequenos adiamentos com suporte visual progressivamente reduzido.",
+        atividade: "Jogos de turnos e treino de espera com previsão de tempo e reforço de estratégias de enfrentamento.",
+        material: "Timer visual, cartões de vez e jogos estruturados.",
+      },
+      {
+        objetivo: "Participar de transições e pequenas mudanças de rotina utilizando antecipação e escolhas limitadas.",
+        atividade: "Uso de agenda visual, aviso prévio e ensaio de alternativas para mudanças planejadas.",
+        material: "Rotina visual, cartões de mudança e quadro de escolhas.",
+      },
+      {
+        objetivo: "Iniciar, responder e manter trocas sociais simples com pares ou adultos em atividades significativas.",
+        atividade: "Treino de roteiros sociais, brincadeiras cooperativas e role-playing com feedback imediato.",
+        material: "Histórias sociais, scripts visuais e jogos cooperativos.",
+      },
     ],
   },
   // FONOAUDIOLOGIA
   {
-    id: "fono-linguagem",
+    id: "fono-comunicacao-receptiva-expressiva",
     area: "Fonoaudiologia",
-    label: "FONO - Linguagem Expressiva",
-    summary: "Expansão de vocabulário e estruturação frasal.",
+    label: "FONO - Comunicação Receptiva e Expressiva",
+    summary: "Compreensão, vocabulário, solicitação funcional e combinação de palavras.",
     items: [
       {
-        objetivo: "Aumentar vocabulário expressivo (substantivos e verbos).",
-        atividade: "Nomeação de figuras e objetos reais em contextos lúdicos.",
-        material: "Cards, miniaturas, livros ilustrados.",
+        objetivo: "Ampliar a compreensão de instruções funcionais de uma ou mais etapas, conforme avaliação fonoaudiológica.",
+        atividade: "Execução de comandos inseridos em rotinas de brincadeira, autocuidado e organização.",
+        material: "Objetos reais, figuras sequenciais e cartões visuais.",
       },
       {
-        objetivo: "Produzir frases com estrutura Sujeito + Verbo + Complemento.",
-        atividade: "Uso de pistas visuais para estruturação de sentenças.",
-        material: "Pranchas de comunicação, figuras de ação.",
-      }
+        objetivo: "Aumentar o repertório de palavras, sinais ou símbolos funcionais relacionados a pessoas, ações, objetos e necessidades.",
+        atividade: "Nomeação e uso funcional de vocabulário em contextos naturais e brincadeiras dirigidas.",
+        material: "Miniaturas, livros ilustrados, objetos de rotina e recursos de comunicação.",
+      },
+      {
+        objetivo: "Produzir solicitações funcionais por fala, gesto, sinal ou comunicação suplementar e alternativa, quando indicada.",
+        atividade: "Criação de oportunidades de comunicação com espera, escolhas e modelagem responsiva.",
+        material: "Itens preferidos, pranchas de comunicação e cartões de escolha.",
+      },
+      {
+        objetivo: "Ampliar combinações de palavras ou símbolos para comunicar intenção, ação e complemento conforme o repertório atual.",
+        atividade: "Expansão de enunciados durante brincadeiras, leitura compartilhada e atividades de rotina.",
+        material: "Pranchas de comunicação, figuras de ação e livros ilustrados.",
+      },
     ],
   },
   {
-    id: "fono-oro",
+    id: "fono-pragmatica-fala",
     area: "Fonoaudiologia",
-    label: "FONO - Motricidade Orofacial",
-    summary: "Fortalecimento e coordenação de órgãos fonoarticulatórios.",
+    label: "FONO - Comunicação Social e Fala",
+    summary: "Atenção conjunta, turnos conversacionais, pragmática e inteligibilidade conforme indicação clínica.",
     items: [
       {
-        objetivo: "Melhorar a mobilidade e tônus de língua e lábios.",
-        atividade: "Exercícios miofuncionais orofaciais lúdicos.",
-        material: "Espelho, espátulas, estimuladores vibratórios.",
-      }
+        objetivo: "Responder a iniciativas comunicativas e compartilhar atenção com outra pessoa durante atividades de interesse.",
+        atividade: "Leitura compartilhada, brincadeiras de causa e efeito e comentários contingentes às iniciativas da criança.",
+        material: "Livros, brinquedos interativos e recursos visuais.",
+      },
+      {
+        objetivo: "Alternar turnos comunicativos em brincadeiras e conversas curtas com apoio graduado.",
+        atividade: "Jogos de vez, perguntas previsíveis e sequências de pergunta-resposta-comentário.",
+        material: "Cartões de turno, jogos estruturados e objetos motivadores.",
+      },
+      {
+        objetivo: "Aprimorar a inteligibilidade de sons ou palavras-alvo definidos na avaliação fonoaudiológica.",
+        atividade: "Prática contextualizada de palavras-alvo com pistas auditivas, visuais e táteis quando apropriado.",
+        material: "Espelho, figuras de palavras-alvo e materiais lúdicos.",
+      },
     ],
   },
   // NUTRIÇÃO
   {
-    id: "nutri-seletividade",
+    id: "nutri-exploracao-seletividade",
     area: "Nutrição",
-    label: "NUTRI - Seletividade Alimentar",
-    summary: "Aproximação e aceitação de novos alimentos.",
+    label: "NUTRI - Exploração e Seletividade Alimentar",
+    summary: "Exposição gradual, exploração sensorial e ampliação individualizada do repertório alimentar.",
     items: [
       {
         objetivo: "Tolerar a presença de novos alimentos no prato.",
@@ -185,18 +245,51 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
         material: "Alimentos variados, utensílios coloridos.",
       },
       {
-        objetivo: "Experimentar novas texturas e sabores de forma voluntária.",
-        atividade: "Culinária terapêutica e encadeamento alimentar (food chaining).",
-        material: "Ingredientes para receitas simples.",
-      }
+        objetivo: "Explorar novas texturas, cheiros, cores e formatos de alimentos sem exigência imediata de ingestão.",
+        atividade: "Sequência de olhar, tocar, cheirar, aproximar e provar, respeitando sinais de desconforto.",
+        material: "Alimentos planejados, bandejas de exploração e utensílios adequados.",
+      },
+      {
+        objetivo: "Avançar gradualmente na hierarquia individual de aceitação de alimentos, conforme plano nutricional.",
+        atividade: "Exposição graduada e encadeamento alimentar com registro de respostas e preferências.",
+        material: "Alimentos-alvo, ficha de acompanhamento e utensílios de refeição.",
+      },
+      {
+        objetivo: "Ampliar o repertório alimentar dentro das necessidades nutricionais e culturais da família.",
+        atividade: "Apresentação de variações próximas a alimentos já aceitos e participação em escolhas guiadas.",
+        material: "Lista de alimentos aceitos, alimentos similares e cartões de escolha.",
+      },
+    ],
+  },
+  {
+    id: "nutri-autonomia-rotina",
+    area: "Nutrição",
+    label: "NUTRI - Autonomia e Rotina Alimentar",
+    summary: "Participação nas refeições, uso de utensílios e comunicação de preferências alimentares.",
+    items: [
+      {
+        objetivo: "Comunicar preferências, recusa e sinais de saciedade por meios compatíveis com seu repertório comunicativo.",
+        atividade: "Modelagem de escolhas, escalas visuais e treino de pedidos durante situações de refeição simulada ou real.",
+        material: "Pranchas de escolha, cartões de alimentos e escala visual de fome e saciedade.",
+      },
+      {
+        objetivo: "Participar da rotina alimentar utilizando utensílios, postura e apoios definidos pela equipe responsável.",
+        atividade: "Treino funcional de mesa com adaptação gradual de utensílios e redução de ajuda quando seguro.",
+        material: "Talheres, copos e recursos adaptados quando indicados.",
+      },
+      {
+        objetivo: "Participar de etapas simples e seguras de preparo ou organização da refeição, de acordo com idade e supervisão necessária.",
+        atividade: "Separar ingredientes, lavar itens permitidos, montar lanche simples e organizar a mesa com sequência visual.",
+        material: "Checklist visual, utensílios seguros e ingredientes previamente definidos.",
+      },
     ],
   },
   // PSICOMOTRICIDADE
   {
-    id: "pm-coordenacao",
+    id: "pm-coordenacao-planejamento",
     area: "Psicomotricidade",
-    label: "PM - Coordenação Motora Global",
-    summary: "Equilíbrio, esquema corporal e planejamento motor.",
+    label: "PM - Coordenação e Planejamento Motor",
+    summary: "Equilíbrio, bilateralidade, coordenação fina e sequências motoras funcionais.",
     items: [
       {
         objetivo: "Melhorar o equilíbrio estático e dinâmico.",
@@ -204,10 +297,43 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
         material: "Corda, balancim, túnel, cones.",
       },
       {
-        objetivo: "Desenvolver a noção de esquema e imagem corporal.",
-        atividade: "Atividades de reconhecimento das partes do corpo em movimento.",
-        material: "Espelho grande, músicas de movimento.",
-      }
+        objetivo: "Desenvolver coordenação bilateral em atividades que exigem uso integrado dos dois lados do corpo.",
+        atividade: "Jogos de arremessar e receber, rasgar, encaixar, abrir recipientes e circuitos com cruzamento da linha média.",
+        material: "Bolas, prendedores, recipientes, blocos e fitas no chão.",
+      },
+      {
+        objetivo: "Planejar e executar sequências motoras simples com redução gradual de pistas.",
+        atividade: "Circuitos com duas a quatro etapas, demonstração inicial e revisão visual da sequência.",
+        material: "Cartões sequenciais, cones, argolas e túnel.",
+      },
+      {
+        objetivo: "Aprimorar coordenação motora fina e integração visomotora em tarefas funcionais.",
+        atividade: "Atividades de encaixe, traçado, recorte adaptado, pinça e manipulação de pequenos objetos.",
+        material: "Massinha, pinças, prendedores, lápis e jogos de encaixe.",
+      },
+    ],
+  },
+  {
+    id: "pm-corpo-regulacao",
+    area: "Psicomotricidade",
+    label: "PM - Esquema Corporal, Ritmo e Regulação",
+    summary: "Consciência corporal, ritmo, imitação e participação em brincadeiras motoras estruturadas.",
+    items: [
+      {
+        objetivo: "Desenvolver a noção de esquema corporal e orientação espacial em atividades de movimento.",
+        atividade: "Reconhecimento de partes do corpo, comandos espaciais e brincadeiras diante do espelho.",
+        material: "Espelho grande, músicas de movimento e cartões corporais.",
+      },
+      {
+        objetivo: "Imitar ritmos e gestos motores simples em atividades lúdicas compartilhadas.",
+        atividade: "Sequências de palmas, passos, movimentos com música e jogos de espelho.",
+        material: "Músicas rítmicas, tambor e cartões de movimentos.",
+      },
+      {
+        objetivo: "Manter participação organizada em brincadeiras motoras com regras simples e transições previsíveis.",
+        atividade: "Jogos de parar/seguir, revezamento e circuitos com início e fim sinalizados.",
+        material: "Sinal visual de início/fim, cones, bolas e timer.",
+      },
     ],
   },
   // TERAPIA OCUPACIONAL — AVDs
@@ -215,12 +341,42 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
     id: "avds-autonomia",
     area: "Terapia Ocupacional",
     label: "AVDs — Atividades de Vida Diária",
-    summary: "Autonomia em higiene, alimentação e vestuário.",
+    summary: "Autonomia progressiva em higiene, vestuário, alimentação e rotina de autocuidado.",
     items: [
       {
-        objetivo: "Ampliar a independência nas AVDs de higiene, vestuário e alimentação conforme o nível de suporte necessário.",
-        atividade: "Treino por encadeamento de etapas, com pistas visuais e redução gradual de ajuda física ou verbal.",
-        material: "Sequências visuais, espelho, utensílios adaptados e materiais de autocuidado.",
+        objetivo: "Completar a rotina de lavagem das mãos seguindo uma sequência de etapas com suporte graduado.",
+        atividade: "Treino por encadeamento de etapas antes de refeições e após uso do banheiro.",
+        material: "Sequência visual, sabonete, toalha e pia acessível.",
+      },
+      {
+        objetivo: "Realizar etapas da higiene oral conforme o repertório motor e o nível de suporte necessário.",
+        atividade: "Modelagem, prática com espelho e sequência visual de escovar, enxaguar e guardar os materiais.",
+        material: "Escova, creme dental, copo, espelho e rotina ilustrada.",
+      },
+      {
+        objetivo: "Vestir ou retirar peças de roupa adequadas à rotina, utilizando estratégias de adaptação quando indicadas.",
+        atividade: "Treino de vestir e despir por encadeamento, com organização das peças e redução gradual de ajuda.",
+        material: "Roupas de treino, quadro de passos e recursos adaptados quando necessários.",
+      },
+      {
+        objetivo: "Participar da alimentação com maior autonomia no uso de utensílios e na organização da mesa.",
+        atividade: "Treino funcional de colher, garfo, copo e organização de itens da refeição conforme segurança e suporte definidos.",
+        material: "Utensílios usuais ou adaptados, prato, copo e apoio visual.",
+      },
+      {
+        objetivo: "Participar da rotina de uso do banheiro de acordo com o plano de autonomia e as necessidades de apoio.",
+        atividade: "Sequência visual de ida ao banheiro, higiene e finalização, com registro das etapas realizadas.",
+        material: "Rotina visual, redutor ou apoio quando indicado e materiais de higiene.",
+      },
+      {
+        objetivo: "Executar etapas de banho, cuidados pessoais ou organização de aparência compatíveis com a faixa etária.",
+        atividade: "Simulação e treino em contexto seguro de pentear cabelo, limpar o rosto, aplicar desodorante ou separar itens de higiene.",
+        material: "Kit de higiene pessoal, espelho e checklist ilustrado.",
+      },
+      {
+        objetivo: "Organizar e finalizar a rotina pessoal, guardando materiais de autocuidado nos locais definidos.",
+        atividade: "Uso de etiquetas visuais e checklist de início, execução e encerramento da rotina.",
+        material: "Etiquetas, caixas organizadoras e checklist visual.",
       },
     ],
   },
@@ -229,21 +385,51 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
     id: "aivds-autonomia",
     area: "Terapia Ocupacional",
     label: "AIVDs — Atividades Instrumentais de Vida Diária",
-    summary: "Organização, preparo simples de alimentos e rotina doméstica.",
+    summary: "Organização, rotina doméstica, preparo simples de alimentos e participação comunitária conforme a idade.",
     items: [
       {
-        objetivo: "Desenvolver a participação nas AIVDs adequadas à faixa etária, como organização de pertences, preparo simples de lanche e rotina doméstica.",
-        atividade: "Simulação de tarefas do cotidiano com checklist visual, prática guiada e reforço da iniciativa.",
-        material: "Checklist ilustrado, mochila, utensílios de cozinha seguros e organizadores.",
+        objetivo: "Organizar mochila, materiais pessoais ou itens escolares com checklist e redução gradual de pistas.",
+        atividade: "Separação e guarda de itens para uma rotina real ou simulada de casa e escola.",
+        material: "Mochila, checklist ilustrado, etiquetas e organizadores.",
+      },
+      {
+        objetivo: "Seguir uma rotina visual para iniciar, executar e concluir uma tarefa doméstica simples.",
+        atividade: "Prática guiada de guardar brinquedos, dobrar panos, limpar superfície ou separar roupas.",
+        material: "Rotina ilustrada, caixas, panos e cestos.",
+      },
+      {
+        objetivo: "Preparar lanche simples e seguro dentro das orientações familiares e da supervisão necessária.",
+        atividade: "Separar ingredientes, montar sanduíche ou lanche frio e organizar o local após o uso.",
+        material: "Utensílios seguros, ingredientes previamente definidos e checklist visual.",
+      },
+      {
+        objetivo: "Planejar uma tarefa cotidiana simples escolhendo materiais e seguindo uma sequência previamente combinada.",
+        atividade: "Organização de uma atividade com quadro de 'o que preciso', 'o que faço' e 'o que guardo'.",
+        material: "Quadro de planejamento, cartões de etapas e materiais da tarefa.",
+      },
+      {
+        objetivo: "Localizar, categorizar e guardar pertences em espaços definidos de casa ou escola.",
+        atividade: "Classificação de itens por função e uso de etiquetas, cores ou fotografias de referência.",
+        material: "Etiquetas visuais, caixas organizadoras e objetos pessoais.",
+      },
+      {
+        objetivo: "Participar de situação simulada de compra ou escolha de itens de rotina, adequada à idade e ao contexto familiar.",
+        atividade: "Lista visual, escolha entre opções, separação de itens e reconhecimento de etapas da compra simulada.",
+        material: "Lista ilustrada, embalagens vazias, cédulas de brinquedo e cesta.",
+      },
+      {
+        objetivo: "Deslocar-se entre atividades da rotina com apoio de agenda visual e estratégias de orientação previamente treinadas.",
+        atividade: "Treino de sequências casa-escola-terapia em maquete, imagens ou percurso supervisionado.",
+        material: "Agenda visual, fotos de locais e mapas simplificados.",
       },
     ],
   },
   // PSICOPEDAGOGIA
   {
-    id: "pp-alfabetizacao",
+    id: "pp-alfabetizacao-aprendizagem",
     area: "Psicopedagogia",
-    label: "PP - Pré-requisitos para Alfabetização",
-    summary: "Consciência fonológica e percepção visual.",
+    label: "PP - Alfabetização e Aprendizagem Inicial",
+    summary: "Consciência fonológica, leitura, escrita e conceitos matemáticos iniciais.",
     items: [
       {
         objetivo: "Desenvolver consciência fonológica (rimas e aliterações).",
@@ -254,20 +440,45 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
         objetivo: "Identificar e nomear letras do alfabeto e números.",
         atividade: "Atividades multissensoriais de traçado e reconhecimento.",
         material: "Areia colorida, massinha, cartões numéricos.",
-      }
+      },
+      {
+        objetivo: "Relacionar letras, sons e palavras de alta relevância funcional para sua rotina.",
+        atividade: "Associação de letras e palavras a nomes, objetos, lugares e interesses significativos.",
+        material: "Letras móveis, cartões com palavras e imagens funcionais.",
+      },
+      {
+        objetivo: "Ler ou reconhecer palavras e frases curtas com apoio visual compatível com o nível de escolaridade.",
+        atividade: "Leitura compartilhada de rótulos, listas, histórias curtas e instruções de jogos.",
+        material: "Livros adaptados, cartões de palavras e textos curtos.",
+      },
     ],
   },
   {
-    id: "pp-funcoes",
+    id: "pp-executivas-matematica",
     area: "Psicopedagogia",
-    label: "PP - Funções Executivas",
-    summary: "Atenção, memória de trabalho e planejamento.",
+    label: "PP - Funções Executivas e Matemática Funcional",
+    summary: "Atenção, memória de trabalho, planejamento e noções matemáticas aplicadas ao cotidiano.",
     items: [
       {
-        objetivo: "Manter a atenção em atividades acadêmicas por 15 minutos.",
-        atividade: "Uso de organizadores visuais e divisão de tarefas em etapas.",
-        material: "Checklists, timers, reforçadores.",
-      }
+        objetivo: "Manter atenção em atividade acadêmica ou funcional pelo tempo definido em avaliação, com estratégias de organização.",
+        atividade: "Divisão da tarefa em etapas curtas, pausas planejadas e uso de timer visual.",
+        material: "Checklists, timer visual e organizadores.",
+      },
+      {
+        objetivo: "Fortalecer memória de trabalho e sequenciamento para concluir atividades com múltiplas etapas.",
+        atividade: "Jogos de sequência, repetição de instruções curtas e organização de ações em ordem.",
+        material: "Cartões sequenciais, jogos de memória e rotinas visuais.",
+      },
+      {
+        objetivo: "Planejar, iniciar e revisar uma atividade usando estratégias visuais de organização.",
+        atividade: "Uso de quadro 'primeiro-depois', lista de conferência e autoavaliação simples ao finalizar.",
+        material: "Checklist, quadro visual e marcador apagável.",
+      },
+      {
+        objetivo: "Aplicar noções de quantidade, correspondência e contagem em situações acadêmicas ou cotidianas significativas.",
+        atividade: "Separação de objetos, jogos de contagem, comparação de quantidades e rotina de compras simuladas.",
+        material: "Objetos manipuláveis, cartões numéricos e cédulas de brinquedo.",
+      },
     ],
   }
 ];

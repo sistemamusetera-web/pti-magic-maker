@@ -30,3 +30,7 @@
 - [x] Agrupar AVDs e AIVDs como subáreas dentro de Terapia Ocupacional no PTI.
 - [x] Remover AVDs e AIVDs da lista de áreas clínicas independentes.
 - [x] Remover o subtópico TO — Desempenho Ocupacional dos templates por área.
+- [x] Pesquisar referências para organizar objetivos por área alinhados ao Portage e a intervenções para TEA.
+- [x] Ampliar os templates para no mínimo sete objetivos selecionáveis em cada área clínica.
+- [x] Permitir seleção múltipla de objetivos por área na aba PTI.
+- [x] Reorganizar o seletor de objetivos para facilitar a visualização e escolha profissional.
