@@ -3,7 +3,7 @@ import { join } from "node:path";
 
 export function prepareStaticOutput({
   outputDir = "dist",
-  nitroServerDir = ".netlify/functions-internal/server",
+  nitroServerDir,
   productionEntryPath = "server/production-entry.mjs",
 } = {}) {
   const publicDir = join(outputDir, "public");
@@ -25,25 +25,22 @@ export function prepareStaticOutput({
     throw new Error("No static files were generated in 'dist/public'.");
   }
 
-  if (!existsSync(nitroServerDir)) {
-    throw new Error(`Nitro server directory '${nitroServerDir}' was not generated.`);
+  const resolvedNitroServerDir = nitroServerDir ?? [".output/server", join(outputDir, "server")].find(existsSync);
+  if (!resolvedNitroServerDir) {
+    throw new Error("Nitro server output was not generated.");
   }
 
   if (!existsSync(productionEntryPath)) {
     throw new Error(`Production entry '${productionEntryPath}' was not found.`);
   }
 
-  cpSync(nitroServerDir, join(outputDir, "server"), { recursive: true });
+  cpSync(resolvedNitroServerDir, join(outputDir, "server"), { recursive: true });
   copyFileSync(productionEntryPath, join(outputDir, "index.js"));
 
   return { publicDir, entryPath: join(outputDir, "index.js") };
 }
 
 if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
-  if (process.env.NETLIFY === "true" || process.env.NETLIFY === "1") {
-    console.log("Netlify build detected: keeping Nitro's native Netlify output.");
-  } else {
-    prepareStaticOutput();
-    console.log("Static deployment output prepared at dist/public.");
-  }
+  prepareStaticOutput();
+  console.log("Static deployment output prepared at dist/public.");
 }

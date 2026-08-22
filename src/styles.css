@@ -148,10 +148,6 @@
   }
 }
 
-#lovable-badge {
-  display: none !important;
-}
-
 /* Spreadsheet-style utilities */
 @utility sheet {
   background: var(--color-paper);

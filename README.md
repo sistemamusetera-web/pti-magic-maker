@@ -1,26 +1,22 @@
-# PTI Generator Pro
+# PTI Magic Maker
 
-analise esse documento. veja toda estrutura e lógica. quero criar um sistema web desse documento que gere PDFs de PTI. seja algo prático, que o profissional n precise digitar nada. selecione o paciente, insira os dados principais do paciente e gere o PTI, analise bem a estruta do documento enviado e faca um clone, seja bem especifico.
+Sistema clínico para avaliação Portage, elaboração de Plano Terapêutico Individualizado e geração de PDF.
 
-This project was built with [Lovable](https://lovable.dev).
+## Desenvolvimento
 
-**Live app**: https://pti-magic-maker.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/f1d425e1-466a-4f15-81a7-881e621435f0).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Use Node.js 22 e pnpm.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+pnpm install
+pnpm run dev
 ```
+
+## Validação
+
+```sh
+pnpm test
+pnpm exec tsc --noEmit
+pnpm run build
+```
+
+O sistema usa Supabase para autenticação e dados. Cadastre somente as variáveis públicas do Supabase necessárias ao ambiente; nunca inclua a chave administrativa no cliente.
