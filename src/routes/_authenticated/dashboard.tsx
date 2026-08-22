@@ -46,7 +46,7 @@ function Dashboard() {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", birth_date: "", guardian: "", diagnosis: "", notes: "" });
+  const [form, setForm] = useState({ name: "", birth_date: "" });
 
 
   const load = async () => {
@@ -73,16 +73,13 @@ function Dashboard() {
         owner_id: session.user.id,
         name: form.name,
         birth_date: form.birth_date || null,
-        guardian: form.guardian || null,
-        diagnosis: form.diagnosis || null,
-        notes: form.notes || null,
       })
       .select()
       .single();
     if (error) return toast.error(error.message);
     toast.success("Paciente cadastrado");
     setOpen(false);
-    setForm({ name: "", birth_date: "", guardian: "", diagnosis: "", notes: "" });
+    setForm({ name: "", birth_date: "" });
     navigate({ to: "/patients/$id", params: { id: (data as Patient).id } });
   };
 
@@ -162,39 +159,13 @@ function Dashboard() {
                     required
                   />
                 </div>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <div>
-                    <Label htmlFor="birth">Data de nascimento</Label>
-                    <Input
-                      id="birth"
-                      type="date"
-                      value={form.birth_date}
-                      onChange={(e) => setForm({ ...form, birth_date: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="guardian">Responsável</Label>
-                    <Input
-                      id="guardian"
-                      value={form.guardian}
-                      onChange={(e) => setForm({ ...form, guardian: e.target.value })}
-                    />
-                  </div>
-                </div>
                 <div>
-                  <Label htmlFor="diag">Diagnóstico / Hipótese</Label>
+                  <Label htmlFor="birth">Data de nascimento</Label>
                   <Input
-                    id="diag"
-                    value={form.diagnosis}
-                    onChange={(e) => setForm({ ...form, diagnosis: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="notes">Observações</Label>
-                  <Textarea
-                    id="notes"
-                    value={form.notes}
-                    onChange={(e) => setForm({ ...form, notes: e.target.value })}
+                    id="birth"
+                    type="date"
+                    value={form.birth_date}
+                    onChange={(e) => setForm({ ...form, birth_date: e.target.value })}
                   />
                 </div>
                 <DialogFooter>
@@ -285,4 +256,3 @@ function Dashboard() {
     </div>
   );
 }
-

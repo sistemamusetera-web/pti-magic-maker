@@ -1,8 +1,7 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
-import referenceBrandDataUrl from "/home/ubuntu/webdev-static-assets/hapvida-notredame-embedded.png?inline";
 
-const REFERENCE_BRAND_STRIP = referenceBrandDataUrl;
+const REFERENCE_BRAND_STRIP = "/manus-storage/hapvida-notredame-from-reference_3b1cfbba.png";
 
 /* Legacy exports still consumed by the patient page — kept as no-ops so
    older callers don't break while we transition to the narrative PTI. */
@@ -135,6 +134,16 @@ function safe(v?: string | null) {
   return v && String(v).trim() ? String(v).trim() : "";
 }
 
+function loadImage(src: string) {
+  return new Promise<HTMLImageElement | null>((resolve) => {
+    if (typeof Image === "undefined") return resolve(null);
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+
 function finalY(doc: jsPDF, fallback: number) {
   const v = (doc as unknown as { lastAutoTable?: { finalY?: number } }).lastAutoTable?.finalY;
   return typeof v === "number" ? v : fallback;
@@ -149,14 +158,16 @@ function ensureRoom(doc: jsPDF, y: number, needed: number, drawHeader: () => num
   return y;
 }
 
-function drawPageHeader(doc: jsPDF): number {
+function drawPageHeader(doc: jsPDF, logo: HTMLImageElement | null): number {
   const pageW = doc.internal.pageSize.getWidth();
   let y = MARGIN;
-  // Faixa Hapvida e NotreDame Intermédica embutida no bundle a partir do PDF de referência.
-  const w = 180;
-  const h = 28.125;
-  doc.addImage(REFERENCE_BRAND_STRIP, "PNG", MARGIN, y, w, h);
-  y += h + 1;
+  if (logo) {
+    // Faixa Hapvida e NotreDame Intermédica extraída diretamente do PDF de referência.
+    const w = 180;
+    const h = 28.125;
+    doc.addImage(logo, "PNG", MARGIN, y, w, h);
+    y += h + 1;
+  }
   // Thin orange rule under logo
   doc.setDrawColor(...ORANGE);
   doc.setLineWidth(1.2);
@@ -387,9 +398,10 @@ const DEFAULT_REFERENCE =
 
 export async function generatePTIPdf(data: PTIData) {
   const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
+  const logo = await loadImage(REFERENCE_BRAND_STRIP);
   const pti = data.pti ?? {};
 
-  const header = () => drawPageHeader(doc);
+  const header = () => drawPageHeader(doc, logo);
   let y = header();
 
   // Title

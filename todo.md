@@ -96,3 +96,8 @@
 - [x] Validar em teste que o cabeçalho usa a marca embutida e mantém a composição de referência.
 - [x] Validar por hash o conteúdo do ativo de marca embutido no PDF.
 - [x] Validar as dimensões e o posicionamento do cabeçalho associados ao ativo de referência.
+- [x] Corrigir o import da marca embutida para que o build de produção seja publicado.
+- [x] Simplificar o formulário de novo paciente para nome e data de nascimento.
+- [x] Adicionar proteção automatizada contra import absoluto externo no gerador de PDF.
+- [x] Publicar a correção de logo e o cadastro simplificado com build de produção confirmado.
+- [x] Salvar a versão corrigida e confirmar a publicação automática no domínio ativo.
