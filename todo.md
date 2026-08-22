@@ -19,3 +19,5 @@
 - [x] Validar end-to-end o cadastro de uma nova conta por e-mail e senha com sessão imediata.
 - [x] Registrar evidência de uma conta recém-criada com sessão iniciada após o cadastro por e-mail.
 - [x] Adicionar botão acessível para mostrar ou ocultar a senha no login e cadastro.
+- [x] Corrigir a geração do diretório dist/public exigido pela implantação.
+- [x] Validar localmente o build e a estrutura de saída de produção.
