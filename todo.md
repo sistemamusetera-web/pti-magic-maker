@@ -101,3 +101,12 @@
 - [x] Adicionar proteção automatizada contra import absoluto externo no gerador de PDF.
 - [x] Publicar a correção de logo e o cadastro simplificado com build de produção confirmado.
 - [x] Salvar a versão corrigida e confirmar a publicação automática no domínio ativo.
+- [x] Adicionar ação confirmada para excluir individualmente o PTI sem remover o paciente cadastrado.
+- [x] Tornar explícita a exclusão do PTI mais recente do paciente na lista.
+- [x] Limpar sessões vinculadas ao PTI excluído preservando paciente e avaliação.
+- [x] Cobrir o comportamento de exclusão completa do PTI em teste integrado.
+- [x] Verificar que a avaliação alvo possui PTI antes de remover sessões vinculadas.
+- [x] Compensar a exclusão de sessões caso a atualização do PTI falhe ou vice-versa.
+- [x] Validar o fluxo seguro de exclusão no dashboard com seus resultados de dados.
+- [x] Integrar a confirmação de exclusão ao serviço que remove o PTI mais recente.
+- [x] Cobrir cancelamento, ausência de PTI e exclusão confirmada em teste de comportamento.

@@ -1,10 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { confirmAndDeleteLatestPatientPti } from "@/lib/pti-deletion";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +16,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { FileSpreadsheet, LogOut, Plus, User, FileText, ArrowRight, Shield } from "lucide-react";
+import { FileSpreadsheet, LogOut, Plus, User, FileText, ArrowRight, Shield, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -47,6 +49,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", birth_date: "" });
+  const [deletingPtiId, setDeletingPtiId] = useState<string | null>(null);
 
 
   const load = async () => {
@@ -81,6 +84,51 @@ function Dashboard() {
     setOpen(false);
     setForm({ name: "", birth_date: "" });
     navigate({ to: "/patients/$id", params: { id: (data as Patient).id } });
+  };
+
+  const deletePatientPti = async (patient: Patient) => {
+    setDeletingPtiId(patient.id);
+    try {
+      const result = await confirmAndDeleteLatestPatientPti({
+        confirm: (message) => window.confirm(message),
+        patientName: patient.name,
+        patientId: patient.id,
+        dataSource: {
+          findLatestEvaluation: async (patientId) => {
+            const { data, error } = await supabase
+              .from("evaluations")
+              .select("id, pti_data")
+              .eq("patient_id", patientId)
+              .order("evaluation_date", { ascending: false })
+              .limit(1)
+              .maybeSingle();
+            if (error) throw error;
+            return data?.pti_data ? { evaluationId: data.id, ptiData: data.pti_data } : null;
+          },
+          clearPtiForEvaluation: async (evaluationId) => {
+            const { error } = await supabase.from("evaluations").update({ pti_data: null }).eq("id", evaluationId);
+            if (error) throw error;
+          },
+          deleteSessionsForEvaluation: async (evaluationId) => {
+            const { error } = await supabase.from("pei_sessions").delete().eq("evaluation_id", evaluationId);
+            if (error) throw error;
+          },
+          restorePtiForEvaluation: async (evaluationId, ptiData) => {
+            const { error } = await supabase.from("evaluations").update({ pti_data: ptiData as Json }).eq("id", evaluationId);
+            if (error) throw error;
+          },
+        },
+      });
+      if (result.status === "cancelled") return;
+      if (result.status === "not_found") {
+        return toast.info("Este paciente não possui PTI salvo na avaliação mais recente para excluir.");
+      }
+      toast.success("PTI mais recente e sessões vinculadas excluídos. O paciente e a avaliação foram mantidos.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Não foi possível excluir o PTI.");
+    } finally {
+      setDeletingPtiId(null);
+    }
   };
 
   const logout = async () => {
@@ -191,26 +239,27 @@ function Dashboard() {
             {/* Mobile: cards */}
             <div className="grid gap-3 sm:hidden">
               {patients.map((p) => (
-                <Link
-                  key={p.id}
-                  to="/patients/$id"
-                  params={{ id: p.id }}
-                  className="sheet block rounded-md p-4 hover:bg-muted/40"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="truncate font-semibold">{p.name}</div>
-                      <div className="mt-1 text-xs text-muted-foreground">
-                        {p.birth_date ? new Date(p.birth_date).toLocaleDateString("pt-BR") : "Sem nascimento"}
-                        {p.guardian ? ` · ${p.guardian}` : ""}
+                <div key={p.id} className="sheet rounded-md p-4">
+                  <Link to="/patients/$id" params={{ id: p.id }} className="block hover:bg-muted/40">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="truncate font-semibold">{p.name}</div>
+                        <div className="mt-1 text-xs text-muted-foreground">
+                          {p.birth_date ? new Date(p.birth_date).toLocaleDateString("pt-BR") : "Sem nascimento"}
+                          {p.guardian ? ` · ${p.guardian}` : ""}
+                        </div>
+                        {p.diagnosis && (
+                          <div className="mt-1 truncate text-xs text-muted-foreground">{p.diagnosis}</div>
+                        )}
                       </div>
-                      {p.diagnosis && (
-                        <div className="mt-1 truncate text-xs text-muted-foreground">{p.diagnosis}</div>
-                      )}
+                      <ArrowRight className="h-4 w-4 shrink-0 text-primary" />
                     </div>
-                    <ArrowRight className="h-4 w-4 shrink-0 text-primary" />
-                  </div>
-                </Link>
+                  </Link>
+                  <Button type="button" size="sm" variant="ghost" className="mt-3 w-full text-destructive hover:text-destructive" disabled={deletingPtiId === p.id} onClick={() => deletePatientPti(p)}>
+                    <Trash2 className="mr-1 h-4 w-4" />
+                    {deletingPtiId === p.id ? "Excluindo PTI…" : "Excluir PTI mais recente"}
+                  </Button>
+                </div>
               ))}
             </div>
             {/* Desktop: table */}
@@ -223,7 +272,7 @@ function Dashboard() {
                       <th className="grid-cell px-4 py-2 text-left">Nascimento</th>
                       <th className="grid-cell px-4 py-2 text-left">Responsável</th>
                       <th className="grid-cell px-4 py-2 text-left">Diagnóstico</th>
-                      <th className="px-4 py-2 text-right">Avaliação</th>
+                      <th className="px-4 py-2 text-right">Ações</th>
                     </tr>
                   </thead>
                   <tbody className="bg-paper">
@@ -243,6 +292,10 @@ function Dashboard() {
                               <ArrowRight className="ml-1 h-4 w-4" />
                             </Button>
                           </Link>
+                          <Button type="button" size="sm" variant="ghost" className="ml-1 text-destructive hover:text-destructive" disabled={deletingPtiId === p.id} onClick={() => deletePatientPti(p)}>
+                            <Trash2 className="mr-1 h-4 w-4" />
+                            {deletingPtiId === p.id ? "Excluindo…" : "Excluir PTI mais recente"}
+                          </Button>
                         </td>
                       </tr>
                     ))}
