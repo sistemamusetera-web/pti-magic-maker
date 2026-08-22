@@ -134,16 +134,6 @@ function safe(v?: string | null) {
   return v && String(v).trim() ? String(v).trim() : "";
 }
 
-function loadImage(src: string) {
-  return new Promise<HTMLImageElement | null>((resolve) => {
-    if (typeof Image === "undefined") return resolve(null);
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = () => resolve(null);
-    img.src = src;
-  });
-}
-
 function finalY(doc: jsPDF, fallback: number) {
   const v = (doc as unknown as { lastAutoTable?: { finalY?: number } }).lastAutoTable?.finalY;
   return typeof v === "number" ? v : fallback;
@@ -158,16 +148,14 @@ function ensureRoom(doc: jsPDF, y: number, needed: number, drawHeader: () => num
   return y;
 }
 
-function drawPageHeader(doc: jsPDF, logo: HTMLImageElement | null): number {
+function drawPageHeader(doc: jsPDF): number {
   const pageW = doc.internal.pageSize.getWidth();
   let y = MARGIN;
-  if (logo) {
-    // Faixa Hapvida e NotreDame Intermédica extraída diretamente do PDF de referência.
-    const w = 180;
-    const h = 28.125;
-    doc.addImage(logo, "PNG", MARGIN, y, w, h);
-    y += h + 1;
-  }
+  // Faixa Hapvida e NotreDame Intermédica do PDF de referência, inserida diretamente no jsPDF.
+  const w = 180;
+  const h = 28.125;
+  doc.addImage(PDF_BRAND_STRIP_DATA_URL, "PNG", MARGIN, y, w, h);
+  y += h + 1;
   // Thin orange rule under logo
   doc.setDrawColor(...ORANGE);
   doc.setLineWidth(1.2);
@@ -398,10 +386,9 @@ const DEFAULT_REFERENCE =
 
 export async function generatePTIPdf(data: PTIData) {
   const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
-  const logo = await loadImage(PDF_BRAND_STRIP_DATA_URL);
   const pti = data.pti ?? {};
 
-  const header = () => drawPageHeader(doc, logo);
+  const header = () => drawPageHeader(doc);
   let y = header();
 
   // Title

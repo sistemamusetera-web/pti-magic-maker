@@ -6,7 +6,7 @@ import { t as Toaster } from "../_libs/sonner.mjs";
 import { t as __exportAll } from "./rolldown-runtime-D7D4PA-g.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { t as QueryClientProvider } from "../_libs/tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-D2fXn6Xu.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-CHW_MWU_.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var styles_default = "/assets/styles-BOk_wl8H.css";
@@ -263,7 +263,7 @@ var Route$2 = createFileRoute("/_authenticated/admin")({
 	},
 	component: lazyRouteComponent($$splitComponentImporter$2, "component")
 });
-var $$splitComponentImporter$1 = () => import("./dashboard-nOt8yidy.mjs");
+var $$splitComponentImporter$1 = () => import("./dashboard-D0tkpTOs.mjs");
 var Route$1 = createFileRoute("/_authenticated/dashboard")({
 	head: () => ({ meta: [
 		{ title: "Pacientes — PTI Portage" },
@@ -290,7 +290,7 @@ var Route$1 = createFileRoute("/_authenticated/dashboard")({
 	] }),
 	component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-var $$splitComponentImporter = () => import("./patients._id-CPvjr6lG.mjs");
+var $$splitComponentImporter = () => import("./patients._id-Boc-gS7w.mjs");
 var Route = createFileRoute("/_authenticated/patients/$id")({
 	head: () => ({ meta: [
 		{ title: "Avaliação Portage — PTI" },

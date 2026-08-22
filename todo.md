@@ -112,3 +112,6 @@
 - [x] Cobrir cancelamento, ausência de PTI e exclusão confirmada em teste de comportamento.
 - [x] Sincronizar a versão atualizada do projeto com sistemamusetera-web/pti-magic-maker no GitHub.
 - [x] Corrigir a exibição da marca Hapvida e NotreDame Intermédica no PDF baixado.
+- [x] Comparar o PDF de referência enviado e corrigir a marca impressa no PDF baixado.
+- [x] Cobrir em teste a inserção da faixa de marca pelo fluxo real de geração do PDF.
+- [x] Gerar e inspecionar um PDF usando a função real do aplicativo antes da publicação.
