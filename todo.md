@@ -29,3 +29,4 @@
 - [x] Atualizar a apresentação das áreas disponíveis para mostrar AVDs e AIVDs separadamente.
 - [x] Agrupar AVDs e AIVDs como subáreas dentro de Terapia Ocupacional no PTI.
 - [x] Remover AVDs e AIVDs da lista de áreas clínicas independentes.
+- [x] Remover o subtópico TO — Desempenho Ocupacional dos templates por área.

@@ -210,25 +210,6 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
       }
     ],
   },
-  // TERAPIA OCUPACIONAL
-  {
-    id: "to-desempenho-ocupacional",
-    area: "Terapia Ocupacional",
-    label: "TO — Desempenho Ocupacional",
-    summary: "Coordenação, processamento sensorial e participação ocupacional.",
-    items: [
-      {
-        objetivo: "Aprimorar coordenação motora fina, planejamento motor e participação nas ocupações significativas.",
-        atividade: "Circuito de motricidade fina, atividades de encaixe e tarefas funcionais graduadas.",
-        material: "Massinha, pinças, prendedores, jogos de encaixe e materiais adaptados.",
-      },
-      {
-        objetivo: "Ampliar estratégias de autorregulação sensorial para favorecer o engajamento nas atividades cotidianas.",
-        atividade: "Exploração sensorial guiada e elaboração de rotina de regulação antes de tarefas de maior demanda.",
-        material: "Recursos táteis, fones abafadores, peso terapêutico e painel visual de estratégias.",
-      },
-    ],
-  },
   // TERAPIA OCUPACIONAL — AVDs
   {
     id: "avds-autonomia",
