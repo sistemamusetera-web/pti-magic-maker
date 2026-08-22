@@ -1,7 +1,7 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
+import { PDF_BRAND_STRIP_DATA_URL } from "./pti-pdf-brand-strip";
 
-const REFERENCE_BRAND_STRIP = "/manus-storage/hapvida-notredame-from-reference_3b1cfbba.png";
 
 /* Legacy exports still consumed by the patient page — kept as no-ops so
    older callers don't break while we transition to the narrative PTI. */
@@ -398,7 +398,7 @@ const DEFAULT_REFERENCE =
 
 export async function generatePTIPdf(data: PTIData) {
   const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
-  const logo = await loadImage(REFERENCE_BRAND_STRIP);
+  const logo = await loadImage(PDF_BRAND_STRIP_DATA_URL);
   const pti = data.pti ?? {};
 
   const header = () => drawPageHeader(doc, logo);

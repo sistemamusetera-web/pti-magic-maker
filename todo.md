@@ -111,3 +111,4 @@
 - [x] Integrar a confirmação de exclusão ao serviço que remove o PTI mais recente.
 - [x] Cobrir cancelamento, ausência de PTI e exclusão confirmada em teste de comportamento.
 - [x] Sincronizar a versão atualizada do projeto com sistemamusetera-web/pti-magic-maker no GitHub.
+- [x] Corrigir a exibição da marca Hapvida e NotreDame Intermédica no PDF baixado.
