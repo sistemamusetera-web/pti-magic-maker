@@ -61,3 +61,4 @@
 - [x] Validar que cada especialidade preserva objetivos, atividades e materiais próprios após a organização por domínios.
 - [x] Reestruturar explicitamente as especialidades em domínios clínicos claros, no mesmo padrão de Musicoterapia.
 - [x] Validar por especialidade que cada item mantém objetivo, atividade e material no catálogo derivado.
+- [x] Remover a barra de filtros por área/especialidade do catálogo de objetivos.

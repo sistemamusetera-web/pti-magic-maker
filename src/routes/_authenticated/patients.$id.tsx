@@ -1196,7 +1196,6 @@ function ObjectiveCatalogPicker({
   onAdd: (selectedOptions: ObjectiveCatalogOption[]) => boolean;
 }) {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [activeArea, setActiveArea] = useState<string>("Todas");
   const [search, setSearch] = useState("");
 
   const normalizedSearch = search.trim().toLocaleLowerCase("pt-BR");
@@ -1209,7 +1208,6 @@ function ObjectiveCatalogPicker({
   );
   const selectedOptions = OBJECTIVE_CATALOG.filter((option) => selectedIds.includes(option.id));
   const visibleAreas = optionsByArea
-    .filter(({ area }) => activeArea === "Todas" || area === activeArea)
     .map(({ area, options }) => ({
       area,
       options: options.filter((option) => {
@@ -1260,8 +1258,7 @@ function ObjectiveCatalogPicker({
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-          <div className="relative w-full lg:max-w-md">
+        <div className="relative w-full lg:max-w-md">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={search}
@@ -1270,37 +1267,11 @@ function ObjectiveCatalogPicker({
               placeholder="Buscar por objetivo, atividade, material ou subtema"
               aria-label="Buscar objetivos clínicos"
             />
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            <button
-              type="button"
-              onClick={() => setActiveArea("Todas")}
-              className={cn(
-                "rounded-sm border px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide transition",
-                activeArea === "Todas" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-paper hover:bg-muted",
-              )}
-            >
-              Todas ({OBJECTIVE_CATALOG.length})
-            </button>
-            {optionsByArea.map(({ area, options }) => (
-              <button
-                key={area}
-                type="button"
-                onClick={() => setActiveArea(area)}
-                className={cn(
-                  "rounded-sm border px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide transition",
-                  activeArea === area ? "border-primary bg-primary text-primary-foreground" : "border-primary/30 bg-primary/5 text-foreground hover:bg-primary/10",
-                )}
-              >
-                {area} ({options.length})
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
       {visibleAreas.length ? (
-        <Accordion type="multiple" className="border-t bg-paper" defaultValue={activeArea === "Todas" ? [] : [activeArea]}>
+        <Accordion type="multiple" className="border-t bg-paper" defaultValue={[]}>
           {visibleAreas.map(({ area, options }) => {
             const selectedInArea = options.filter((option) => selectedIds.includes(option.id)).length;
             const templates = Array.from(new Set(options.map((option) => option.templateId))).map((templateId) => ({
