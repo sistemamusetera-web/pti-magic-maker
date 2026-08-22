@@ -19,6 +19,42 @@ export interface PTIObjective {
   material: string;
 }
 
+export const createEmptyPTI = (overrides: Partial<PTINarrative> = {}): PTINarrative => ({
+  mother_name: "",
+  father_name: "",
+  diagnosis: "",
+  start_date: "",
+  professional: "",
+  revaluation: "Semestral",
+  clinical_history: "",
+  objectives: [{ objetivo: "", atividade: "", material: "" }],
+  behavior_problems: [""],
+  conclusion: "",
+  reference: "",
+  delivery_date: "",
+  delivery_responsible: "",
+  ...overrides,
+});
+
+export function hydratePTI(stored: unknown): PTINarrative {
+  if (!stored || typeof stored !== "object" || Array.isArray(stored)) {
+    return createEmptyPTI();
+  }
+
+  const data = stored as Partial<PTINarrative>;
+  const defaults = createEmptyPTI();
+  return {
+    ...defaults,
+    ...data,
+    objectives: Array.isArray(data.objectives)
+      ? data.objectives.map((objective) => ({ ...objective }))
+      : defaults.objectives,
+    behavior_problems: Array.isArray(data.behavior_problems)
+      ? [...data.behavior_problems]
+      : defaults.behavior_problems,
+  };
+}
+
 export interface PTINarrative {
   mother_name?: string;
   father_name?: string;

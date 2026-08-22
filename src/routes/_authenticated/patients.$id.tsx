@@ -21,7 +21,7 @@ import {
   type AreaAgeStat,
   type Item,
 } from "@/lib/portage";
-import { generatePTIPdf, type PeiSessionSummary, type PTINarrative, type PTIObjective } from "@/lib/pti-pdf";
+import { createEmptyPTI, generatePTIPdf, hydratePTI, type PeiSessionSummary, type PTINarrative, type PTIObjective } from "@/lib/pti-pdf";
 import { ArrowLeft, Download, Save, FileSpreadsheet, Plus, Trash2, Sparkles, Shield, History, ListChecks, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
@@ -63,6 +63,7 @@ interface EvaluationRow {
   evaluator_name: string;
   patient_age: string | null;
   answers: Answers;
+  pti_data?: PTINarrative | null;
   created_at: string;
 }
 
@@ -114,22 +115,6 @@ function ageLabel(age: AgeRange) {
 
 type Tab = "PTI" | AgeRange | "CONSOLIDADO" | "PEI" | "EVOLUÇÃO";
 
-const EMPTY_PTI: PTINarrative = {
-  mother_name: "",
-  father_name: "",
-  diagnosis: "",
-  start_date: "",
-  professional: "",
-  revaluation: "Semestral",
-  clinical_history: "",
-  objectives: [{ objetivo: "", atividade: "", material: "" }],
-  behavior_problems: [""],
-  conclusion: "",
-  reference: "",
-  delivery_date: "",
-  delivery_responsible: "",
-};
-
 function PatientPage() {
   const { id } = useParams({ from: "/_authenticated/patients/$id" });
   const navigate = useNavigate();
@@ -145,7 +130,7 @@ function PatientPage() {
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<Tab>("PTI");
-  const [pti, setPti] = useState<PTINarrative>(EMPTY_PTI);
+  const [pti, setPti] = useState<PTINarrative>(() => createEmptyPTI());
 
   useEffect(() => {
     (async () => {
@@ -154,7 +139,7 @@ function PatientPage() {
         supabase.from("patients").select("*").eq("id", id).single(),
         supabase
           .from("evaluations")
-          .select("id, evaluation_date, evaluator_name, patient_age, answers, created_at")
+          .select("id, evaluation_date, evaluator_name, patient_age, answers, pti_data, created_at")
           .eq("patient_id", id)
           .order("evaluation_date", { ascending: false }),
       ]);
@@ -166,10 +151,7 @@ function PatientPage() {
         setEvaluator(e.evaluator_name);
         setEvalDate(e.evaluation_date);
         setAnswers((e.answers as Answers) || {});
-        const loadedPti = (e as any).pti_data as PTINarrative | undefined;
-        if (loadedPti && Object.keys(loadedPti).length) {
-          setPti({ ...EMPTY_PTI, ...loadedPti });
-        }
+        setPti(hydratePTI((e as EvaluationRow).pti_data));
         // Load latest session per item_key
         const { data: sess } = await (supabase as any)
           .from("pei_sessions")
@@ -249,6 +231,7 @@ function PatientPage() {
           evaluator_name: saved.evaluator_name,
           patient_age: saved.patient_age,
           answers: saved.answers as Answers,
+          pti_data: (saved.pti_data as PTINarrative | null) ?? pti,
           created_at: saved.created_at,
         });
         return next;
@@ -269,7 +252,7 @@ function PatientPage() {
     setEvalDate(new Date().toISOString().slice(0, 10));
     setAnswers({});
     setSessions({});
-    setPti({ ...EMPTY_PTI, diagnosis: patient.diagnosis || "" });
+    setPti(createEmptyPTI({ diagnosis: patient.diagnosis || "" }));
     setTab("0 a 1 anos");
     toast.success("Nova avaliação iniciada. Preencha e salve.");
   };
@@ -279,6 +262,7 @@ function PatientPage() {
     setEvaluator(e.evaluator_name);
     setEvalDate(e.evaluation_date);
     setAnswers((e.answers as Answers) || {});
+    setPti(hydratePTI(e.pti_data));
     setSessions({});
     setTab("PTI");
     toast.info(`Avaliação de ${new Date(e.evaluation_date).toLocaleDateString("pt-BR")} carregada`);
