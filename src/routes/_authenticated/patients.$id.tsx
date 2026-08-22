@@ -1319,7 +1319,7 @@ function ObjectiveCatalogPicker({
                   </span>
                 </AccordionTrigger>
                 <AccordionContent className="px-4 pb-4">
-                  <Accordion type="multiple" className="space-y-2" defaultValue={area === "Musicoterapia" ? [] : templates.map((template) => template.id)}>
+                  <Accordion type="multiple" className="space-y-2" defaultValue={[]}>
                     {templates.map((template) => {
                       const selectedInTemplate = template.options.filter((option) => selectedIds.includes(option.id)).length;
                       return (

@@ -57,3 +57,7 @@
 - [x] Corrigir a transparência da faixa Hapvida e NotreDame Intermédica no PDF, removendo o fundo escuro.
 - [x] Preservar e recarregar todos os campos do PTI salvo, incluindo nomes de mãe e pai, ao visualizar ou editar.
 - [x] Remover da navegação os menus de faixas etárias de 0 a 1 até 5 a 6 anos.
+- [x] Reorganizar Psicologia, Fonoaudiologia, Nutrição, Psicomotricidade, Terapia Ocupacional e Psicopedagogia em domínios específicos expansíveis.
+- [x] Validar que cada especialidade preserva objetivos, atividades e materiais próprios após a organização por domínios.
+- [x] Reestruturar explicitamente as especialidades em domínios clínicos claros, no mesmo padrão de Musicoterapia.
+- [x] Validar por especialidade que cada item mantém objetivo, atividade e material no catálogo derivado.

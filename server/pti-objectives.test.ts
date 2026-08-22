@@ -5,12 +5,19 @@ import { appendUniqueObjectives, countPopulatedObjectives, OBJECTIVE_CATALOG } f
 describe("PTI objectives templates", () => {
   it("groups AVDs and AIVDs as subareas of occupational therapy", () => {
     const removedOccupationalTherapy = OBJECTIVES_TEMPLATES.find((template) => template.id === "to-desempenho-ocupacional");
-    const avds = OBJECTIVES_TEMPLATES.find((template) => template.id === "avds-autonomia");
-    const aivds = OBJECTIVES_TEMPLATES.find((template) => template.id === "aivds-autonomia");
+    const occupationalDomains = OBJECTIVES_TEMPLATES.filter((template) => template.area === "Terapia Ocupacional");
 
     expect(removedOccupationalTherapy).toBeUndefined();
-    expect(avds).toMatchObject({ area: "Terapia Ocupacional", label: "AVDs — Atividades de Vida Diária" });
-    expect(aivds).toMatchObject({ area: "Terapia Ocupacional", label: "AIVDs — Atividades Instrumentais de Vida Diária" });
+    expect(occupationalDomains.map((template) => template.id)).toEqual([
+      "to-higiene-pessoal",
+      "to-vestuario-alimentacao",
+      "to-rotina-autonomia",
+      "to-organizacao-domestica",
+      "to-preparo-planejamento",
+      "to-pertences-participacao-comunitaria",
+      "to-mobilidade-rotina",
+    ]);
+    expect(occupationalDomains.every((template) => template.area === "Terapia Ocupacional")).toBe(true);
   });
 
   it("provides at least seven selectable objectives for every clinical area", () => {
@@ -45,6 +52,25 @@ describe("PTI objectives templates", () => {
     ]);
     expect(musicTherapyTemplates.every((template) => template.items.length >= 7)).toBe(true);
     expect(musicTherapyTemplates.reduce((total, template) => total + template.items.length, 0)).toBe(55);
+  });
+
+  it("organizes every non-music specialty into explicit clinical domains with complete catalog content", () => {
+    const expectedDomainIds = {
+      Psicologia: ["psi-reconhecimento-emocional", "psi-autorregulacao", "psi-comunicacao-funcional", "psi-espera-flexibilidade", "psi-habilidades-sociais"],
+      Fonoaudiologia: ["fono-linguagem-receptiva", "fono-linguagem-expressiva-csa", "fono-comunicacao-social", "fono-fala-inteligibilidade"],
+      Nutrição: ["nutri-exploracao-sensorial", "nutri-aceitacao-repertorio", "nutri-autonomia-refeicao"],
+      Psicomotricidade: ["pm-equilibrio-coordenacao-global", "pm-planejamento-motricidade-fina", "pm-esquema-corporal-ritmo", "pm-participacao-regulacao"],
+      "Terapia Ocupacional": ["to-higiene-pessoal", "to-vestuario-alimentacao", "to-rotina-autonomia", "to-organizacao-domestica", "to-preparo-planejamento", "to-pertences-participacao-comunitaria", "to-mobilidade-rotina"],
+      Psicopedagogia: ["pp-alfabetizacao-inicial", "pp-leitura-escrita-funcional", "pp-atencao-memoria-organizacao", "pp-matematica-funcional"],
+    } as const;
+
+    for (const [area, expectedIds] of Object.entries(expectedDomainIds)) {
+      const templates = OBJECTIVES_TEMPLATES.filter((template) => template.area === area);
+      expect(templates.map((template) => template.id)).toEqual(expectedIds);
+      expect(templates.every((template) => template.label.trim().length > 0 && template.summary.trim().length > 0)).toBe(true);
+      expect(templates.flatMap((template) => template.items).every((item) => item.objetivo.trim() && item.atividade.trim() && item.material.trim())).toBe(true);
+      expect(OBJECTIVE_CATALOG.filter((option) => option.area === area).every((option) => option.templateLabel && option.templateSummary && option.objetivo && option.atividade && option.material)).toBe(true);
+    }
   });
 
   it("adds multiple selected objectives without replacing or duplicating the PTI", () => {

@@ -75,7 +75,7 @@ export const CLINICAL_HISTORY_TEMPLATES: ClinicalHistoryTemplate[] = [
 ];
 
 /* ------------------ OBJETIVOS POR ÁREA (PROFISSIONAL) ------------------ */
-export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
+const RAW_OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   // MUSICOTERAPIA — DOMÍNIOS TERAPÊUTICOS
   {
     id: "mt-cognitivos",
@@ -412,7 +412,7 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   {
     id: "psi-regulacao-comunicacao",
     area: "Psicologia",
-    label: "PSI - Regulação Emocional e Comunicação Funcional",
+    label: "Regulação Emocional e Comunicação Funcional",
     summary: "Reconhecimento emocional, estratégias de regulação e respostas alternativas à frustração.",
     items: [
       {
@@ -440,7 +440,7 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   {
     id: "psi-social-flexibilidade",
     area: "Psicologia",
-    label: "PSI - Habilidades Sociais e Flexibilidade",
+    label: "Habilidades Sociais e Flexibilidade",
     summary: "Espera, transições, iniciação social e resolução mediada de situações cotidianas.",
     items: [
       {
@@ -464,7 +464,7 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   {
     id: "fono-comunicacao-receptiva-expressiva",
     area: "Fonoaudiologia",
-    label: "FONO - Comunicação Receptiva e Expressiva",
+    label: "Comunicação Receptiva e Expressiva",
     summary: "Compreensão, vocabulário, solicitação funcional e combinação de palavras.",
     items: [
       {
@@ -492,7 +492,7 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   {
     id: "fono-pragmatica-fala",
     area: "Fonoaudiologia",
-    label: "FONO - Comunicação Social e Fala",
+    label: "Comunicação Social e Fala",
     summary: "Atenção conjunta, turnos conversacionais, pragmática e inteligibilidade conforme indicação clínica.",
     items: [
       {
@@ -516,7 +516,7 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   {
     id: "nutri-exploracao-seletividade",
     area: "Nutrição",
-    label: "NUTRI - Exploração e Seletividade Alimentar",
+    label: "Exploração e Seletividade Alimentar",
     summary: "Exposição gradual, exploração sensorial e ampliação individualizada do repertório alimentar.",
     items: [
       {
@@ -544,7 +544,7 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   {
     id: "nutri-autonomia-rotina",
     area: "Nutrição",
-    label: "NUTRI - Autonomia e Rotina Alimentar",
+    label: "Autonomia e Rotina Alimentar",
     summary: "Participação nas refeições, uso de utensílios e comunicação de preferências alimentares.",
     items: [
       {
@@ -568,7 +568,7 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   {
     id: "pm-coordenacao-planejamento",
     area: "Psicomotricidade",
-    label: "PM - Coordenação e Planejamento Motor",
+    label: "Coordenação e Planejamento Motor",
     summary: "Equilíbrio, bilateralidade, coordenação fina e sequências motoras funcionais.",
     items: [
       {
@@ -596,7 +596,7 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   {
     id: "pm-corpo-regulacao",
     area: "Psicomotricidade",
-    label: "PM - Esquema Corporal, Ritmo e Regulação",
+    label: "Esquema Corporal, Ritmo e Regulação",
     summary: "Consciência corporal, ritmo, imitação e participação em brincadeiras motoras estruturadas.",
     items: [
       {
@@ -708,7 +708,7 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   {
     id: "pp-alfabetizacao-aprendizagem",
     area: "Psicopedagogia",
-    label: "PP - Alfabetização e Aprendizagem Inicial",
+    label: "Alfabetização e Aprendizagem Inicial",
     summary: "Consciência fonológica, leitura, escrita e conceitos matemáticos iniciais.",
     items: [
       {
@@ -736,7 +736,7 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   {
     id: "pp-executivas-matematica",
     area: "Psicopedagogia",
-    label: "PP - Funções Executivas e Matemática Funcional",
+    label: "Funções Executivas e Matemática Funcional",
     summary: "Atenção, memória de trabalho, planejamento e noções matemáticas aplicadas ao cotidiano.",
     items: [
       {
@@ -762,6 +762,82 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
     ],
   }
 ];
+
+interface ObjectiveDomainDefinition {
+  id: string;
+  label: string;
+  summary: string;
+  itemIndexes: number[];
+}
+
+const SPECIALTY_DOMAIN_GROUPS: Record<string, ObjectiveDomainDefinition[]> = {
+  "psi-regulacao-comunicacao": [
+    { id: "psi-reconhecimento-emocional", label: "Reconhecimento Emocional", summary: "Identificação e nomeação de emoções em si e no outro.", itemIndexes: [0] },
+    { id: "psi-autorregulacao", label: "Autorregulação e Enfrentamento", summary: "Co-regulação, estratégias de pausa e alternativas diante da frustração.", itemIndexes: [1, 3] },
+    { id: "psi-comunicacao-funcional", label: "Comunicação Funcional", summary: "Expressão de necessidades, preferências, recusa e pedidos de ajuda.", itemIndexes: [2] },
+  ],
+  "psi-social-flexibilidade": [
+    { id: "psi-espera-flexibilidade", label: "Espera e Flexibilidade", summary: "Tolerância a adiamentos, transições e mudanças de rotina.", itemIndexes: [0, 1] },
+    { id: "psi-habilidades-sociais", label: "Habilidades Sociais", summary: "Iniciação, resposta e manutenção de trocas sociais significativas.", itemIndexes: [2] },
+  ],
+  "fono-comunicacao-receptiva-expressiva": [
+    { id: "fono-linguagem-receptiva", label: "Linguagem Receptiva", summary: "Compreensão de instruções e participação em rotinas funcionais.", itemIndexes: [0] },
+    { id: "fono-linguagem-expressiva-csa", label: "Linguagem Expressiva e Comunicação Suplementar", summary: "Vocabulário, solicitações e combinações de palavras, sinais ou símbolos.", itemIndexes: [1, 2, 3] },
+  ],
+  "fono-pragmatica-fala": [
+    { id: "fono-comunicacao-social", label: "Comunicação Social e Pragmática", summary: "Atenção compartilhada e alternância de turnos comunicativos.", itemIndexes: [0, 1] },
+    { id: "fono-fala-inteligibilidade", label: "Fala e Inteligibilidade", summary: "Produção de sons ou palavras-alvo conforme avaliação fonoaudiológica.", itemIndexes: [2] },
+  ],
+  "nutri-exploracao-seletividade": [
+    { id: "nutri-exploracao-sensorial", label: "Exploração Sensorial", summary: "Tolerância à presença e exploração de texturas, cheiros, cores e formatos.", itemIndexes: [0, 1] },
+    { id: "nutri-aceitacao-repertorio", label: "Aceitação e Repertório Alimentar", summary: "Hierarquia de aceitação e ampliação gradual do repertório alimentar.", itemIndexes: [2, 3] },
+  ],
+  "nutri-autonomia-rotina": [
+    { id: "nutri-autonomia-refeicao", label: "Autonomia nas Refeições", summary: "Comunicação de preferências, utensílios e participação segura na rotina alimentar.", itemIndexes: [0, 1, 2] },
+  ],
+  "pm-coordenacao-planejamento": [
+    { id: "pm-equilibrio-coordenacao-global", label: "Equilíbrio e Coordenação Global", summary: "Equilíbrio estático e dinâmico, bilateralidade e movimentos amplos.", itemIndexes: [0, 1] },
+    { id: "pm-planejamento-motricidade-fina", label: "Planejamento Motor e Motricidade Fina", summary: "Sequências motoras, coordenação fina e integração visomotora.", itemIndexes: [2, 3] },
+  ],
+  "pm-corpo-regulacao": [
+    { id: "pm-esquema-corporal-ritmo", label: "Esquema Corporal e Ritmo", summary: "Consciência corporal, orientação espacial, imitação e ritmo.", itemIndexes: [0, 1] },
+    { id: "pm-participacao-regulacao", label: "Participação e Regulação Motora", summary: "Organização em brincadeiras motoras, regras simples e transições.", itemIndexes: [2] },
+  ],
+  "avds-autonomia": [
+    { id: "to-higiene-pessoal", label: "Higiene Pessoal", summary: "Lavagem das mãos e higiene oral com suporte graduado.", itemIndexes: [0, 1] },
+    { id: "to-vestuario-alimentacao", label: "Vestuário e Alimentação", summary: "Vestir-se, retirar roupas e participar da alimentação com autonomia progressiva.", itemIndexes: [2, 3] },
+    { id: "to-rotina-autonomia", label: "Rotina de Autocuidado", summary: "Uso do banheiro, cuidados pessoais e organização de materiais de higiene.", itemIndexes: [4, 5, 6] },
+  ],
+  "aivds-autonomia": [
+    { id: "to-organizacao-domestica", label: "Organização e Rotina Doméstica", summary: "Mochila, pertences e tarefas simples de casa ou escola.", itemIndexes: [0, 1] },
+    { id: "to-preparo-planejamento", label: "Preparo e Planejamento de Tarefas", summary: "Lanche simples e organização das etapas de uma atividade cotidiana.", itemIndexes: [2, 3] },
+    { id: "to-pertences-participacao-comunitaria", label: "Pertences e Participação Comunitária", summary: "Classificação de itens e escolhas em situações simuladas de compra.", itemIndexes: [4, 5] },
+    { id: "to-mobilidade-rotina", label: "Mobilidade na Rotina", summary: "Deslocamento entre atividades com agenda visual e orientação previamente treinada.", itemIndexes: [6] },
+  ],
+  "pp-alfabetizacao-aprendizagem": [
+    { id: "pp-alfabetizacao-inicial", label: "Alfabetização Inicial", summary: "Consciência fonológica, letras e números.", itemIndexes: [0, 1] },
+    { id: "pp-leitura-escrita-funcional", label: "Leitura e Escrita Funcional", summary: "Relação entre letras, sons, palavras e frases significativas.", itemIndexes: [2, 3] },
+  ],
+  "pp-executivas-matematica": [
+    { id: "pp-atencao-memoria-organizacao", label: "Atenção, Memória e Organização", summary: "Atenção, memória de trabalho, planejamento, início e revisão de tarefas.", itemIndexes: [0, 1, 2] },
+    { id: "pp-matematica-funcional", label: "Matemática Funcional", summary: "Quantidade, correspondência e contagem em situações significativas.", itemIndexes: [3] },
+  ],
+};
+
+export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = RAW_OBJECTIVES_TEMPLATES.flatMap((template) => {
+  const domains = SPECIALTY_DOMAIN_GROUPS[template.id];
+  if (!domains) return [template];
+
+  return domains.map((domain) => ({
+    ...template,
+    id: domain.id,
+    label: domain.label,
+    summary: domain.summary,
+    items: domain.itemIndexes
+      .map((itemIndex) => template.items[itemIndex])
+      .filter((item): item is PTIObjective => Boolean(item)),
+  }));
+});
 
 /* ------------------ COMPORTAMENTOS PROBLEMAS ------------------ */
 export const BEHAVIORS_TEMPLATES: BehaviorsTemplate[] = [
