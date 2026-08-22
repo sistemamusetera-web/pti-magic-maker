@@ -25,3 +25,5 @@
 - [x] Validar que o servidor de produção inicia e responde à porta configurada.
 - [x] Adicionar Terapia Ocupacional — AVDs e AIVDs em Objetivos por Área do PTI.
 - [x] Tornar mais nítidos os nomes das áreas na aba PTI.
+- [x] Separar AVDs e AIVDs em áreas distintas nos templates de objetivos do PTI.
+- [x] Atualizar a apresentação das áreas disponíveis para mostrar AVDs e AIVDs separadamente.

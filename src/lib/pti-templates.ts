@@ -212,16 +212,44 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
   },
   // TERAPIA OCUPACIONAL
   {
-    id: "to-avds-aivds",
+    id: "to-desempenho-ocupacional",
     area: "Terapia Ocupacional",
-    label: "TO — AVDs e AIVDs",
-    summary: "Autonomia nas atividades de vida diária e instrumentais.",
+    label: "TO — Desempenho Ocupacional",
+    summary: "Coordenação, processamento sensorial e participação ocupacional.",
+    items: [
+      {
+        objetivo: "Aprimorar coordenação motora fina, planejamento motor e participação nas ocupações significativas.",
+        atividade: "Circuito de motricidade fina, atividades de encaixe e tarefas funcionais graduadas.",
+        material: "Massinha, pinças, prendedores, jogos de encaixe e materiais adaptados.",
+      },
+      {
+        objetivo: "Ampliar estratégias de autorregulação sensorial para favorecer o engajamento nas atividades cotidianas.",
+        atividade: "Exploração sensorial guiada e elaboração de rotina de regulação antes de tarefas de maior demanda.",
+        material: "Recursos táteis, fones abafadores, peso terapêutico e painel visual de estratégias.",
+      },
+    ],
+  },
+  // AVDs
+  {
+    id: "avds-autonomia",
+    area: "AVDs",
+    label: "AVDs — Atividades de Vida Diária",
+    summary: "Autonomia em higiene, alimentação e vestuário.",
     items: [
       {
         objetivo: "Ampliar a independência nas AVDs de higiene, vestuário e alimentação conforme o nível de suporte necessário.",
         atividade: "Treino por encadeamento de etapas, com pistas visuais e redução gradual de ajuda física ou verbal.",
         material: "Sequências visuais, espelho, utensílios adaptados e materiais de autocuidado.",
       },
+    ],
+  },
+  // AIVDs
+  {
+    id: "aivds-autonomia",
+    area: "AIVDs",
+    label: "AIVDs — Atividades Instrumentais de Vida Diária",
+    summary: "Organização, preparo simples de alimentos e rotina doméstica.",
+    items: [
       {
         objetivo: "Desenvolver a participação nas AIVDs adequadas à faixa etária, como organização de pertences, preparo simples de lanche e rotina doméstica.",
         atividade: "Simulação de tarefas do cotidiano com checklist visual, prática guiada e reforço da iniciativa.",
