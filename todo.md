@@ -89,3 +89,4 @@
 - [x] Validar primeiro acesso e preservação de edição manual do profissional.
 - [x] Adicionar catálogo de Diagnóstico (CID) com TEA, TDAH e outros registros clínicos frequentes.
 - [x] Permitir selecionar múltiplos diagnósticos CID e registrar outro diagnóstico manualmente.
+- [x] Ajustar a composição de logos e cabeçalho do PDF para corresponder ao modelo enviado.

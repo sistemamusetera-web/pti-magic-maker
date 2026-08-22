@@ -1,7 +1,7 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 
-const REFERENCE_BRAND_STRIP = "/manus-storage/hapvida-notredame-reference-white_109c7ffc.png";
+const REFERENCE_BRAND_STRIP = "/manus-storage/hapvida-notredame-from-reference_3b1cfbba.png";
 
 /* Legacy exports still consumed by the patient page — kept as no-ops so
    older callers don't break while we transition to the narrative PTI. */
@@ -167,7 +167,7 @@ function drawPageHeader(doc: jsPDF, logo: HTMLImageElement | null): number {
     const w = 180;
     const h = (logo.height / logo.width) * w;
     doc.addImage(logo, "PNG", MARGIN, y, w, h);
-    y += h + 6;
+    y += h + 1;
   } else {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
