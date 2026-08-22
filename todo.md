@@ -110,4 +110,4 @@
 - [x] Validar o fluxo seguro de exclusão no dashboard com seus resultados de dados.
 - [x] Integrar a confirmação de exclusão ao serviço que remove o PTI mais recente.
 - [x] Cobrir cancelamento, ausência de PTI e exclusão confirmada em teste de comportamento.
-- [ ] Sincronizar a versão atualizada do projeto com sistemamusetera-web/pti-magic-maker no GitHub.
+- [x] Sincronizar a versão atualizada do projeto com sistemamusetera-web/pti-magic-maker no GitHub.
