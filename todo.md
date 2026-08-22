@@ -63,3 +63,4 @@
 - [x] Validar por especialidade que cada item mantém objetivo, atividade e material no catálogo derivado.
 - [x] Remover a barra de filtros por área/especialidade do catálogo de objetivos.
 - [x] Adicionar automaticamente o objetivo selecionado ao PTI e remover o botão “Adicionar selecionados”.
+- [x] Remover a faixa com Avaliador(a) e Data da avaliação do formulário do paciente.

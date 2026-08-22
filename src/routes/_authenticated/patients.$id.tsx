@@ -198,17 +198,17 @@ function PatientPage() {
 
   const save = async () => {
     if (!patient) return;
-    if (!evaluator.trim()) return toast.error("Informe o nome do avaliador");
     setSaving(true);
     const { data: session } = await supabase.auth.getUser();
     if (!session.user) {
       setSaving(false);
       return;
     }
+    const evaluatorName = evaluator.trim() || pti.professional?.trim() || session.user.email || "Não informado";
     const payload: any = {
       owner_id: session.user.id,
       patient_id: patient.id,
-      evaluator_name: evaluator,
+      evaluator_name: evaluatorName,
       evaluation_date: evalDate,
       patient_age: patientAge,
       answers,
@@ -305,8 +305,9 @@ function PatientPage() {
 
   const download = async () => {
     if (!patient) return;
-    if (!evaluator.trim()) return toast.error("Informe o nome do avaliador");
     try {
+      const { data: session } = await supabase.auth.getUser();
+      const evaluatorName = evaluator.trim() || pti.professional?.trim() || session.user?.email || "Não informado";
       const sessionsForPdf: Record<string, PeiSessionSummary> = {};
       for (const [k, s] of Object.entries(sessions)) {
         sessionsForPdf[k] = {
@@ -320,7 +321,7 @@ function PatientPage() {
       await generatePTIPdf({
         patient,
         patient_age: patientAge,
-        evaluator_name: evaluator,
+        evaluator_name: evaluatorName,
         evaluation_date: evalDate,
         answers,
         sessions: sessionsForPdf,
@@ -393,29 +394,6 @@ function PatientPage() {
           </div>
         </div>
 
-        {/* Metadata strip — compact evaluator/date inputs after removing the card */}
-        <div className="border-b bg-paper">
-          <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-2 px-3 py-2 sm:grid-cols-2 sm:px-6">
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Avaliador(a)</span>
-              <Input
-                value={evaluator}
-                onChange={(e) => setEvaluator(e.target.value)}
-                placeholder="Seu nome"
-                className="h-7 max-w-[260px] text-xs"
-              />
-            </div>
-            <div className="flex items-center gap-2 sm:justify-end">
-              <span className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Data da avaliação</span>
-              <Input
-                type="date"
-                value={evalDate}
-                onChange={(e) => setEvalDate(e.target.value)}
-                className="h-7 w-[140px] text-xs"
-              />
-            </div>
-          </div>
-        </div>
       </header>
 
       <main className="mx-auto max-w-[1400px] px-3 py-4 sm:px-6 sm:py-6">
