@@ -87,3 +87,5 @@
 - [x] Preencher automaticamente o Profissional responsável com o nome cadastrado da conta autenticada.
 - [x] Preencher o profissional cadastrado também quando o paciente ainda não possuir avaliação salva.
 - [x] Validar primeiro acesso e preservação de edição manual do profissional.
+- [x] Adicionar catálogo de Diagnóstico (CID) com TEA, TDAH e outros registros clínicos frequentes.
+- [x] Permitir selecionar múltiplos diagnósticos CID e registrar outro diagnóstico manualmente.

@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ClinicalHistorySection } from "@/components/clinical-history-section";
+import { CLINICAL_DIAGNOSIS_GROUPS, resolveClinicalDiagnoses } from "@/lib/clinical-diagnoses";
 import { applyRegisteredProfessional, getRegisteredProfessionalName } from "@/lib/professional-profile";
 import {
   BEHAVIORS_TEMPLATES,
@@ -924,6 +925,26 @@ function PTIForm({
 
   const objectives = value.objectives ?? [];
   const behaviors = value.behavior_problems ?? [];
+  const selectedDiagnoses = value.diagnoses ?? [];
+  const otherDiagnosis = value.diagnoses_other || (!selectedDiagnoses.length ? value.diagnosis ?? "" : "");
+
+  const updateDiagnoses = (nextDiagnoses: string[], nextOtherDiagnosis = otherDiagnosis) => {
+    onChange({
+      ...value,
+      diagnoses: nextDiagnoses,
+      diagnoses_other: nextOtherDiagnosis,
+      diagnosis: resolveClinicalDiagnoses({
+        diagnoses: nextDiagnoses,
+        otherDiagnosis: nextOtherDiagnosis,
+        legacyDiagnosis: value.diagnosis,
+      }),
+    });
+  };
+  const addDiagnosis = (diagnosis: string) => {
+    if (!diagnosis || selectedDiagnoses.includes(diagnosis)) return;
+    updateDiagnoses([...selectedDiagnoses, diagnosis]);
+  };
+  const removeDiagnosis = (diagnosis: string) => updateDiagnoses(selectedDiagnoses.filter((item) => item !== diagnosis));
 
   const setObj = (i: number, patch: Partial<PTIObjective>) => {
     const next = objectives.slice();
@@ -991,11 +1012,33 @@ function PTIForm({
             <Input value={value.father_name ?? ""} onChange={(e) => set("father_name", e.target.value)} />
           </Field>
           <Field label="Diagnóstico (CID)">
-            <Input
-              placeholder="Ex.: Transtorno do Espectro Autista - TEA (CID 10 - F84.0)"
-              value={value.diagnosis ?? ""}
-              onChange={(e) => set("diagnosis", e.target.value)}
-            />
+            <div className="space-y-2">
+              <select name="clinical-diagnosis-picker" className="flex h-9 w-full rounded-sm border border-input bg-background px-3 py-1 text-sm shadow-xs" value="" onChange={(event) => addDiagnosis(event.target.value)}>
+                <option value="">Adicionar diagnóstico CID ao registro</option>
+                {CLINICAL_DIAGNOSIS_GROUPS.map((group) => (
+                  <optgroup key={group.label} label={group.label}>
+                    {group.options.map((diagnosis) => <option key={diagnosis} value={diagnosis}>{diagnosis}</option>)}
+                  </optgroup>
+                ))}
+              </select>
+              {selectedDiagnoses.length > 0 && (
+                <div className="flex flex-wrap gap-1.5" aria-label="Diagnósticos selecionados">
+                  {selectedDiagnoses.map((diagnosis) => (
+                    <span key={diagnosis} className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-1 text-xs text-foreground">
+                      {diagnosis}
+                      <button type="button" aria-label={`Remover ${diagnosis}`} onClick={() => removeDiagnosis(diagnosis)} className="font-bold text-primary">×</button>
+                    </span>
+                  ))}
+                </div>
+              )}
+              <Input
+                name="clinical-diagnoses-other"
+                placeholder="Outro(s) diagnóstico(s) ou CID(s), se necessário"
+                value={otherDiagnosis}
+                onChange={(event) => updateDiagnoses(selectedDiagnoses, event.target.value)}
+              />
+              <p className="text-[11px] leading-snug text-muted-foreground">Selecione quantos diagnósticos forem necessários e/ou informe outros já definidos em laudo ou prontuário. O catálogo apoia somente o registro clínico.</p>
+            </div>
           </Field>
           <Field label="Início de implementação">
             <Input type="date" value={value.start_date ?? ""} onChange={(e) => set("start_date", e.target.value)} />

@@ -23,6 +23,8 @@ export const createEmptyPTI = (overrides: Partial<PTINarrative> = {}): PTINarrat
   mother_name: "",
   father_name: "",
   diagnosis: "",
+  diagnoses: [],
+  diagnoses_other: "",
   start_date: "",
   professional: "",
   revaluation: "Semestral",
@@ -70,6 +72,8 @@ export interface PTINarrative {
   mother_name?: string;
   father_name?: string;
   diagnosis?: string;
+  diagnoses?: string[];
+  diagnoses_other?: string;
   start_date?: string;
   professional?: string;
   revaluation?: string;
