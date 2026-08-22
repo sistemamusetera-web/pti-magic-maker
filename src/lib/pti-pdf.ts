@@ -1,7 +1,7 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 
-const REFERENCE_BRAND_STRIP = "/manus-storage/hapvida-notredame-reference-000_38796567.png";
+const REFERENCE_BRAND_STRIP = "/manus-storage/hapvida-notredame-reference-white_109c7ffc.png";
 
 /* Legacy exports still consumed by the patient page — kept as no-ops so
    older callers don't break while we transition to the narrative PTI. */

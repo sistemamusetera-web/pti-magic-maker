@@ -54,3 +54,4 @@
 - [x] Organizar visualmente o catálogo de Musicoterapia para seleção clara de muitos objetivos.
 - [x] Comparar as marcas Hapvida e NotreDame Intermédica do PDF gerado com o PDF de referência.
 - [x] Ajustar o cabeçalho de marcas no PDF do PTI para refletir o modelo de referência.
+- [x] Corrigir a transparência da faixa Hapvida e NotreDame Intermédica no PDF, removendo o fundo escuro.
