@@ -210,6 +210,25 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
       }
     ],
   },
+  // TERAPIA OCUPACIONAL
+  {
+    id: "to-avds-aivds",
+    area: "Terapia Ocupacional",
+    label: "TO — AVDs e AIVDs",
+    summary: "Autonomia nas atividades de vida diária e instrumentais.",
+    items: [
+      {
+        objetivo: "Ampliar a independência nas AVDs de higiene, vestuário e alimentação conforme o nível de suporte necessário.",
+        atividade: "Treino por encadeamento de etapas, com pistas visuais e redução gradual de ajuda física ou verbal.",
+        material: "Sequências visuais, espelho, utensílios adaptados e materiais de autocuidado.",
+      },
+      {
+        objetivo: "Desenvolver a participação nas AIVDs adequadas à faixa etária, como organização de pertences, preparo simples de lanche e rotina doméstica.",
+        atividade: "Simulação de tarefas do cotidiano com checklist visual, prática guiada e reforço da iniciativa.",
+        material: "Checklist ilustrado, mochila, utensílios de cozinha seguros e organizadores.",
+      },
+    ],
+  },
   // PSICOPEDAGOGIA
   {
     id: "pp-alfabetizacao",

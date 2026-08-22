@@ -23,3 +23,5 @@
 - [x] Validar localmente o build e a estrutura de saída de produção.
 - [x] Gerar o ponto de entrada dist/index.js esperado pelo contêiner de produção.
 - [x] Validar que o servidor de produção inicia e responde à porta configurada.
+- [x] Adicionar Terapia Ocupacional — AVDs e AIVDs em Objetivos por Área do PTI.
+- [x] Tornar mais nítidos os nomes das áreas na aba PTI.
