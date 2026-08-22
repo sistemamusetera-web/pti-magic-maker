@@ -16,5 +16,6 @@
 - [x] Verificar no banco que um usuário profissional não consegue atualizar aprovações.
 - [x] Verificar no banco que o administrador principal consegue aprovar um usuário pendente.
 - [x] Exportar o projeto PTI Magic Maker para um repositório GitHub do usuário.
-- [ ] Validar end-to-end o cadastro de uma nova conta por e-mail e senha com sessão imediata.
+- [x] Validar end-to-end o cadastro de uma nova conta por e-mail e senha com sessão imediata.
+- [x] Registrar evidência de uma conta recém-criada com sessão iniciada após o cadastro por e-mail.
 - [x] Adicionar botão acessível para mostrar ou ocultar a senha no login e cadastro.
