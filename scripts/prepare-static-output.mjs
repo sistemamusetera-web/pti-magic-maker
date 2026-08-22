@@ -1,7 +1,11 @@
-import { existsSync, mkdirSync, readdirSync, renameSync, rmSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, renameSync, rmSync } from "node:fs";
 import { join } from "node:path";
 
-export function prepareStaticOutput(outputDir = "dist") {
+export function prepareStaticOutput({
+  outputDir = "dist",
+  nitroServerDir = ".netlify/functions-internal/server",
+  productionEntryPath = "server/production-entry.mjs",
+} = {}) {
   const publicDir = join(outputDir, "public");
 
   if (!existsSync(outputDir)) {
@@ -21,7 +25,18 @@ export function prepareStaticOutput(outputDir = "dist") {
     throw new Error("No static files were generated in 'dist/public'.");
   }
 
-  return publicDir;
+  if (!existsSync(nitroServerDir)) {
+    throw new Error(`Nitro server directory '${nitroServerDir}' was not generated.`);
+  }
+
+  if (!existsSync(productionEntryPath)) {
+    throw new Error(`Production entry '${productionEntryPath}' was not found.`);
+  }
+
+  cpSync(nitroServerDir, join(outputDir, "server"), { recursive: true });
+  copyFileSync(productionEntryPath, join(outputDir, "index.js"));
+
+  return { publicDir, entryPath: join(outputDir, "index.js") };
 }
 
 if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {

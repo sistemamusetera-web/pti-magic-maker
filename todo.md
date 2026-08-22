@@ -21,3 +21,5 @@
 - [x] Adicionar botão acessível para mostrar ou ocultar a senha no login e cadastro.
 - [x] Corrigir a geração do diretório dist/public exigido pela implantação.
 - [x] Validar localmente o build e a estrutura de saída de produção.
+- [x] Gerar o ponto de entrada dist/index.js esperado pelo contêiner de produção.
+- [x] Validar que o servidor de produção inicia e responde à porta configurada.
