@@ -90,3 +90,9 @@
 - [x] Adicionar catálogo de Diagnóstico (CID) com TEA, TDAH e outros registros clínicos frequentes.
 - [x] Permitir selecionar múltiplos diagnósticos CID e registrar outro diagnóstico manualmente.
 - [x] Ajustar a composição de logos e cabeçalho do PDF para corresponder ao modelo enviado.
+- [x] Corrigir a logo renderizada no PDF baixado para corresponder visualmente ao arquivo de referência.
+- [x] Incorporar o ativo de marca no PDF sem depender de carregamento externo no navegador.
+- [x] Embedar a faixa de marcas diretamente no bundle usado pelo PDF, sem carregamento assíncrono externo.
+- [x] Validar em teste que o cabeçalho usa a marca embutida e mantém a composição de referência.
+- [x] Validar por hash o conteúdo do ativo de marca embutido no PDF.
+- [x] Validar as dimensões e o posicionamento do cabeçalho associados ao ativo de referência.
