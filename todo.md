@@ -52,3 +52,5 @@
 - [x] Definir a publicação integrada do Manus como fluxo principal de atualização do PTI Magic Maker.
 - [x] Inserir objetivos de Musicoterapia organizados nos domínios cognitivo, motor, comunicação, musical, social, emocional e comportamental.
 - [x] Organizar visualmente o catálogo de Musicoterapia para seleção clara de muitos objetivos.
+- [x] Comparar as marcas Hapvida e NotreDame Intermédica do PDF gerado com o PDF de referência.
+- [x] Ajustar o cabeçalho de marcas no PDF do PTI para refletir o modelo de referência.

@@ -1,6 +1,7 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
-import logoAsset from "@/assets/hapvida-notredame-logo.png.asset.json";
+
+const REFERENCE_BRAND_STRIP = "/manus-storage/hapvida-notredame-reference-000_38796567.png";
 
 /* Legacy exports still consumed by the patient page — kept as no-ops so
    older callers don't break while we transition to the narrative PTI. */
@@ -100,7 +101,7 @@ function drawPageHeader(doc: jsPDF, logo: HTMLImageElement | null): number {
   const pageW = doc.internal.pageSize.getWidth();
   let y = MARGIN;
   if (logo) {
-    // Aim for ~180pt wide
+    // A faixa tem as marcas Hapvida e NotreDame Intermédica na mesma composição do PDF de referência.
     const w = 180;
     const h = (logo.height / logo.width) * w;
     doc.addImage(logo, "PNG", MARGIN, y, w, h);
@@ -345,7 +346,7 @@ const DEFAULT_REFERENCE =
 
 export async function generatePTIPdf(data: PTIData) {
   const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
-  const logo = await loadImage(logoAsset.url);
+  const logo = await loadImage(REFERENCE_BRAND_STRIP);
   const pti = data.pti ?? {};
 
   const header = () => drawPageHeader(doc, logo);
