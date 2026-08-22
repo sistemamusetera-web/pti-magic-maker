@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ClinicalHistorySection } from "@/components/clinical-history-section";
+import { applyRegisteredProfessional, getRegisteredProfessionalName } from "@/lib/professional-profile";
 import {
   BEHAVIORS_TEMPLATES,
   CONCLUSION_TEMPLATES,
@@ -130,18 +131,22 @@ function PatientPage() {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<Tab>("PTI");
   const [pti, setPti] = useState<PTINarrative>(() => createEmptyPTI());
+  const [registeredProfessionalName, setRegisteredProfessionalName] = useState("");
 
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const [{ data: p, error: pe }, { data: ev }] = await Promise.all([
+      const [{ data: p, error: pe }, { data: ev }, { data: session }] = await Promise.all([
         supabase.from("patients").select("*").eq("id", id).single(),
         supabase
           .from("evaluations")
           .select("id, evaluation_date, evaluator_name, patient_age, answers, pti_data, created_at")
           .eq("patient_id", id)
           .order("evaluation_date", { ascending: false }),
+        supabase.auth.getUser(),
       ]);
+      const professionalName = getRegisteredProfessionalName(session.user);
+      setRegisteredProfessionalName(professionalName);
       if (pe) toast.error(pe.message);
       else setPatient(p as Patient);
       if (ev && ev.length) {
@@ -150,7 +155,7 @@ function PatientPage() {
         setEvaluator(e.evaluator_name);
         setEvalDate(e.evaluation_date);
         setAnswers((e.answers as Answers) || {});
-        setPti(hydratePTI((e as EvaluationRow).pti_data));
+        setPti(applyRegisteredProfessional(hydratePTI((e as EvaluationRow).pti_data), professionalName));
         // Load latest session per item_key
         const { data: sess } = await (supabase as any)
           .from("pei_sessions")
@@ -175,6 +180,8 @@ function PatientPage() {
           }
           setSessions(map);
         }
+      } else {
+        setPti((current) => applyRegisteredProfessional(current, professionalName));
       }
       setAllEvaluations((ev || []) as EvaluationRow[]);
       setLoading(false);
@@ -251,7 +258,7 @@ function PatientPage() {
     setEvalDate(new Date().toISOString().slice(0, 10));
     setAnswers({});
     setSessions({});
-    setPti(createEmptyPTI({ diagnosis: patient.diagnosis || "" }));
+    setPti(createEmptyPTI({ diagnosis: patient.diagnosis || "", professional: registeredProfessionalName }));
     setTab("PTI");
     toast.success("Nova avaliação iniciada. Preencha e salve.");
   };
@@ -261,7 +268,7 @@ function PatientPage() {
     setEvaluator(e.evaluator_name);
     setEvalDate(e.evaluation_date);
     setAnswers((e.answers as Answers) || {});
-    setPti(hydratePTI(e.pti_data));
+    setPti(applyRegisteredProfessional(hydratePTI(e.pti_data), registeredProfessionalName));
     setSessions({});
     setTab("PTI");
     toast.info(`Avaliação de ${new Date(e.evaluation_date).toLocaleDateString("pt-BR")} carregada`);

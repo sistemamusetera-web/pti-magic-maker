@@ -84,3 +84,6 @@
 - [x] Adicionar textos sugeridos e editáveis para desenvolvimento, interação e autonomia.
 - [x] Adicionar textos sugeridos e editáveis para comportamentos e manejo.
 - [x] Permitir acumular múltiplas sugestões em informações dos responsáveis, desenvolvimento e comportamentos.
+- [x] Preencher automaticamente o Profissional responsável com o nome cadastrado da conta autenticada.
+- [x] Preencher o profissional cadastrado também quando o paciente ainda não possuir avaliação salva.
+- [x] Validar primeiro acesso e preservação de edição manual do profissional.
