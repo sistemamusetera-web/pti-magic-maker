@@ -56,11 +56,17 @@ describe("Clinical history auto-sync hook", () => {
     });
     expect(ref.current?.currentHistory()).toContain("Metilfenidato, Melatonina, Medicamento personalizado");
 
-    const responsibleSuggestion = renderer!.root.findAllByType("select").find((field) => field.props.name === "clinical-responsible-report-suggestion");
+    const responsibleSuggestions = renderer!.root.findAllByType("input").filter((field) => field.props.name === "clinical-responsible-report-suggestion");
     await act(async () => {
-      responsibleSuggestion?.props.onChange({ target: { value: "Comunicação e autonomia" } });
+      responsibleSuggestions.find((field) => field.props.value === "Comunicação e autonomia")?.props.onChange();
+      responsibleSuggestions.find((field) => field.props.value === "Rotina e transições")?.props.onChange();
+    });
+    const applyResponsibleSuggestions = renderer!.root.findAllByType("button").find((field) => field.props.name === "clinical-responsible-report-apply-suggestions");
+    await act(async () => {
+      applyResponsibleSuggestions?.props.onClick();
     });
     expect(ref.current?.currentHistory()).toContain("dificuldades na comunicação funcional");
+    expect(ref.current?.currentHistory()).toContain("necessidade de apoio para transições de rotina");
 
     await act(async () => {
       renderer!.update(createElement(ClinicalHistoryFormHarness, { ref, diagnosis: "TEA nível 2 (CID-10 F84)" }));

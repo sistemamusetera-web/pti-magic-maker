@@ -34,3 +34,10 @@ export function appendClinicalText(existing: string | undefined, suggestion: str
   const current = existing?.trim() ?? "";
   return current ? `${current} ${suggestion}` : suggestion;
 }
+
+export function appendClinicalTexts(existing: string | undefined, suggestions: readonly string[]) {
+  return suggestions.reduce(
+    (current, suggestion) => current.includes(suggestion) ? current : appendClinicalText(current, suggestion),
+    existing?.trim() ?? "",
+  );
+}

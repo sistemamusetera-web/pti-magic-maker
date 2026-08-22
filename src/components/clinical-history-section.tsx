@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { useClinicalHistoryAutoSync } from "../lib/use-clinical-history-auto-sync";
 import { CLINICAL_MEDICATION_GROUPS, NO_MEDICATION_OPTION, OTHER_MEDICATION_OPTION } from "../lib/clinical-medications";
-import { appendClinicalText, CLINICAL_TEXT_SUGGESTIONS, type ClinicalTextSuggestion } from "../lib/clinical-text-suggestions";
+import { appendClinicalTexts, CLINICAL_TEXT_SUGGESTIONS, type ClinicalTextSuggestion } from "../lib/clinical-text-suggestions";
 import type { PTINarrative } from "../lib/pti-pdf";
 
 interface ClinicalHistoryPatient {
@@ -41,20 +42,48 @@ function SuggestedTextarea({
   placeholder: string;
   rows: number;
 }) {
+  const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
+
+  const toggleSuggestion = (label: string) => {
+    setSelectedLabels((current) => current.includes(label) ? current.filter((item) => item !== label) : [...current, label]);
+  };
+
+  const addSelectedSuggestions = () => {
+    const texts = suggestions.filter((suggestion) => selectedLabels.includes(suggestion.label)).map((suggestion) => suggestion.text);
+    if (!texts.length) return;
+    onChange(appendClinicalTexts(value, texts));
+    setSelectedLabels([]);
+  };
+
   return (
     <div className="space-y-2">
-      <select
-        name={`${name}-suggestion`}
-        className={fieldClassName}
-        value=""
-        onChange={(event) => {
-          const suggestion = suggestions.find((item) => item.label === event.target.value);
-          if (suggestion) onChange(appendClinicalText(value, suggestion.text));
-        }}
-      >
-        <option value="">Inserir texto sugerido (acrescenta ao texto atual)</option>
-        {suggestions.map((suggestion) => <option key={suggestion.label} value={suggestion.label}>{suggestion.label}</option>)}
-      </select>
+      <div className="rounded-sm border border-border bg-muted/20 p-2.5">
+        <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Selecione uma ou mais sugestões</p>
+        <div className="grid gap-1.5 sm:grid-cols-2">
+          {suggestions.map((suggestion) => (
+            <label key={suggestion.label} className="flex items-center gap-2 text-xs text-foreground">
+              <input
+                type="checkbox"
+                name={`${name}-suggestion`}
+                value={suggestion.label}
+                checked={selectedLabels.includes(suggestion.label)}
+                onChange={() => toggleSuggestion(suggestion.label)}
+                className="h-4 w-4 accent-primary"
+              />
+              {suggestion.label}
+            </label>
+          ))}
+        </div>
+        <button
+          type="button"
+          name={`${name}-apply-suggestions`}
+          disabled={!selectedLabels.length}
+          onClick={addSelectedSuggestions}
+          className="mt-2 inline-flex h-8 items-center rounded-sm bg-primary px-3 text-xs font-semibold text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Adicionar {selectedLabels.length || ""} sugestão{selectedLabels.length === 1 ? "" : "ões"}
+        </button>
+      </div>
       <textarea name={name} className={textareaClassName} rows={rows} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} />
     </div>
   );

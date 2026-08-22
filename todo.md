@@ -83,3 +83,4 @@
 - [x] Adicionar textos sugeridos e editáveis para informações coletadas com os responsáveis.
 - [x] Adicionar textos sugeridos e editáveis para desenvolvimento, interação e autonomia.
 - [x] Adicionar textos sugeridos e editáveis para comportamentos e manejo.
+- [x] Permitir acumular múltiplas sugestões em informações dos responsáveis, desenvolvimento e comportamentos.
