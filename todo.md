@@ -80,3 +80,6 @@
 - [x] Permitir selecionar múltiplas medicações do catálogo na Breve História Clínica.
 - [x] Permitir registrar manualmente outras medicações junto às selecionadas no catálogo.
 - [x] Ampliar o catálogo de medicações para facilitar o registro de prescrições já existentes.
+- [x] Adicionar textos sugeridos e editáveis para informações coletadas com os responsáveis.
+- [x] Adicionar textos sugeridos e editáveis para desenvolvimento, interação e autonomia.
+- [x] Adicionar textos sugeridos e editáveis para comportamentos e manejo.

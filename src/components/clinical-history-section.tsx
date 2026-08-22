@@ -1,5 +1,6 @@
 import { useClinicalHistoryAutoSync } from "../lib/use-clinical-history-auto-sync";
 import { CLINICAL_MEDICATION_GROUPS, NO_MEDICATION_OPTION, OTHER_MEDICATION_OPTION } from "../lib/clinical-medications";
+import { appendClinicalText, CLINICAL_TEXT_SUGGESTIONS, type ClinicalTextSuggestion } from "../lib/clinical-text-suggestions";
 import type { PTINarrative } from "../lib/pti-pdf";
 
 interface ClinicalHistoryPatient {
@@ -24,6 +25,40 @@ function ClinicalField({ label, children }: { label: string; children: React.Rea
 
 const fieldClassName = "flex h-9 w-full rounded-sm border border-input bg-background px-3 py-1 text-sm shadow-xs";
 const textareaClassName = "flex w-full rounded-sm border border-input bg-background px-3 py-2 text-sm shadow-xs";
+
+function SuggestedTextarea({
+  name,
+  value,
+  onChange,
+  suggestions,
+  placeholder,
+  rows,
+}: {
+  name: string;
+  value: string;
+  onChange: (next: string) => void;
+  suggestions: readonly ClinicalTextSuggestion[];
+  placeholder: string;
+  rows: number;
+}) {
+  return (
+    <div className="space-y-2">
+      <select
+        name={`${name}-suggestion`}
+        className={fieldClassName}
+        value=""
+        onChange={(event) => {
+          const suggestion = suggestions.find((item) => item.label === event.target.value);
+          if (suggestion) onChange(appendClinicalText(value, suggestion.text));
+        }}
+      >
+        <option value="">Inserir texto sugerido (acrescenta ao texto atual)</option>
+        {suggestions.map((suggestion) => <option key={suggestion.label} value={suggestion.label}>{suggestion.label}</option>)}
+      </select>
+      <textarea name={name} className={textareaClassName} rows={rows} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} />
+    </div>
+  );
+}
 
 export function ClinicalHistorySection({ value, onChange, patient }: ClinicalHistorySectionProps) {
   const set = <K extends keyof PTINarrative>(key: K, next: PTINarrative[K]) =>
@@ -117,17 +152,38 @@ export function ClinicalHistorySection({ value, onChange, patient }: ClinicalHis
         </div>
         <div className="sm:col-span-2">
           <ClinicalField label="Informações coletadas com os responsáveis">
-            <textarea className={textareaClassName} rows={3} value={value.clinical_responsible_report ?? ""} onChange={(event) => set("clinical_responsible_report", event.target.value)} placeholder="Queixas principais, rotina, demandas e demais informações pertinentes." />
+            <SuggestedTextarea
+              name="clinical-responsible-report"
+              value={value.clinical_responsible_report ?? ""}
+              onChange={(next) => set("clinical_responsible_report", next)}
+              suggestions={CLINICAL_TEXT_SUGGESTIONS.responsibleReport}
+              rows={3}
+              placeholder="Queixas principais, rotina, demandas e demais informações pertinentes."
+            />
           </ClinicalField>
         </div>
         <div className="sm:col-span-2">
           <ClinicalField label="Desenvolvimento, interação e autonomia">
-            <textarea className={textareaClassName} rows={3} value={value.clinical_development_profile ?? ""} onChange={(event) => set("clinical_development_profile", event.target.value)} placeholder="Ex.: apresenta déficit na interação social, atraso no desenvolvimento da fala e déficit na autonomia..." />
+            <SuggestedTextarea
+              name="clinical-development-profile"
+              value={value.clinical_development_profile ?? ""}
+              onChange={(next) => set("clinical_development_profile", next)}
+              suggestions={CLINICAL_TEXT_SUGGESTIONS.developmentProfile}
+              rows={3}
+              placeholder="Ex.: apresenta déficit na interação social, atraso no desenvolvimento da fala e déficit na autonomia..."
+            />
           </ClinicalField>
         </div>
         <div className="sm:col-span-2">
           <ClinicalField label="Comportamentos e manejo">
-            <textarea className={textareaClassName} rows={4} value={value.clinical_behavior_description ?? ""} onChange={(event) => set("clinical_behavior_description", event.target.value)} placeholder="Descreva tolerância à frustração, fuga, recusa, comportamentos auto ou heterolesivos e outras observações." />
+            <SuggestedTextarea
+              name="clinical-behavior-description"
+              value={value.clinical_behavior_description ?? ""}
+              onChange={(next) => set("clinical_behavior_description", next)}
+              suggestions={CLINICAL_TEXT_SUGGESTIONS.behaviorDescription}
+              rows={4}
+              placeholder="Descreva tolerância à frustração, fuga, recusa, comportamentos auto ou heterolesivos e outras observações."
+            />
           </ClinicalField>
         </div>
       </div>
