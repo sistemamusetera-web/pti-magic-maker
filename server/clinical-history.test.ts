@@ -41,4 +41,22 @@ describe("Official clinical history generator", () => {
     expect(text).toContain("Transtorno do Espectro Autista (TEA) (CID-10 F84)");
     expect(text).not.toContain("faz uso da medicação");
   });
+
+  it("uses a grammatically correct sentence when no medication is registered", () => {
+    const text = generateOfficialClinicalHistory({
+      patientName: "Ana",
+      unit: "Hapvida Janga",
+      diagnosis: "TEA (CID-10 F84)",
+      medication: "Não faz uso de medicação",
+      responsibleReport: "",
+      developmentProfile: "",
+      behaviorDescription: "",
+      hasAutoaggression: false,
+      hasHeteroaggression: false,
+      assessmentProtocol: "Portage",
+    });
+
+    expect(text).toContain("no momento, não faz uso de medicação");
+    expect(text).not.toContain("faz uso da medicação Não faz uso");
+  });
 });

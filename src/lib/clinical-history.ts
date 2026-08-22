@@ -30,9 +30,11 @@ export function generateOfficialClinicalHistory(fields: OfficialClinicalHistoryF
   const aggressionNote = aggressionTypes.length
     ? ` Conforme relato dos responsáveis, há presença de comportamentos ${aggressionTypes.join(" e ")}.`
     : "";
-  const medicationSentence = medication
-    ? ` e, no momento, faz uso da medicação ${medication}`
-    : "";
+  const medicationSentence = medication === "Não faz uso de medicação"
+    ? " e, no momento, não faz uso de medicação"
+    : medication
+      ? ` e, no momento, faz uso da medicação ${medication}`
+      : "";
 
   return [
     `${patientName} passou por avaliação na unidade ${unit}. O avaliado apresenta diagnóstico de ${diagnosis}, está em acompanhamento com Neuropediatra${medicationSentence}. As informações aqui presentes foram colhidas em formato de entrevista presencial com a mãe. Em acolhimento com a mãe, uma das principais queixas trazidas está relacionada a ${responsibleReport}.`,

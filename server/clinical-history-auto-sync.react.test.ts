@@ -36,11 +36,17 @@ describe("Clinical history auto-sync hook", () => {
     });
     expect(ref.current?.currentHistory()).toContain("TEA (CID-10 F84)");
 
-    const unitField = renderer!.root.findAllByType("select").find((field) => field.props.value === "");
+    const unitField = renderer!.root.findAllByType("select").find((field) => field.props.name === "clinical-unit");
     await act(async () => {
       unitField?.props.onChange({ target: { value: "Hapvida Janga" } });
     });
     expect(ref.current?.currentHistory()).toContain("unidade Hapvida Janga");
+
+    const medicationField = renderer!.root.findAllByType("select").find((field) => field.props.name === "clinical-medication");
+    await act(async () => {
+      medicationField?.props.onChange({ target: { value: "Metilfenidato" } });
+    });
+    expect(ref.current?.currentHistory()).toContain("faz uso da medicação Metilfenidato");
 
     await act(async () => {
       renderer!.update(createElement(ClinicalHistoryFormHarness, { ref, diagnosis: "TEA nível 2 (CID-10 F84)" }));

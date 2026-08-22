@@ -1,4 +1,5 @@
 import { useClinicalHistoryAutoSync } from "../lib/use-clinical-history-auto-sync";
+import { CLINICAL_MEDICATION_OPTIONS, OTHER_MEDICATION_OPTION } from "../lib/clinical-medications";
 import type { PTINarrative } from "../lib/pti-pdf";
 
 interface ClinicalHistoryPatient {
@@ -45,15 +46,30 @@ export function ClinicalHistorySection({ value, onChange, patient }: ClinicalHis
       </div>
       <div className="grid gap-3 border-b bg-muted/20 p-4 sm:grid-cols-2">
         <ClinicalField label="Unidade">
-          <select className={fieldClassName} value={value.clinical_unit ?? ""} onChange={(event) => set("clinical_unit", event.target.value)}>
+          <select name="clinical-unit" className={fieldClassName} value={value.clinical_unit ?? ""} onChange={(event) => set("clinical_unit", event.target.value)}>
             <option value="">Selecione a unidade</option>
             <option value="Hapvida Janga">Hapvida Janga</option>
             <option value="Hapvida Madalena">Hapvida Madalena</option>
           </select>
         </ClinicalField>
-        <ClinicalField label="Medicação (se houver)">
-          <input className={fieldClassName} value={value.clinical_medication ?? ""} onChange={(event) => set("clinical_medication", event.target.value)} placeholder="Nome e posologia, se pertinente" />
-        </ClinicalField>
+        <div className="space-y-2">
+          <ClinicalField label="Medicação atual (se houver)">
+            <select name="clinical-medication" className={fieldClassName} value={value.clinical_medication ?? ""} onChange={(event) => set("clinical_medication", event.target.value)}>
+              <option value="">Selecione para registro</option>
+              {CLINICAL_MEDICATION_OPTIONS.map((medication) => <option key={medication} value={medication}>{medication}</option>)}
+            </select>
+          </ClinicalField>
+          {value.clinical_medication === OTHER_MEDICATION_OPTION && (
+            <input
+              name="clinical-medication-other"
+              className={fieldClassName}
+              value={value.clinical_medication_other ?? ""}
+              onChange={(event) => set("clinical_medication_other", event.target.value)}
+              placeholder="Registre a medicação já prescrita"
+            />
+          )}
+          <p className="text-[11px] leading-snug text-muted-foreground">Opções para registrar medicação de uso já prescrita. Não informe dose ou faça alterações sem orientação médica.</p>
+        </div>
         <ClinicalField label="Protocolo de avaliação">
           <select className={fieldClassName} value={value.clinical_assessment_protocol ?? "Portage"} onChange={(event) => set("clinical_assessment_protocol", event.target.value)}>
             <option value="Portage">Portage</option>
