@@ -119,4 +119,4 @@
 - [x] Enviar a correção validada da marca do PDF para sistemamusetera-web/pti-magic-maker.
 - [x] Mapear e remover referências dispensáveis de Lovable, Vercel e Netlify sem afetar o funcionamento do sistema.
 - [x] Validar a limpeza de referências em testes, tipos e build de produção.
-- [ ] Sincronizar a limpeza de referências com sistemamusetera-web/pti-magic-maker no GitHub.
+- [x] Sincronizar a limpeza de referências com sistemamusetera-web/pti-magic-maker no GitHub.
