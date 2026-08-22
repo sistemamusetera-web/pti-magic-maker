@@ -36,11 +36,11 @@ describe("Clinical history auto-sync hook", () => {
     });
     expect(ref.current?.currentHistory()).toContain("TEA (CID-10 F84)");
 
-    const unitField = renderer!.root.findAllByType("input").find((field) => field.props.placeholder === "Nome da unidade");
+    const unitField = renderer!.root.findAllByType("select").find((field) => field.props.value === "");
     await act(async () => {
-      unitField?.props.onChange({ target: { value: "Unidade Centro" } });
+      unitField?.props.onChange({ target: { value: "Hapvida Janga" } });
     });
-    expect(ref.current?.currentHistory()).toContain("unidade Unidade Centro");
+    expect(ref.current?.currentHistory()).toContain("unidade Hapvida Janga");
 
     await act(async () => {
       renderer!.update(createElement(ClinicalHistoryFormHarness, { ref, diagnosis: "TEA nível 2 (CID-10 F84)" }));

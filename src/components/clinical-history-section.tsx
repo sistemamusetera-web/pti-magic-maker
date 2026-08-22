@@ -45,7 +45,11 @@ export function ClinicalHistorySection({ value, onChange, patient }: ClinicalHis
       </div>
       <div className="grid gap-3 border-b bg-muted/20 p-4 sm:grid-cols-2">
         <ClinicalField label="Unidade">
-          <input className={fieldClassName} value={value.clinical_unit ?? ""} onChange={(event) => set("clinical_unit", event.target.value)} placeholder="Nome da unidade" />
+          <select className={fieldClassName} value={value.clinical_unit ?? ""} onChange={(event) => set("clinical_unit", event.target.value)}>
+            <option value="">Selecione a unidade</option>
+            <option value="Hapvida Janga">Hapvida Janga</option>
+            <option value="Hapvida Madalena">Hapvida Madalena</option>
+          </select>
         </ClinicalField>
         <ClinicalField label="Medicação (se houver)">
           <input className={fieldClassName} value={value.clinical_medication ?? ""} onChange={(event) => set("clinical_medication", event.target.value)} placeholder="Nome e posologia, se pertinente" />

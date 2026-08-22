@@ -75,3 +75,4 @@
 - [x] Cobrir a atualização automática do estado do PTI e a preservação de texto editado manualmente em teste de comportamento.
 - [x] Executar teste de comportamento React do formulário para atualização automática e preservação de edição manual.
 - [x] Validar no componente clínico usado pelo PTI que dados atualizados sincronizam o texto sem sobrescrever edições manuais.
+- [x] Adicionar dropdown de unidade clínica com Hapvida Janga e Hapvida Madalena na Breve História Clínica.
