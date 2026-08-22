@@ -229,10 +229,10 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
       },
     ],
   },
-  // AVDs
+  // TERAPIA OCUPACIONAL — AVDs
   {
     id: "avds-autonomia",
-    area: "AVDs",
+    area: "Terapia Ocupacional",
     label: "AVDs — Atividades de Vida Diária",
     summary: "Autonomia em higiene, alimentação e vestuário.",
     items: [
@@ -243,10 +243,10 @@ export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
       },
     ],
   },
-  // AIVDs
+  // TERAPIA OCUPACIONAL — AIVDs
   {
     id: "aivds-autonomia",
-    area: "AIVDs",
+    area: "Terapia Ocupacional",
     label: "AIVDs — Atividades Instrumentais de Vida Diária",
     summary: "Organização, preparo simples de alimentos e rotina doméstica.",
     items: [

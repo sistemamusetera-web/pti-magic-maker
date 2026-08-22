@@ -27,3 +27,5 @@
 - [x] Tornar mais nítidos os nomes das áreas na aba PTI.
 - [x] Separar AVDs e AIVDs em áreas distintas nos templates de objetivos do PTI.
 - [x] Atualizar a apresentação das áreas disponíveis para mostrar AVDs e AIVDs separadamente.
+- [x] Agrupar AVDs e AIVDs como subáreas dentro de Terapia Ocupacional no PTI.
+- [x] Remover AVDs e AIVDs da lista de áreas clínicas independentes.
