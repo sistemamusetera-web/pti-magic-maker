@@ -27,6 +27,15 @@ export const createEmptyPTI = (overrides: Partial<PTINarrative> = {}): PTINarrat
   professional: "",
   revaluation: "Semestral",
   clinical_history: "",
+  clinical_unit: "",
+  clinical_diagnosis: "",
+  clinical_medication: "",
+  clinical_responsible_report: "",
+  clinical_development_profile: "",
+  clinical_behavior_description: "",
+  clinical_autoaggression: false,
+  clinical_heteroaggression: false,
+  clinical_assessment_protocol: "Portage",
   objectives: [{ objetivo: "", atividade: "", material: "" }],
   behavior_problems: [""],
   conclusion: "",
@@ -63,6 +72,15 @@ export interface PTINarrative {
   professional?: string;
   revaluation?: string;
   clinical_history?: string;
+  clinical_unit?: string;
+  clinical_diagnosis?: string;
+  clinical_medication?: string;
+  clinical_responsible_report?: string;
+  clinical_development_profile?: string;
+  clinical_behavior_description?: string;
+  clinical_autoaggression?: boolean;
+  clinical_heteroaggression?: boolean;
+  clinical_assessment_protocol?: string;
   objectives?: PTIObjective[];
   behavior_problems?: string[];
   conclusion?: string;

@@ -26,8 +26,8 @@ import { ArrowLeft, Download, Save, FileSpreadsheet, Plus, Trash2, Sparkles, Shi
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { generateOfficialClinicalHistory } from "@/lib/clinical-history";
 import {
-  CLINICAL_HISTORY_TEMPLATES,
   BEHAVIORS_TEMPLATES,
   CONCLUSION_TEMPLATES,
 } from "@/lib/pti-templates";
@@ -1006,25 +1006,67 @@ function PTIForm({
         <div className="flex flex-wrap items-center gap-2 border-b bg-primary px-4 py-2 text-primary-foreground">
           <span className="text-sm font-bold uppercase tracking-widest">Breve História Clínica</span>
           <div className="ml-auto">
-            <TemplatePicker
-              label="Usar template"
-              options={CLINICAL_HISTORY_TEMPLATES.map((t) => ({ id: t.id, label: t.label, summary: t.summary }))}
-              onPick={(id) => {
-                const t = CLINICAL_HISTORY_TEMPLATES.find((x) => x.id === id);
-                if (t) {
-                  set("clinical_history", t.text);
-                  toast.success(`Template "${t.label}" aplicado`);
-                }
+            <Button
+              size="sm"
+              variant="secondary"
+              type="button"
+              onClick={() => {
+                set("clinical_history", generateOfficialClinicalHistory({
+                  patientName: patient.name,
+                  unit: value.clinical_unit ?? "",
+                  diagnosis: value.clinical_diagnosis || value.diagnosis || patient.diagnosis || "",
+                  medication: value.clinical_medication ?? "",
+                  responsibleReport: value.clinical_responsible_report ?? "",
+                  developmentProfile: value.clinical_development_profile ?? "",
+                  behaviorDescription: value.clinical_behavior_description ?? "",
+                  hasAutoaggression: Boolean(value.clinical_autoaggression),
+                  hasHeteroaggression: Boolean(value.clinical_heteroaggression),
+                  assessmentProtocol: value.clinical_assessment_protocol ?? "Portage",
+                }));
+                toast.success("História clínica oficial gerada. Você ainda pode editar o texto.");
               }}
-            />
+            >
+              <Sparkles className="mr-1 h-3.5 w-3.5" /> Gerar texto oficial
+            </Button>
+          </div>
+        </div>
+        <div className="grid gap-3 border-b bg-muted/20 p-4 sm:grid-cols-2">
+          <Field label="Nome do paciente"><Input value={patient.name} readOnly className="bg-muted" /></Field>
+          <Field label="Unidade"><Input value={value.clinical_unit ?? ""} onChange={(e) => set("clinical_unit", e.target.value)} placeholder="Nome da unidade" /></Field>
+          <Field label="Diagnóstico"><Input value={value.clinical_diagnosis || value.diagnosis || patient.diagnosis || ""} onChange={(e) => set("clinical_diagnosis", e.target.value)} placeholder="TEA (CID-10 F84)" /></Field>
+          <Field label="Medicação (se houver)"><Input value={value.clinical_medication ?? ""} onChange={(e) => set("clinical_medication", e.target.value)} placeholder="Nome e posologia, se pertinente" /></Field>
+          <Field label="Protocolo de avaliação">
+            <select className="flex h-9 w-full rounded-sm border border-input bg-background px-3 py-1 text-sm shadow-xs" value={value.clinical_assessment_protocol ?? "Portage"} onChange={(e) => set("clinical_assessment_protocol", e.target.value)}>
+              <option value="Portage">Portage</option>
+              <option value="ABLLS-R">ABLLS-R</option>
+              <option value="Portage e ABLLS-R">Portage e ABLLS-R</option>
+              <option value="Outro protocolo">Outro protocolo</option>
+            </select>
+          </Field>
+          <div className="rounded-sm border bg-paper p-3">
+            <div className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Comportamentos relatados</div>
+            <div className="mt-2 flex flex-wrap gap-3 text-xs text-foreground">
+              <label className="flex items-center gap-2"><input type="checkbox" checked={Boolean(value.clinical_autoaggression)} onChange={(e) => set("clinical_autoaggression", e.target.checked)} className="h-4 w-4 accent-primary" /> Autolesivo</label>
+              <label className="flex items-center gap-2"><input type="checkbox" checked={Boolean(value.clinical_heteroaggression)} onChange={(e) => set("clinical_heteroaggression", e.target.checked)} className="h-4 w-4 accent-primary" /> Heterolesivo</label>
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <Field label="Informações coletadas com os responsáveis"><Textarea rows={3} value={value.clinical_responsible_report ?? ""} onChange={(e) => set("clinical_responsible_report", e.target.value)} placeholder="Queixas principais, rotina, demandas e demais informações pertinentes." /></Field>
+          </div>
+          <div className="sm:col-span-2">
+            <Field label="Desenvolvimento, interação e autonomia"><Textarea rows={3} value={value.clinical_development_profile ?? ""} onChange={(e) => set("clinical_development_profile", e.target.value)} placeholder="Ex.: apresenta déficit na interação social, atraso no desenvolvimento da fala e déficit na autonomia..." /></Field>
+          </div>
+          <div className="sm:col-span-2">
+            <Field label="Comportamentos e manejo"><Textarea rows={4} value={value.clinical_behavior_description ?? ""} onChange={(e) => set("clinical_behavior_description", e.target.value)} placeholder="Descreva tolerância à frustração, fuga, recusa, comportamentos auto ou heterolesivos e outras observações." /></Field>
           </div>
         </div>
         <div className="p-4">
+          <p className="mb-2 text-xs text-muted-foreground">Preencha apenas o que for pertinente e clique em “Gerar texto oficial”. O texto abaixo permanece totalmente editável.</p>
           <Textarea
             rows={7}
             value={value.clinical_history ?? ""}
             onChange={(e) => set("clinical_history", e.target.value)}
-            placeholder="Escolha um template acima ou descreva anamnese, aspectos observados, linguagem, interação, comportamento, preferências, etc."
+            placeholder="Clique em “Gerar texto oficial” para preencher o modelo institucional."
           />
         </div>
       </section>

@@ -64,3 +64,7 @@
 - [x] Remover a barra de filtros por área/especialidade do catálogo de objetivos.
 - [x] Adicionar automaticamente o objetivo selecionado ao PTI e remover o botão “Adicionar selecionados”.
 - [x] Remover a faixa com Avaliador(a) e Data da avaliação do formulário do paciente.
+- [x] Reiniciar o servidor de desenvolvimento e confirmar que o preview responde.
+- [x] Substituir o template de breve história clínica pelo modelo institucional oficial.
+- [x] Criar preenchimento guiado para nome, unidade, diagnóstico, medicação, relato dos responsáveis, comportamentos e protocolo de avaliação.
+- [x] Manter o texto da breve história clínica editável após a geração automática.
