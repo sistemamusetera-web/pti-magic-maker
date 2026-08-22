@@ -31,6 +31,22 @@ describe("PTI objectives templates", () => {
     expect(Object.values(countsByArea).every((count) => count >= 7)).toBe(true);
   });
 
+  it("organizes music therapy objectives into the seven requested therapeutic domains", () => {
+    const musicTherapyTemplates = OBJECTIVES_TEMPLATES.filter((template) => template.area === "Musicoterapia");
+
+    expect(musicTherapyTemplates.map((template) => template.label)).toEqual([
+      "Cognitivos",
+      "Motores",
+      "Comunicação e Linguagem",
+      "Musicais",
+      "Sociais",
+      "Emocionais",
+      "Comportamentais",
+    ]);
+    expect(musicTherapyTemplates.every((template) => template.items.length >= 7)).toBe(true);
+    expect(musicTherapyTemplates.reduce((total, template) => total + template.items.length, 0)).toBe(55);
+  });
+
   it("adds multiple selected objectives without replacing or duplicating the PTI", () => {
     const [first, second] = OBJECTIVE_CATALOG.filter((option) => option.area === "Fonoaudiologia").slice(0, 2);
     const existing = [{ objetivo: first.objetivo, atividade: first.atividade, material: first.material }];

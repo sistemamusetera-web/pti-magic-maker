@@ -76,55 +76,335 @@ export const CLINICAL_HISTORY_TEMPLATES: ClinicalHistoryTemplate[] = [
 
 /* ------------------ OBJETIVOS POR ÁREA (PROFISSIONAL) ------------------ */
 export const OBJECTIVES_TEMPLATES: ObjectivesTemplate[] = [
-  // MUSICOTERAPIA
+  // MUSICOTERAPIA — DOMÍNIOS TERAPÊUTICOS
   {
-    id: "mt-comunicacao-atencao",
+    id: "mt-cognitivos",
     area: "Musicoterapia",
-    label: "MT - Comunicação e Atenção Compartilhada",
-    summary: "Vocalização, escuta, imitação e alternância de turnos em experiências musicais.",
+    label: "Cognitivos",
+    summary: "Atenção, concentração, memória, sequenciamento, planejamento e processamento auditivo.",
     items: [
       {
-        objetivo: "Ampliar a atenção compartilhada com o terapeuta durante experiências musicais estruturadas.",
-        atividade: "Alternar foco entre pessoa, instrumento e música em canções de saudação e jogos de pausa.",
-        material: "Violão, teclado, instrumentos de percussão e imagens de apoio.",
+        objetivo: "Ampliar a atenção sustentada em experiências musicais estruturadas.",
+        atividade: "Participação em canções curtas com início, meio e fim sinalizados, aumentando gradualmente o tempo de engajamento.",
+        material: "Violão, instrumentos de percussão, cartões de início e fim e timer visual.",
       },
       {
-        objetivo: "Ampliar vocalizações, gestos ou recursos de comunicação para solicitar continuidade, escolha ou repetição musical.",
-        atividade: "Canto de músicas previsíveis com pausas estratégicas e oferta de escolhas entre instrumentos ou canções.",
-        material: "Canções de repetição, cartões de escolha e recursos de comunicação suplementar quando indicados.",
+        objetivo: "Desenvolver concentração em uma tarefa musical com redução gradual de distratores.",
+        atividade: "Execução de jogo de escuta e resposta a um instrumento-alvo em ambiente organizado.",
+        material: "Instrumentos contrastantes, protetor auditivo quando indicado e sinal visual.",
       },
       {
-        objetivo: "Desenvolver discriminação auditiva e resposta funcional a contrastes sonoros simples.",
-        atividade: "Jogos de identificação de instrumentos, intensidade, duração e comandos musicais de começar/parar.",
-        material: "Instrumentos de percussão variados, cartões visuais e aparelho de som.",
+        objetivo: "Fortalecer memória auditiva por meio da recordação de padrões sonoros simples.",
+        atividade: "Escuta, pausa e reprodução de sequências curtas de sons, palavras ou gestos musicais.",
+        material: "Tambor, claves, chocalhos e cartões sequenciais.",
       },
       {
-        objetivo: "Imitar sequências motoras e sonoras simples dentro de um contexto musical significativo.",
-        atividade: "Modelagem e reprodução de padrões curtos de palmas, batidas e movimentos corporais.",
-        material: "Tambor, chocalhos, claves e músicas com gestos.",
+        objetivo: "Organizar sequências de ações sonoras ou musicais em ordem funcional.",
+        atividade: "Montagem e execução de cartões de sequência como ouvir, escolher, tocar e encerrar.",
+        material: "Cartões com imagens de instrumentos e rotina visual.",
+      },
+      {
+        objetivo: "Planejar uma resposta musical simples antes de executá-la.",
+        atividade: "Escolha de instrumento, definição de uma sequência curta e execução com apoio verbal ou visual graduado.",
+        material: "Opções de instrumentos, quadro de planejamento e cartões de escolha.",
+      },
+      {
+        objetivo: "Aprimorar a percepção auditiva de contrastes de som, silêncio, intensidade, duração e timbre.",
+        atividade: "Jogos de discriminação e pareamento de sons de instrumentos e pausas musicais.",
+        material: "Instrumentos variados, aparelho de som e cartões de atributos sonoros.",
+      },
+      {
+        objetivo: "Exercitar flexibilidade cognitiva ao variar regras, instrumentos ou formas de participação musical.",
+        atividade: "Alternância planejada entre tocar, ouvir, cantar, pausar e seguir novas combinações simples.",
+        material: "Cartões de mudança, instrumentos diversos e agenda visual.",
+      },
+      {
+        objetivo: "Resolver problemas simples que surgem em tarefas musicais compartilhadas.",
+        atividade: "Identificação guiada de alternativas quando falta um instrumento, muda o turno ou uma sequência precisa ser reorganizada.",
+        material: "Instrumentos, cartões de solução e quadro de escolhas.",
       },
     ],
   },
   {
-    id: "mt-social-regulacao",
+    id: "mt-motores",
     area: "Musicoterapia",
-    label: "MT - Interação Social e Regulação",
-    summary: "Vínculo, participação em pares, transições e autorregulação com recursos musicais.",
+    label: "Motores",
+    summary: "Coordenação fina, óculo-manual, planejamento motor, praxia, bilateralidade, precisão, força e sincronização.",
     items: [
       {
-        objetivo: "Iniciar ou responder a trocas sociais em jogos musicais de turnos.",
-        atividade: "Alternância de instrumentos com convite, espera e resposta ao parceiro terapêutico.",
-        material: "Instrumentos de fácil manejo e cartões de vez.",
+        objetivo: "Aprimorar coordenação motora fina na manipulação de instrumentos e recursos musicais.",
+        atividade: "Preensão, pinça, chocalhar, pressionar teclas e posicionar instrumentos com apoio graduado.",
+        material: "Chocalhos, sinos, teclado, pandeiro e instrumentos de pequeno porte.",
       },
       {
-        objetivo: "Participar de experiências musicais compartilhadas com pares, respeitando turnos e regras simples.",
-        atividade: "Rodas musicais com papéis definidos, imitação recíproca e encerramento coletivo.",
-        material: "Percussão coletiva, marcações visuais de turno e canções sociais.",
+        objetivo: "Desenvolver coordenação óculo-manual em ações musicais dirigidas.",
+        atividade: "Tocar alvos visuais no tambor, encaixar baquetas e acompanhar trajetos simples ao ritmo de uma música.",
+        material: "Tambor, baquetas, alvos coloridos e fitas no chão.",
       },
       {
-        objetivo: "Utilizar pistas musicais previsíveis para apoiar transições e estratégias de autorregulação.",
-        atividade: "Construção de canções curtas para início, pausa, organização e encerramento de atividades.",
-        material: "Playlist terapêutica, cartões de rotina e timer visual.",
+        objetivo: "Planejar movimentos necessários para realizar uma ação musical com início e encerramento definidos.",
+        atividade: "Observar, preparar a postura, escolher o instrumento e executar uma sequência motora curta.",
+        material: "Espelho, cartões de etapas e instrumentos adaptados quando indicados.",
+      },
+      {
+        objetivo: "Ampliar praxia por meio da imitação e execução de gestos associados à música.",
+        atividade: "Canções com gestos, jogos de espelho e sequências de movimentos corporais funcionais.",
+        material: "Músicas com movimentos, espelho e cartões gestuais.",
+      },
+      {
+        objetivo: "Desenvolver coordenação bilateral em experiências instrumentais e corporais.",
+        atividade: "Uso combinado das duas mãos para tocar, segurar, alternar instrumentos e realizar movimentos rítmicos.",
+        material: "Tambor, pandeiro, chocalhos e teclados.",
+      },
+      {
+        objetivo: "Aprimorar a precisão de movimentos durante a execução de ações musicais específicas.",
+        atividade: "Tocar pontos-alvo, iniciar e interromper movimentos conforme pistas rítmicas ou visuais.",
+        material: "Tambor com marcações, baquetas, cartões de parar e seguir.",
+      },
+      {
+        objetivo: "Ajustar o controle de força utilizado ao tocar instrumentos de diferentes resistências.",
+        atividade: "Experimentação guiada de sons fortes e suaves, com feedback auditivo e visual.",
+        material: "Tambor, teclado, sinos, escalas visuais de intensidade.",
+      },
+      {
+        objetivo: "Sincronizar movimentos corporais ou instrumentais a um pulso musical simples.",
+        atividade: "Caminhar, bater palmas ou tocar instrumentos acompanhando batidas regulares.",
+        material: "Metrônomo, tambor, músicas rítmicas e marcadores de chão.",
+      },
+    ],
+  },
+  {
+    id: "mt-comunicacao-linguagem",
+    area: "Musicoterapia",
+    label: "Comunicação e Linguagem",
+    summary: "Comunicação verbal e não verbal, iniciativa, atenção compartilhada, vocalização, articulação, compreensão e intenção comunicativa.",
+    items: [
+      {
+        objetivo: "Ampliar comunicação verbal funcional em contextos musicais significativos.",
+        atividade: "Completar palavras em canções, nomear instrumentos e responder a perguntas simples durante a sessão.",
+        material: "Canções previsíveis, instrumentos e cartões com palavras funcionais.",
+      },
+      {
+        objetivo: "Utilizar comunicação não verbal para expressar escolhas, participação ou solicitação de continuidade.",
+        atividade: "Oferta de escolhas entre canções e instrumentos, com espera e resposta por olhar, gesto, apontar ou sinal.",
+        material: "Cartões de escolha, pranchas visuais e instrumentos preferidos.",
+      },
+      {
+        objetivo: "Aumentar a iniciativa comunicativa durante interações musicais.",
+        atividade: "Pausas estratégicas em canções e jogos de causa e efeito para favorecer pedidos, comentários ou convites.",
+        material: "Violão, teclado, cartões de pedir e recursos de comunicação suplementar quando indicados.",
+      },
+      {
+        objetivo: "Ampliar atenção compartilhada entre terapeuta, atividade e recurso musical.",
+        atividade: "Alternância de olhar, escuta e resposta em canções de saudação, turnos instrumentais e brincadeiras musicais.",
+        material: "Instrumentos de percussão, imagens de apoio e canções de rotina.",
+      },
+      {
+        objetivo: "Favorecer vocalizações intencionais em resposta a pausas, modelos e experiências musicais.",
+        atividade: "Canto responsivo, imitação de sons e preenchimento de lacunas em músicas familiares.",
+        material: "Canções de repetição, microfone infantil e teclado.",
+      },
+      {
+        objetivo: "Apoiar a produção de sons ou palavras-alvo em contexto musical, conforme planejamento interdisciplinar.",
+        atividade: "Repetição rítmica de palavras funcionais, canto silabado e modelagem auditiva em músicas curtas.",
+        material: "Espelho, cartões de palavras e canções personalizadas.",
+      },
+      {
+        objetivo: "Compreender e responder a comandos simples inseridos em atividades musicais.",
+        atividade: "Jogos de tocar, parar, guardar, escolher e trocar instrumentos com pistas graduadas.",
+        material: "Cartões de ação, instrumentos variados e rotina visual.",
+      },
+      {
+        objetivo: "Demonstrar comunicação intencional para expressar interesse, recusa, escolha ou necessidade de ajuda.",
+        atividade: "Criação de oportunidades de comunicação em situações de escolha, espera e resolução de pequenos impasses musicais.",
+        material: "Prancha de comunicação, cartões de escolha e instrumentos motivadores.",
+      },
+    ],
+  },
+  {
+    id: "mt-musicais",
+    area: "Musicoterapia",
+    label: "Musicais",
+    summary: "Ritmo, pulso, reprodução rítmica, melodia, canto, exploração instrumental, improvisação e criação musical.",
+    items: [
+      {
+        objetivo: "Desenvolver percepção rítmica por meio da escuta e diferenciação de padrões simples.",
+        atividade: "Identificação de ritmos lentos, rápidos, regulares e contrastantes em jogos de escuta.",
+        material: "Tambor, metrônomo, faixas sonoras e cartões rítmicos.",
+      },
+      {
+        objetivo: "Identificar e manter o pulso em atividades musicais estruturadas.",
+        atividade: "Bater palmas, caminhar ou tocar um instrumento acompanhando uma pulsação regular.",
+        material: "Metrônomo, tambor, músicas com pulso marcado e marcadores de chão.",
+      },
+      {
+        objetivo: "Reproduzir padrões rítmicos simples por imitação e, progressivamente, de memória.",
+        atividade: "Eco rítmico com duas a quatro batidas usando palmas e instrumentos.",
+        material: "Claves, tambor, chocalhos e cartões de sequência.",
+      },
+      {
+        objetivo: "Perceber e responder a contornos melódicos simples em canções conhecidas.",
+        atividade: "Jogos de subir e descer com a voz, gestos e notas curtas no teclado.",
+        material: "Teclado, sinos afinados e imagens de subida e descida.",
+      },
+      {
+        objetivo: "Participar do canto de músicas adequadas ao repertório e à preferência individual.",
+        atividade: "Canto compartilhado com refrões repetitivos, pausas de participação e escolha de canções.",
+        material: "Violão, teclado, letras ilustradas e microfone infantil.",
+      },
+      {
+        objetivo: "Explorar instrumentos musicais identificando diferentes formas de produzir som.",
+        atividade: "Experimentação guiada de tocar, sacudir, raspar, pressionar e comparar sons.",
+        material: "Percussão, cordas, teclas e instrumentos adaptados quando indicados.",
+      },
+      {
+        objetivo: "Participar de improvisação musical dentro de limites e turnos definidos.",
+        atividade: "Diálogo sonoro entre terapeuta e beneficiário com perguntas e respostas instrumentais.",
+        material: "Tambor, teclado, instrumentos de percussão e cartões de turno.",
+      },
+      {
+        objetivo: "Criar escolhas ou sequências musicais autorais de acordo com o repertório do beneficiário.",
+        atividade: "Selecionar instrumentos, organizar uma ordem de sons e registrar uma pequena criação musical.",
+        material: "Instrumentos variados, cartões de composição e gravador de áudio quando indicado.",
+      },
+    ],
+  },
+  {
+    id: "mt-sociais",
+    area: "Musicoterapia",
+    label: "Sociais",
+    summary: "Interação social, cooperação, imitação, turnos, iniciativa, participação coletiva e vínculo terapêutico.",
+    items: [
+      {
+        objetivo: "Ampliar interação social durante atividades musicais compartilhadas.",
+        atividade: "Canções de saudação, troca de instrumentos e jogos musicais com convite e resposta.",
+        material: "Violão, instrumentos de percussão e cartões de interação.",
+      },
+      {
+        objetivo: "Desenvolver cooperação para alcançar um resultado musical conjunto.",
+        atividade: "Execução em dupla ou grupo de padrões em que cada participante contribui com uma parte.",
+        material: "Instrumentos complementares, cartões de papéis e músicas coletivas.",
+      },
+      {
+        objetivo: "Imitar gestos, ritmos ou ações musicais apresentados pelo terapeuta ou por pares.",
+        atividade: "Jogos de espelho, eco rítmico e reprodução de movimentos associados a canções.",
+        material: "Espelho, tambor, claves e músicas com gestos.",
+      },
+      {
+        objetivo: "Respeitar turnos em atividades musicais com apoio visual progressivamente reduzido.",
+        atividade: "Alternância de tocar, ouvir e entregar o instrumento entre participantes.",
+        material: "Cartões de vez, timer visual e instrumentos de fácil manejo.",
+      },
+      {
+        objetivo: "Aumentar iniciativa social para convidar, responder ou compartilhar uma experiência musical.",
+        atividade: "Pausas planejadas e oportunidades para escolher parceiro, instrumento ou canção.",
+        material: "Cartões de convite, instrumentos preferidos e escolhas visuais.",
+      },
+      {
+        objetivo: "Participar de experiências musicais coletivas seguindo regras simples e papéis definidos.",
+        atividade: "Roda de música com início, participação individual, resposta ao grupo e encerramento previsível.",
+        material: "Percussão coletiva, agenda visual e canções de grupo.",
+      },
+      {
+        objetivo: "Fortalecer vínculo terapêutico por meio de experiências musicais responsivas e previsíveis.",
+        atividade: "Canções personalizadas, acompanhamento dos interesses e rituais de início e despedida.",
+        material: "Violão, canções favoritas e cartões de rotina.",
+      },
+    ],
+  },
+  {
+    id: "mt-emocionais",
+    area: "Musicoterapia",
+    label: "Emocionais",
+    summary: "Expressão emocional, autorregulação, autoestima, autoconfiança, motivação, tolerância à frustração, segurança e engajamento.",
+    items: [
+      {
+        objetivo: "Expressar estados emocionais por meio de escolhas, sons, movimentos ou canções.",
+        atividade: "Associação entre emoções, instrumentos, intensidade sonora e repertório musical significativo.",
+        material: "Cartões de emoções, instrumentos variados e playlist terapêutica.",
+      },
+      {
+        objetivo: "Utilizar recursos musicais previamente combinados para apoiar autorregulação.",
+        atividade: "Escolha e uso de música, ritmo ou respiração guiada antes, durante ou após situações de maior demanda.",
+        material: "Playlist de regulação, fones quando indicados, tambor suave e cartão de pausa.",
+      },
+      {
+        objetivo: "Fortalecer autoestima ao reconhecer participação e conquistas em experiências musicais.",
+        atividade: "Registro de produções, devolutiva específica sobre esforço e apresentação de escolhas realizadas.",
+        material: "Gravador de áudio, mural de conquistas e instrumentos preferidos.",
+      },
+      {
+        objetivo: "Ampliar autoconfiança para experimentar respostas musicais novas com suporte gradualmente reduzido.",
+        atividade: "Modelagem, tentativa segura e valorização do processo em canto, ritmo ou instrumento escolhido.",
+        material: "Instrumentos de fácil acesso, cartões de incentivo e gravações curtas.",
+      },
+      {
+        objetivo: "Aumentar motivação para participar de tarefas terapêuticas por meio de repertório musical significativo.",
+        atividade: "Incorporação de interesses e músicas preferidas em metas estruturadas de sessão.",
+        material: "Playlist individualizada, instrumentos preferidos e quadro de escolhas.",
+      },
+      {
+        objetivo: "Desenvolver tolerância à frustração diante de erros, espera ou mudanças em atividades musicais.",
+        atividade: "Ensino de estratégias de pausa, pedido de ajuda e nova tentativa em desafios graduados.",
+        material: "Cartão de pausa, timer visual, instrumentos e escala de emoções.",
+      },
+      {
+        objetivo: "Construir segurança emocional para participar de interações musicais previsíveis.",
+        atividade: "Rituais estáveis de acolhimento, antecipação de etapas e escolhas limitadas durante a sessão.",
+        material: "Agenda visual, canção de saudação e objeto musical de preferência.",
+      },
+      {
+        objetivo: "Sustentar prazer e engajamento em experiências musicais adequadas às preferências e necessidades do beneficiário.",
+        atividade: "Monitoramento de sinais de interesse, ajuste do nível de desafio e participação ativa em escolhas.",
+        material: "Instrumentos variados, lista de preferências e recursos visuais de escolha.",
+      },
+    ],
+  },
+  {
+    id: "mt-comportamentais",
+    area: "Musicoterapia",
+    label: "Comportamentais",
+    summary: "Seguimento de instruções, impulsividade, espera, mudanças, permanência, participação, iniciativa e autonomia.",
+    items: [
+      {
+        objetivo: "Seguir instruções simples e graduadas inseridas em atividades musicais.",
+        atividade: "Jogos de tocar, parar, guardar, escolher e trocar instrumentos com suporte visual e modelagem.",
+        material: "Cartões de ação, instrumentos e rotina visual.",
+      },
+      {
+        objetivo: "Desenvolver controle de impulsividade durante o acesso e uso de instrumentos musicais.",
+        atividade: "Treino de parar, esperar sinal e iniciar resposta em jogos musicais estruturados.",
+        material: "Cartões de parar e tocar, timer visual e instrumentos de percussão.",
+      },
+      {
+        objetivo: "Ampliar tolerância à espera em situações de turno ou acesso a instrumentos preferidos.",
+        atividade: "Espera gradual com previsão de tempo, alternância de turnos e reforço de estratégias funcionais.",
+        material: "Timer visual, cartões de vez e instrumentos motivadores.",
+      },
+      {
+        objetivo: "Participar de mudanças simples de canção, instrumento ou regra com antecipação graduada.",
+        atividade: "Uso de cartões de mudança e escolhas limitadas para alternar atividades dentro da sessão.",
+        material: "Agenda visual, cartões de mudança e instrumentos variados.",
+      },
+      {
+        objetivo: "Permanecer em atividade musical pelo tempo definido no planejamento terapêutico.",
+        atividade: "Fragmentação de tarefa, metas de duração graduadas e pausas planejadas.",
+        material: "Timer visual, quadro de primeiro-depois e instrumentos de interesse.",
+      },
+      {
+        objetivo: "Aumentar participação ativa nas etapas de início, desenvolvimento e encerramento da sessão musical.",
+        atividade: "Rotina previsível com papéis simples, escolha de instrumentos e checagem de finalização.",
+        material: "Agenda visual, cartões de etapas e instrumentos de fácil acesso.",
+      },
+      {
+        objetivo: "Demonstrar iniciativa para escolher, iniciar ou retomar uma atividade musical de interesse.",
+        atividade: "Oferta de oportunidades de escolha, pausas responsivas e acesso a instrumentos organizados.",
+        material: "Quadro de escolhas, instrumentos preferidos e cartões de iniciar.",
+      },
+      {
+        objetivo: "Ampliar autonomia para organizar, utilizar e guardar recursos musicais conforme a rotina combinada.",
+        atividade: "Sequência visual de escolher, tocar, limpar e guardar instrumentos com redução gradual de ajuda.",
+        material: "Etiquetas visuais, caixas organizadoras, instrumentos e checklist ilustrado.",
       },
     ],
   },

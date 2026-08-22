@@ -39,3 +39,16 @@
 - [x] Documentar as variáveis de ambiente necessárias para a publicação externa na Netlify.
 - [x] Aplicar a atualização do PTI mesmo ao substituir a linha inicial vazia por objetivos selecionados.
 - [x] Validar o preenchimento automático com uma e múltiplas seleções no PTI inicial.
+- [ ] Corrigir a configuração efetiva da Netlify, que ainda aponta para `bun run build` e `dist/client`.
+- [ ] Sincronizar o arquivo de configuração corrigido com a branch publicada na Netlify.
+- [x] Verificar por que a Netlify publicou uma revisão desatualizada do PTI Magic Maker.
+- [ ] Exportar a versão atual do PTI Magic Maker para um repositório GitHub que possa ser usado pela Netlify.
+- [ ] Alinhar a branch e o repositório de origem da Netlify à versão atual do projeto.
+- [ ] Exportar a versão atual do PTI Magic Maker para um novo repositório GitHub para uso na Netlify.
+- [ ] Conectar o novo repositório GitHub à Netlify e validar a publicação atualizada.
+- [ ] Orientar a exportação alternativa do código atual para um novo repositório GitHub.
+- [ ] Restabelecer a sincronização contínua com o repositório GitHub existente para atualizações automáticas na Netlify.
+- [ ] Definir uma alternativa simplificada de publicação e atualização contínua do sistema.
+- [x] Definir a publicação integrada do Manus como fluxo principal de atualização do PTI Magic Maker.
+- [x] Inserir objetivos de Musicoterapia organizados nos domínios cognitivo, motor, comunicação, musical, social, emocional e comportamental.
+- [x] Organizar visualmente o catálogo de Musicoterapia para seleção clara de muitos objetivos.

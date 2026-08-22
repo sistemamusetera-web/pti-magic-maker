@@ -1341,44 +1341,55 @@ function ObjectiveCatalogPicker({
                   </span>
                 </AccordionTrigger>
                 <AccordionContent className="px-4 pb-4">
-                  <div className="space-y-4">
-                    {templates.map((template) => (
-                      <div key={template.id} className="overflow-hidden rounded-sm border bg-muted/20">
-                        <div className="border-b bg-muted/50 px-3 py-2">
-                          <p className="text-xs font-bold text-foreground">{template.label}</p>
-                          <p className="mt-0.5 text-[11px] text-muted-foreground">{template.summary}</p>
-                        </div>
-                        <div className="divide-y bg-paper">
-                          {template.options.map((option) => {
-                            const checked = selectedIds.includes(option.id);
-                            return (
-                              <label
-                                key={option.id}
-                                htmlFor={option.id}
-                                className={cn(
-                                  "flex cursor-pointer gap-3 px-3 py-3 transition hover:bg-primary/5",
-                                  checked && "bg-primary/5",
-                                )}
-                              >
-                                <input
-                                  id={option.id}
-                                  type="checkbox"
-                                  checked={checked}
-                                  onChange={() => toggleSelection(option.id)}
-                                  className="mt-1 h-4 w-4 shrink-0 accent-primary"
-                                />
-                                <span className="min-w-0">
-                                  <span className="block text-xs font-semibold leading-relaxed text-foreground">{option.objetivo}</span>
-                                  <span className="mt-1 block text-[11px] leading-relaxed text-muted-foreground"><strong>Atividade:</strong> {option.atividade}</span>
-                                  <span className="mt-0.5 block text-[11px] leading-relaxed text-muted-foreground"><strong>Material:</strong> {option.material}</span>
-                                </span>
-                              </label>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <Accordion type="multiple" className="space-y-2" defaultValue={area === "Musicoterapia" ? [] : templates.map((template) => template.id)}>
+                    {templates.map((template) => {
+                      const selectedInTemplate = template.options.filter((option) => selectedIds.includes(option.id)).length;
+                      return (
+                        <AccordionItem key={template.id} value={template.id} className="overflow-hidden rounded-sm border bg-muted/20">
+                          <AccordionTrigger className="px-3 py-2.5 no-underline hover:bg-primary/5 hover:no-underline">
+                            <span className="flex min-w-0 items-center gap-2 text-left">
+                              <span className="truncate text-xs font-bold text-foreground">{template.label}</span>
+                              <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">{template.options.length}</span>
+                              {selectedInTemplate > 0 && <span className="shrink-0 rounded-full bg-sim/15 px-2 py-0.5 text-[10px] font-bold text-foreground">{selectedInTemplate} selecionado(s)</span>}
+                            </span>
+                          </AccordionTrigger>
+                          <AccordionContent className="pb-0">
+                            <div className="border-t bg-muted/50 px-3 py-2">
+                              <p className="text-[11px] leading-relaxed text-muted-foreground">{template.summary}</p>
+                            </div>
+                            <div className="divide-y bg-paper">
+                              {template.options.map((option) => {
+                                const checked = selectedIds.includes(option.id);
+                                return (
+                                  <label
+                                    key={option.id}
+                                    htmlFor={option.id}
+                                    className={cn(
+                                      "flex cursor-pointer gap-3 px-3 py-3 transition hover:bg-primary/5",
+                                      checked && "bg-primary/5",
+                                    )}
+                                  >
+                                    <input
+                                      id={option.id}
+                                      type="checkbox"
+                                      checked={checked}
+                                      onChange={() => toggleSelection(option.id)}
+                                      className="mt-1 h-4 w-4 shrink-0 accent-primary"
+                                    />
+                                    <span className="min-w-0">
+                                      <span className="block text-xs font-semibold leading-relaxed text-foreground">{option.objetivo}</span>
+                                      <span className="mt-1 block text-[11px] leading-relaxed text-muted-foreground"><strong>Atividade:</strong> {option.atividade}</span>
+                                      <span className="mt-0.5 block text-[11px] leading-relaxed text-muted-foreground"><strong>Material:</strong> {option.material}</span>
+                                    </span>
+                                  </label>
+                                );
+                              })}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      );
+                    })}
+                  </Accordion>
                 </AccordionContent>
               </AccordionItem>
             );
