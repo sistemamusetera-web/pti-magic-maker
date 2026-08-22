@@ -77,3 +77,6 @@
 - [x] Validar no componente clínico usado pelo PTI que dados atualizados sincronizam o texto sem sobrescrever edições manuais.
 - [x] Adicionar dropdown de unidade clínica com Hapvida Janga e Hapvida Madalena na Breve História Clínica.
 - [x] Adicionar dropdown de medicações usuais para registro clínico em TEA/TDAH, com opção de outra medicação.
+- [x] Permitir selecionar múltiplas medicações do catálogo na Breve História Clínica.
+- [x] Permitir registrar manualmente outras medicações junto às selecionadas no catálogo.
+- [x] Ampliar o catálogo de medicações para facilitar o registro de prescrições já existentes.

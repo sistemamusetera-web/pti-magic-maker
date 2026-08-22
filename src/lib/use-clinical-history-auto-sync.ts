@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import { generateOfficialClinicalHistory, synchronizeClinicalHistory } from "./clinical-history";
-import { resolveClinicalMedication } from "./clinical-medications";
+import { resolveClinicalMedications } from "./clinical-medications";
 import type { PTINarrative } from "./pti-pdf";
 
 interface ClinicalHistoryPatientData {
@@ -19,7 +19,11 @@ export function useClinicalHistoryAutoSync({ narrative, onChange, patient }: Use
     patientName: patient.name,
     unit: narrative.clinical_unit ?? "",
     diagnosis: narrative.diagnosis || patient.diagnosis || "",
-    medication: resolveClinicalMedication(narrative.clinical_medication, narrative.clinical_medication_other),
+    medication: resolveClinicalMedications({
+      medications: narrative.clinical_medications,
+      otherMedication: narrative.clinical_medications_other || narrative.clinical_medication_other,
+      legacyMedication: narrative.clinical_medication,
+    }),
     responsibleReport: narrative.clinical_responsible_report ?? "",
     developmentProfile: narrative.clinical_development_profile ?? "",
     behaviorDescription: narrative.clinical_behavior_description ?? "",
@@ -34,6 +38,8 @@ export function useClinicalHistoryAutoSync({ narrative, onChange, patient }: Use
     narrative.clinical_heteroaggression,
     narrative.clinical_medication,
     narrative.clinical_medication_other,
+    narrative.clinical_medications,
+    narrative.clinical_medications_other,
     narrative.clinical_responsible_report,
     narrative.clinical_unit,
     narrative.diagnosis,

@@ -1,5 +1,5 @@
 import { useClinicalHistoryAutoSync } from "../lib/use-clinical-history-auto-sync";
-import { CLINICAL_MEDICATION_OPTIONS, OTHER_MEDICATION_OPTION } from "../lib/clinical-medications";
+import { CLINICAL_MEDICATION_GROUPS, NO_MEDICATION_OPTION, OTHER_MEDICATION_OPTION } from "../lib/clinical-medications";
 import type { PTINarrative } from "../lib/pti-pdf";
 
 interface ClinicalHistoryPatient {
@@ -29,6 +29,21 @@ export function ClinicalHistorySection({ value, onChange, patient }: ClinicalHis
   const set = <K extends keyof PTINarrative>(key: K, next: PTINarrative[K]) =>
     onChange({ ...value, [key]: next });
   const guidedClinicalHistory = useClinicalHistoryAutoSync({ narrative: value, onChange, patient });
+  const selectedMedications = value.clinical_medications?.length
+    ? value.clinical_medications
+    : value.clinical_medication && value.clinical_medication !== OTHER_MEDICATION_OPTION ? [value.clinical_medication] : [];
+  const otherMedications = value.clinical_medications_other || value.clinical_medication_other || "";
+  const addMedication = (medication: string) => {
+    if (!medication || medication === OTHER_MEDICATION_OPTION) return;
+    if (medication === NO_MEDICATION_OPTION) {
+      onChange({ ...value, clinical_medications: [NO_MEDICATION_OPTION], clinical_medications_other: "" });
+      return;
+    }
+    const next = Array.from(new Set([...selectedMedications.filter((item) => item !== NO_MEDICATION_OPTION), medication]));
+    onChange({ ...value, clinical_medications: next });
+  };
+  const removeMedication = (medication: string) =>
+    onChange({ ...value, clinical_medications: selectedMedications.filter((item) => item !== medication) });
 
   return (
     <section className="sheet rounded-md">
@@ -53,22 +68,37 @@ export function ClinicalHistorySection({ value, onChange, patient }: ClinicalHis
           </select>
         </ClinicalField>
         <div className="space-y-2">
-          <ClinicalField label="Medicação atual (se houver)">
-            <select name="clinical-medication" className={fieldClassName} value={value.clinical_medication ?? ""} onChange={(event) => set("clinical_medication", event.target.value)}>
-              <option value="">Selecione para registro</option>
-              {CLINICAL_MEDICATION_OPTIONS.map((medication) => <option key={medication} value={medication}>{medication}</option>)}
+          <ClinicalField label="Medicações atuais já prescritas">
+            <select name="clinical-medication-picker" className={fieldClassName} value="" onChange={(event) => addMedication(event.target.value)}>
+              <option value="">Adicionar medicação ao registro</option>
+              <option value={NO_MEDICATION_OPTION}>{NO_MEDICATION_OPTION}</option>
+              {CLINICAL_MEDICATION_GROUPS.map((group) => (
+                <optgroup key={group.label} label={group.label}>
+                  {group.options.map((medication) => <option key={medication} value={medication}>{medication}</option>)}
+                </optgroup>
+              ))}
+              <option value={OTHER_MEDICATION_OPTION}>{OTHER_MEDICATION_OPTION}</option>
             </select>
           </ClinicalField>
-          {value.clinical_medication === OTHER_MEDICATION_OPTION && (
-            <input
-              name="clinical-medication-other"
-              className={fieldClassName}
-              value={value.clinical_medication_other ?? ""}
-              onChange={(event) => set("clinical_medication_other", event.target.value)}
-              placeholder="Registre a medicação já prescrita"
-            />
+          {selectedMedications.length > 0 && (
+            <div className="flex flex-wrap gap-1.5" aria-label="Medicações selecionadas">
+              {selectedMedications.map((medication) => (
+                <span key={medication} className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-1 text-xs text-foreground">
+                  {medication}
+                  <button type="button" aria-label={`Remover ${medication}`} onClick={() => removeMedication(medication)} className="font-bold text-primary">×</button>
+                </span>
+              ))}
+            </div>
           )}
-          <p className="text-[11px] leading-snug text-muted-foreground">Opções para registrar medicação de uso já prescrita. Não informe dose ou faça alterações sem orientação médica.</p>
+          <input
+            name="clinical-medications-other"
+            className={fieldClassName}
+            value={otherMedications}
+            onChange={(event) => set("clinical_medications_other", event.target.value)}
+            placeholder="Outra(s) medicação(ões) já prescrita(s), se necessário"
+            disabled={selectedMedications.includes(NO_MEDICATION_OPTION)}
+          />
+          <p className="text-[11px] leading-snug text-muted-foreground">Selecione quantas medicações forem necessárias e/ou informe outras no campo complementar. O recurso registra apenas uso já prescrito; não inclua doses nem altere tratamento sem orientação médica.</p>
         </div>
         <ClinicalField label="Protocolo de avaliação">
           <select className={fieldClassName} value={value.clinical_assessment_protocol ?? "Portage"} onChange={(event) => set("clinical_assessment_protocol", event.target.value)}>
