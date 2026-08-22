@@ -116,4 +116,4 @@
 - [x] Cobrir em teste a inserção da faixa de marca pelo fluxo real de geração do PDF.
 - [x] Gerar e inspecionar um PDF usando a função real do aplicativo antes da publicação.
 - [x] Criar uma habilidade segura para sincronizar atualizações futuras do PTI Magic Maker com o GitHub.
-- [ ] Enviar a correção validada da marca do PDF para sistemamusetera-web/pti-magic-maker.
+- [x] Enviar a correção validada da marca do PDF para sistemamusetera-web/pti-magic-maker.
