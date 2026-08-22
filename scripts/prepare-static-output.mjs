@@ -1,40 +1,28 @@
-import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, renameSync, rmSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 
 export function prepareStaticOutput({
   outputDir = "dist",
-  nitroServerDir,
+  nitroPublicDir = ".output/public",
+  nitroServerDir = ".output/server",
   productionEntryPath = "server/production-entry.mjs",
 } = {}) {
   const publicDir = join(outputDir, "public");
 
-  if (!existsSync(outputDir)) {
-    throw new Error(`Build output directory '${outputDir}' was not generated.`);
+  if (!existsSync(nitroPublicDir)) {
+    throw new Error(`Nitro public output '${nitroPublicDir}' was not generated.`);
   }
-
-  rmSync(publicDir, { recursive: true, force: true });
-  mkdirSync(publicDir, { recursive: true });
-
-  for (const entry of readdirSync(outputDir)) {
-    if (entry !== "public") {
-      renameSync(join(outputDir, entry), join(publicDir, entry));
-    }
+  if (!existsSync(nitroServerDir)) {
+    throw new Error(`Nitro server output '${nitroServerDir}' was not generated.`);
   }
-
-  if (readdirSync(publicDir).length === 0) {
-    throw new Error("No static files were generated in 'dist/public'.");
-  }
-
-  const resolvedNitroServerDir = nitroServerDir ?? [".output/server", join(outputDir, "server")].find(existsSync);
-  if (!resolvedNitroServerDir) {
-    throw new Error("Nitro server output was not generated.");
-  }
-
   if (!existsSync(productionEntryPath)) {
     throw new Error(`Production entry '${productionEntryPath}' was not found.`);
   }
 
-  cpSync(resolvedNitroServerDir, join(outputDir, "server"), { recursive: true });
+  rmSync(outputDir, { recursive: true, force: true });
+  mkdirSync(outputDir, { recursive: true });
+  cpSync(nitroPublicDir, publicDir, { recursive: true });
+  cpSync(nitroServerDir, join(outputDir, "server"), { recursive: true });
   copyFileSync(productionEntryPath, join(outputDir, "index.js"));
 
   return { publicDir, entryPath: join(outputDir, "index.js") };

@@ -22,5 +22,5 @@ export default defineConfig(({ command }) => ({
     ...(command === "build" ? [nitro({ preset: "node-server" })] : []),
     react(),
   ],
-  server: { allowedHosts: true },
+  server: { allowedHosts: true, host: true },
 }));

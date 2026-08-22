@@ -3,7 +3,7 @@ import { createServer } from "node:http";
 import { Readable } from "node:stream";
 import { extname, join, normalize, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import nitroHandler from "./server/main.mjs";
+import nitroHandler from "./server/index.mjs";
 
 const distDirectory = fileURLToPath(new URL(".", import.meta.url));
 const publicDirectory = resolve(distDirectory, "public");

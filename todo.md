@@ -120,3 +120,5 @@
 - [x] Mapear e remover referências dispensáveis de Lovable, Vercel e Netlify sem afetar o funcionamento do sistema.
 - [x] Validar a limpeza de referências em testes, tipos e build de produção.
 - [x] Sincronizar a limpeza de referências com sistemamusetera-web/pti-magic-maker no GitHub.
+- [x] Restaurar o acesso externo ao servidor de desenvolvimento após a limpeza da configuração de build.
+- [x] Corrigir a preparação da saída de produção em ambiente limpo após remover a configuração legada.

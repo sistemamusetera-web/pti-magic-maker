@@ -13,19 +13,22 @@ afterEach(() => {
 describe("prepareStaticOutput", () => {
   it("moves generated assets into the dist/public directory expected by deployment", () => {
     const distDirectory = mkdtempSync(join(tmpdir(), "pti-build-"));
+    const nitroPublicDirectory = mkdtempSync(join(tmpdir(), "pti-public-"));
     const nitroDirectory = mkdtempSync(join(tmpdir(), "pti-nitro-"));
     const entryDirectory = mkdtempSync(join(tmpdir(), "pti-entry-"));
     temporaryDirectories.push(distDirectory);
+    temporaryDirectories.push(nitroPublicDirectory);
     temporaryDirectories.push(nitroDirectory);
     temporaryDirectories.push(entryDirectory);
-    mkdirSync(join(distDirectory, "assets"));
-    writeFileSync(join(distDirectory, "assets", "app.js"), "export {};");
+    mkdirSync(join(nitroPublicDirectory, "assets"));
+    writeFileSync(join(nitroPublicDirectory, "assets", "app.js"), "export {};");
     writeFileSync(join(nitroDirectory, "main.mjs"), "export default () => new Response();");
     const sourceEntry = join(entryDirectory, "production-entry.mjs");
     writeFileSync(sourceEntry, "console.log('server');");
 
     const { publicDir, entryPath } = prepareStaticOutput({
       outputDir: distDirectory,
+      nitroPublicDir: nitroPublicDirectory,
       nitroServerDir: nitroDirectory,
       productionEntryPath: sourceEntry,
     });
