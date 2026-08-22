@@ -34,3 +34,8 @@
 - [x] Ampliar os templates para no mínimo sete objetivos selecionáveis em cada área clínica.
 - [x] Permitir seleção múltipla de objetivos por área na aba PTI.
 - [x] Reorganizar o seletor de objetivos para facilitar a visualização e escolha profissional.
+- [x] Corrigir o preenchimento automático de objetivo, atividade e material ao adicionar objetivos selecionados.
+- [x] Preparar configuração de build e publicação do PTI Magic Maker na Netlify.
+- [x] Documentar as variáveis de ambiente necessárias para a publicação externa na Netlify.
+- [x] Aplicar a atualização do PTI mesmo ao substituir a linha inicial vazia por objetivos selecionados.
+- [x] Validar o preenchimento automático com uma e múltiplas seleções no PTI inicial.

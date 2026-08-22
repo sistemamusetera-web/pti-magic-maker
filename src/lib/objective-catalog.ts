@@ -26,14 +26,23 @@ function objectiveKey(objective: PTIObjective) {
     .join("|");
 }
 
+function isBlankObjective(objective: PTIObjective) {
+  return !objective.objetivo.trim() && !objective.atividade.trim() && !objective.material.trim();
+}
+
+export function countPopulatedObjectives(objectives: PTIObjective[]) {
+  return objectives.filter((objective) => !isBlankObjective(objective)).length;
+}
+
 export function appendUniqueObjectives(
   existingObjectives: PTIObjective[],
   selectedOptions: ObjectiveCatalogOption[],
 ): PTIObjective[] {
-  const existingKeys = new Set(existingObjectives.map(objectiveKey));
+  const retainedObjectives = existingObjectives.filter((objective) => !isBlankObjective(objective));
+  const existingKeys = new Set(retainedObjectives.map(objectiveKey));
   const additions = selectedOptions
     .filter((option) => !existingKeys.has(objectiveKey(option)))
     .map(({ objetivo, atividade, material }) => ({ objetivo, atividade, material }));
 
-  return [...existingObjectives, ...additions];
+  return [...retainedObjectives, ...additions];
 }

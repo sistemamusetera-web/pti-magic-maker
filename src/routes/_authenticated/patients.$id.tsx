@@ -31,7 +31,7 @@ import {
   BEHAVIORS_TEMPLATES,
   CONCLUSION_TEMPLATES,
 } from "@/lib/pti-templates";
-import { appendUniqueObjectives, OBJECTIVE_CATALOG, type ObjectiveCatalogOption } from "@/lib/objective-catalog";
+import { appendUniqueObjectives, countPopulatedObjectives, OBJECTIVE_CATALOG, type ObjectiveCatalogOption } from "@/lib/objective-catalog";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 export const Route = createFileRoute("/_authenticated/patients/$id")({
@@ -971,7 +971,7 @@ function PTIForm({
   const rmObj = (i: number) => set("objectives", objectives.filter((_, idx) => idx !== i));
   const setObjectivesFromCatalog = (selectedOptions: ObjectiveCatalogOption[]) => {
     const next = appendUniqueObjectives(objectives, selectedOptions);
-    const added = next.length - objectives.length;
+    const added = countPopulatedObjectives(next) - countPopulatedObjectives(objectives);
     if (!added) {
       toast.info("Os objetivos selecionados já constam no PTI.");
       return false;

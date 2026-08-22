@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { OBJECTIVES_TEMPLATES } from "../src/lib/pti-templates";
-import { appendUniqueObjectives, OBJECTIVE_CATALOG } from "../src/lib/objective-catalog";
+import { appendUniqueObjectives, countPopulatedObjectives, OBJECTIVE_CATALOG } from "../src/lib/objective-catalog";
 
 describe("PTI objectives templates", () => {
   it("groups AVDs and AIVDs as subareas of occupational therapy", () => {
@@ -40,5 +40,30 @@ describe("PTI objectives templates", () => {
     expect(result).toHaveLength(2);
     expect(result[0]).toMatchObject(existing[0]);
     expect(result[1]).toMatchObject({ objetivo: second.objetivo, atividade: second.atividade, material: second.material });
+  });
+
+  it("replaces the initial blank PTI row with the selected objective fields", () => {
+    const selected = OBJECTIVE_CATALOG.find((option) => option.area === "Terapia Ocupacional");
+    const initialObjectives = [{ objetivo: "", atividade: "", material: "" }];
+    const result = appendUniqueObjectives(initialObjectives, [selected!]);
+
+    expect(result).toEqual([
+      {
+        objetivo: selected!.objetivo,
+        atividade: selected!.atividade,
+        material: selected!.material,
+      },
+    ]);
+    expect(countPopulatedObjectives(result) - countPopulatedObjectives(initialObjectives)).toBe(1);
+  });
+
+  it("counts every selected objective when multiple choices replace the blank PTI row", () => {
+    const selected = OBJECTIVE_CATALOG.filter((option) => option.area === "Fonoaudiologia").slice(0, 2);
+    const initialObjectives = [{ objetivo: "", atividade: "", material: "" }];
+    const result = appendUniqueObjectives(initialObjectives, selected);
+
+    expect(result).toHaveLength(2);
+    expect(countPopulatedObjectives(result) - countPopulatedObjectives(initialObjectives)).toBe(2);
+    expect(result).toEqual(selected.map(({ objetivo, atividade, material }) => ({ objetivo, atividade, material })));
   });
 });

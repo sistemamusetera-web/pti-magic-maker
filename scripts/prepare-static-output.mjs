@@ -40,6 +40,10 @@ export function prepareStaticOutput({
 }
 
 if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
-  prepareStaticOutput();
-  console.log("Static deployment output prepared at dist/public.");
+  if (process.env.NETLIFY === "true" || process.env.NETLIFY === "1") {
+    console.log("Netlify build detected: keeping Nitro's native Netlify output.");
+  } else {
+    prepareStaticOutput();
+    console.log("Static deployment output prepared at dist/public.");
+  }
 }
