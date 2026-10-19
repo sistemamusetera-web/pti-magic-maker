@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, useParams, useRouteContext } from "@tanst
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import {
@@ -133,6 +134,8 @@ function PatientPage() {
   const [tab, setTab] = useState<Tab>("PTI");
   const [pti, setPti] = useState<PTINarrative>(() => createEmptyPTI());
   const [registeredProfessionalName, setRegisteredProfessionalName] = useState("");
+  const [includePdfBranding, setIncludePdfBranding] = useState(true);
+  const [includePdfFooter, setIncludePdfFooter] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -334,6 +337,9 @@ function PatientPage() {
         answers,
         sessions: sessionsForPdf,
         pti,
+      }, {
+        includeBranding: includePdfBranding,
+        includeFooter: includePdfFooter,
       });
       toast.success("PDF gerado");
     } catch (e: any) {
@@ -411,6 +417,33 @@ function PatientPage() {
         <div className="mb-3 rounded-sm border border-[color:var(--color-sim)]/40 bg-[color:var(--color-sim)]/10 px-3 py-2 text-[11px] leading-snug text-[color:var(--color-sim)]">
           TODOS OS DIREITOS RESERVADOS HAPVIDA NOTREDAME — PROIBIDO O RATEIO, A COMERCIALIZAÇÃO E A REPRODUÇÃO DESSE MATERIAL. PROPRIEDADE HAPVIDA NOTREDAME.
         </div>
+
+        <section className="mb-3 rounded-md border bg-card px-3 py-3 shadow-sm" aria-labelledby="pdf-options-title">
+          <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground" id="pdf-options-title">
+            Opções do PDF
+          </div>
+          <div className="flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:gap-6">
+            <label className="flex cursor-pointer items-center gap-2">
+              <Checkbox
+                checked={includePdfBranding}
+                onCheckedChange={(checked) => setIncludePdfBranding(checked === true)}
+                aria-label="Incluir logos no PDF"
+              />
+              <span>Incluir logos Hapvida e NotreDame</span>
+            </label>
+            <label className="flex cursor-pointer items-center gap-2">
+              <Checkbox
+                checked={includePdfFooter}
+                onCheckedChange={(checked) => setIncludePdfFooter(checked === true)}
+                aria-label="Incluir rodapé no PDF"
+              />
+              <span>Incluir rodapé e paginação</span>
+            </label>
+          </div>
+          <p className="mt-2 text-[11px] text-muted-foreground">
+            Desmarque uma opção para gerar o PDF sem esse elemento.
+          </p>
+        </section>
 
 
         {/* Navegação principal do prontuário */}

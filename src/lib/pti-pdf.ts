@@ -112,6 +112,11 @@ export interface PTIData {
   pti?: PTINarrative;
 }
 
+export interface PTIPdfOptions {
+  includeBranding?: boolean;
+  includeFooter?: boolean;
+}
+
 // Palette
 const ORANGE: [number, number, number] = [255, 153, 0];
 const BLACK: [number, number, number] = [0, 0, 0];
@@ -148,9 +153,11 @@ function ensureRoom(doc: jsPDF, y: number, needed: number, drawHeader: () => num
   return y;
 }
 
-function drawPageHeader(doc: jsPDF): number {
+function drawPageHeader(doc: jsPDF, includeBranding: boolean): number {
   const pageW = doc.internal.pageSize.getWidth();
   let y = MARGIN;
+  if (!includeBranding) return y;
+
   // Faixa Hapvida e NotreDame Intermédica do PDF de referência, inserida diretamente no jsPDF.
   const w = 180;
   const h = 28.125;
@@ -384,11 +391,13 @@ const DEFAULT_CONCLUSION = (name: string) =>
 const DEFAULT_REFERENCE =
   "Williams, L. C. A., & Aiello, A. L. R. (2001). O Inventário Portage Operacionalizado: Intervenção com famílias. Memnon; FAPESP.";
 
-export async function generatePTIPdf(data: PTIData) {
+export async function generatePTIPdf(data: PTIData, options: PTIPdfOptions = {}) {
   const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
   const pti = data.pti ?? {};
+  const includeBranding = options.includeBranding ?? true;
+  const includeFooter = options.includeFooter ?? true;
 
-  const header = () => drawPageHeader(doc);
+  const header = () => drawPageHeader(doc, includeBranding);
   let y = header();
 
   // Title
@@ -437,7 +446,7 @@ export async function generatePTIPdf(data: PTIData) {
   y = ensureRoom(doc, y, 120, header);
   y = drawSignatureBlock(doc, y + 4, pti);
 
-  addFooters(doc, data);
+  if (includeFooter) addFooters(doc, data);
 
   const safeName = (data.patient.name || "paciente")
     .normalize("NFD")

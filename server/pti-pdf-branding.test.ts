@@ -4,6 +4,7 @@ import { PDF_BRAND_STRIP_DATA_URL } from "../src/lib/pti-pdf-brand-strip";
 
 const pdfSpy = vi.hoisted(() => ({
   addImage: vi.fn(),
+  text: vi.fn(),
 }));
 
 vi.mock("jspdf", () => {
@@ -27,7 +28,7 @@ vi.mock("jspdf", () => {
     setTextColor = vi.fn();
     setFont = vi.fn();
     setFontSize = vi.fn();
-    text = vi.fn();
+    text = pdfSpy.text;
     splitTextToSize = (text: string) => [text];
     setPage = vi.fn();
   }
@@ -41,6 +42,7 @@ import { generatePTIPdf } from "../src/lib/pti-pdf";
 
 afterEach(() => {
   pdfSpy.addImage.mockClear();
+  pdfSpy.text.mockClear();
   vi.unstubAllGlobals();
   vi.useRealTimers();
 });
@@ -96,6 +98,50 @@ describe("PTI PDF branding", () => {
     });
 
     expect(pdfSpy.addImage).toHaveBeenCalledWith(PDF_BRAND_STRIP_DATA_URL, "PNG", 48, 48, 180, 28.125);
+    expect(anchor.click).toHaveBeenCalledTimes(1);
+    vi.runOnlyPendingTimers();
+  });
+
+  it("omits branding and footer when the user disables both options", async () => {
+    vi.useFakeTimers();
+    const anchor = {
+      click: vi.fn(),
+      remove: vi.fn(),
+      style: {},
+      href: "",
+      download: "",
+      rel: "",
+    };
+
+    vi.stubGlobal("document", {
+      body: { appendChild: vi.fn() },
+      createElement: vi.fn(() => anchor),
+    });
+    vi.stubGlobal("URL", {
+      createObjectURL: vi.fn(() => "blob:pti"),
+      revokeObjectURL: vi.fn(),
+    });
+
+    await generatePTIPdf(
+      {
+        patient: { name: "Paciente sem marca", birth_date: "2020-01-01" },
+        patient_age: "6 anos",
+        evaluator_name: "Profissional",
+        evaluation_date: "2026-08-22",
+        answers: {},
+        pti: { objectives: [] },
+      },
+      { includeBranding: false, includeFooter: false },
+    );
+
+    expect(pdfSpy.addImage).not.toHaveBeenCalled();
+    expect(pdfSpy.text).not.toHaveBeenCalledWith(expect.stringContaining("PTI —"), expect.anything(), expect.anything());
+    expect(pdfSpy.text).not.toHaveBeenCalledWith(
+      expect.stringContaining("TODOS OS DIREITOS RESERVADOS"),
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
+    );
     expect(anchor.click).toHaveBeenCalledTimes(1);
     vi.runOnlyPendingTimers();
   });
