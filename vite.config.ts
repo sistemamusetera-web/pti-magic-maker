@@ -19,7 +19,9 @@ export default defineConfig(({ command }) => ({
       },
       server: { entry: "server" },
     }),
-    ...(command === "build" ? [nitro({ preset: "node-server" })] : []),
+    ...(command === "build"
+      ? [nitro({ preset: process.env.NETLIFY === "true" ? "netlify" : "node-server" })]
+      : []),
     react(),
   ],
   server: { allowedHosts: true, host: true },
