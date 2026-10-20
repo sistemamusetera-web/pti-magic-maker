@@ -98,6 +98,58 @@ describe("PTI PDF branding", () => {
     });
 
     expect(pdfSpy.addImage).toHaveBeenCalledWith(PDF_BRAND_STRIP_DATA_URL, "PNG", 48, 48, 180, 28.125);
+    expect(pdfSpy.addImage).toHaveBeenCalledTimes(2);
+    expect(pdfSpy.addImage).toHaveBeenCalledWith(
+      PDF_BRAND_STRIP_DATA_URL,
+      "PNG",
+      expect.any(Number),
+      expect.any(Number),
+      90,
+      14.0625,
+    );
+    expect(anchor.click).toHaveBeenCalledTimes(1);
+    vi.runOnlyPendingTimers();
+  });
+
+  it("keeps the logo in the footer even when the legal footer is disabled", async () => {
+    vi.useFakeTimers();
+    const anchor = {
+      click: vi.fn(),
+      remove: vi.fn(),
+      style: {},
+      href: "",
+      download: "",
+      rel: "",
+    };
+
+    vi.stubGlobal("document", {
+      body: { appendChild: vi.fn() },
+      createElement: vi.fn(() => anchor),
+    });
+    vi.stubGlobal("URL", {
+      createObjectURL: vi.fn(() => "blob:pti"),
+      revokeObjectURL: vi.fn(),
+    });
+
+    await generatePTIPdf(
+      {
+        patient: { name: "Paciente sem aviso legal", birth_date: "2020-01-01" },
+        patient_age: "6 anos",
+        evaluator_name: "Profissional",
+        evaluation_date: "2026-08-22",
+        answers: {},
+        pti: { objectives: [] },
+      },
+      { includeBranding: true, includeFooter: false },
+    );
+
+    expect(pdfSpy.addImage).toHaveBeenCalledTimes(2);
+    expect(pdfSpy.text).not.toHaveBeenCalledWith(
+      expect.stringContaining("TODOS OS DIREITOS RESERVADOS"),
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
+    );
     expect(anchor.click).toHaveBeenCalledTimes(1);
     vi.runOnlyPendingTimers();
   });
