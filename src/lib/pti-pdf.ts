@@ -371,6 +371,21 @@ function addFooters(doc: jsPDF, data: PTIData) {
   }
 }
 
+function addBrandingFooters(doc: jsPDF) {
+  const total = doc.getNumberOfPages();
+  const pageW = doc.internal.pageSize.getWidth();
+
+  // Faixa compacta com as duas marcas no rodapé de cada página.
+  const w = 90;
+  const h = 14.0625;
+
+  for (let p = 1; p <= total; p++) {
+    doc.setPage(p);
+    const pageH = doc.internal.pageSize.getHeight();
+    doc.addImage(PDF_BRAND_STRIP_DATA_URL, "PNG", (pageW - w) / 2, pageH - 43, w, h);
+  }
+}
+
 function downloadPdf(doc: jsPDF, filename: string) {
   const blob = doc.output("blob");
   const url = URL.createObjectURL(blob);
@@ -447,6 +462,7 @@ export async function generatePTIPdf(data: PTIData, options: PTIPdfOptions = {})
   y = drawSignatureBlock(doc, y + 4, pti);
 
   if (includeFooter) addFooters(doc, data);
+  if (includeBranding) addBrandingFooters(doc);
 
   const safeName = (data.patient.name || "paciente")
     .normalize("NFD")
