@@ -11,6 +11,10 @@ pnpm install
 pnpm run dev
 ```
 
+## Exportação do PDF
+
+Na tela do paciente, antes de gerar o PTI em PDF, o usuário pode escolher se deseja incluir as logos Hapvida e NotreDame no cabeçalho e no rodapé de todas as páginas. A inclusão do aviso legal e da paginação é configurada separadamente.
+
 ## Validação
 
 ```sh
