@@ -427,9 +427,9 @@ function PatientPage() {
               <Checkbox
                 checked={includePdfBranding}
                 onCheckedChange={(checked) => setIncludePdfBranding(checked === true)}
-                aria-label="Incluir logos no PDF"
+                aria-label="Incluir logos Hapvida e NotreDame no topo e no rodapé do PDF"
               />
-              <span>Incluir logos Hapvida e NotreDame</span>
+              <span>Incluir logos Hapvida e NotreDame no topo e no rodapé</span>
             </label>
             <label className="flex cursor-pointer items-center gap-2">
               <Checkbox
@@ -441,7 +441,7 @@ function PatientPage() {
             </label>
           </div>
           <p className="mt-2 text-[11px] text-muted-foreground">
-            Desmarque uma opção para gerar o PDF sem esse elemento.
+            Desmarque as logos para exportar sem as marcas no topo e no rodapé. O rodapé com aviso legal e paginação pode ser desativado separadamente.
           </p>
         </section>
 
