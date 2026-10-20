@@ -11,7 +11,7 @@ afterEach(() => {
 });
 
 describe("prepareStaticOutput", () => {
-  it("moves generated assets into the dist/public directory expected by deployment", () => {
+  it("moves generated assets into the public and client directories expected by deployment", () => {
     const distDirectory = mkdtempSync(join(tmpdir(), "pti-build-"));
     const nitroPublicDirectory = mkdtempSync(join(tmpdir(), "pti-public-"));
     const nitroDirectory = mkdtempSync(join(tmpdir(), "pti-nitro-"));
@@ -26,7 +26,7 @@ describe("prepareStaticOutput", () => {
     const sourceEntry = join(entryDirectory, "production-entry.mjs");
     writeFileSync(sourceEntry, "console.log('server');");
 
-    const { publicDir, entryPath } = prepareStaticOutput({
+    const { publicDir, clientDir, entryPath } = prepareStaticOutput({
       outputDir: distDirectory,
       nitroPublicDir: nitroPublicDirectory,
       nitroServerDir: nitroDirectory,
@@ -35,6 +35,8 @@ describe("prepareStaticOutput", () => {
 
     expect(publicDir).toBe(join(distDirectory, "public"));
     expect(existsSync(join(publicDir, "assets", "app.js"))).toBe(true);
+    expect(clientDir).toBe(join(distDirectory, "client"));
+    expect(existsSync(join(clientDir, "assets", "app.js"))).toBe(true);
     expect(existsSync(join(distDirectory, "server", "main.mjs"))).toBe(true);
     expect(existsSync(entryPath)).toBe(true);
   });
